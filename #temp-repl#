@@ -1,0 +1,1116 @@
+GNU LilyPond 2.24.4 (running Guile 2.2)
+Behandlar ”/usr/share/lilypond/2.24.4/ly/scheme-sandbox.ly”
+Tolkar…
+GNU Guile 2.2.7
+Copyright (C) 1995-2019 Free Software Foundation, Inc.
+
+Guile comes with ABSOLUTELY NO WARRANTY; for details type `,show w'.
+This program is free software, and you are welcome to redistribute it
+under certain conditions; type `,show c' for details.
+
+Enter `,help' for help.
+scheme@(#{ g217}#)> (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list-ref '(0 1 2) (random (length '(0 1 2))))
+     (list-ref '(0 1 2) (random (length '(0 1 2))))))
+ "\\revert NoteHead.color"))
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (display-lily-music (pitchlist->lily (list-ref (quote (0 1 2)) (random (length (quote (0 1 2))))) (list-ref (quote (0 1 2)) (random (length (quote (0 1 2)))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [1]> (display-lily-music
+    (pitchlist->lily
+     (list-ref '(0 1 2) (random (length '(0 1 2))))
+     (list-ref '(0 1 2) (random (length '(0 1 2))))))
+ERROR: In procedure length:
+In procedure length: Wrong type argument in position 1: 1
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [2]> (display-lily-music
+    (pitchlist->lily
+     (list (list-ref '(0 1 2) (random (length '(0 1 2)))))
+     (list (list-ref '(0 1 2) (random (length '(0 1 2)))))))
+ERROR: In procedure log:
+Throw to key `numerical-overflow' with args `("log" "Numerical overflow" #f #f)'.
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [3]> (display-lily-music
+    (pitchlist->lily
+     (list (list-ref '(0 1 2) (random (length '(0 1 2)))))
+     (list (list-ref '(0 0.25 0.5) (random (length '(0 1 2)))))))
+{ cis'4 }
+scheme@(#{ g217}#) [3]> (display-lily-music
+    (pitchlist->lily
+     (list (list-ref '(0 1 2) (random (length '(0 1 2)))))
+     (list 2)))
+{ \tuplet 2/1 { c'1 } }
+scheme@(#{ g217}#) [3]> (display-lily-music
+    (pitchlist->lily
+     (list (list-ref '(0 1 2) (random (length '(0 1 2)))))
+     (list 3)))
+{ \tuplet 3/1 { d'1 } }
+scheme@(#{ g217}#) [3]> (display-lily-music
+    (pitchlist->lily
+     (list (list-ref '(0 1 2) (random (length '(0 1 2)))))
+     (list 1)))
+{ d'1 }
+scheme@(#{ g217}#) [3]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+			    ))))
+While compiling expression:
+Syntax error:
+unknown file:50:2: source expression failed to match any pattern in form (let* ((possible-durations (quote (0.25 0.5 0.125))) (possible-pitches (quote (0 2 4 6 7 9 10 12))) (output-file "main.ly") (music (string-concatenate (quote ("\\override NoteHead.color = #red" (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations)))))) "\\revert NoteHead.color"))) (format #t (string-concatenate (quote ("insert-music.sh" music output-file)))))))
+scheme@(#{ g217}#) [3]> (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+			    )))
+While compiling expression:
+Syntax error:
+unknown file:64:0: source expression failed to match any pattern in form (let* ((possible-durations (quote (0.25 0.5 0.125))) (possible-pitches (quote (0 2 4 6 7 9 10 12))) (output-file "main.ly") (music (string-concatenate (quote ("\\override NoteHead.color = #red" (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations)))))) "\\revert NoteHead.color"))) (format #t (string-concatenate (quote ("insert-music.sh" music output-file)))))))
+scheme@(#{ g217}#) [3]> (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color")))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+			    ))
+While compiling expression:
+Syntax error:
+unknown file:78:0: source expression failed to match any pattern in form (let* ((possible-durations (quote (0.25 0.5 0.125))) (possible-pitches (quote (0 2 4 6 7 9 10 12))) (output-file "main.ly") (music (string-concatenate (quote ("\\override NoteHead.color = #red" (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations)))))) "\\revert NoteHead.color")))) (format #t (string-concatenate (quote ("insert-music.sh" music output-file))))))
+scheme@(#{ g217}#) [3]> (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+			    )
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [4]> (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+   )
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [5]> (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+   )
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [6]> (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))
+ "\\revert NoteHead.color"))))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+   )
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations)))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [7]> (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+   )
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [8]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+			    ))))
+While compiling expression:
+Syntax error:
+unknown file:190:2: source expression failed to match any pattern in form (let* ((possible-durations (quote (0.25 0.5 0.125))) (possible-pitches (quote (0 2 4 6 7 9 10 12))) (output-file "main.ly") (music (string-concatenate (quote ("\\override NoteHead.color = #red" (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations)))))) "\\revert NoteHead.color"))) (format #t (string-concatenate (quote ("insert-music.sh" music output-file)))))))
+scheme@(#{ g217}#) [8]> rød
+ERROR: In procedure module-lookup: Unbound variable: rød
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [9]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+			    ))))
+While compiling expression:
+Syntax error:
+unknown file:207:2: source expression failed to match any pattern in form (let* ((possible-durations (quote (0.25 0.5 0.125))) (possible-pitches (quote (0 2 4 6 7 9 10 12))) (output-file "main.ly") (music (string-concatenate (quote ("\\override NoteHead.color = #red" (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations)))))) "\\revert NoteHead.color"))) (format #t (string-concatenate (quote ("insert-music.sh" music output-file)))))))
+scheme@(#{ g217}#) [9]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+			    ))
+scheme@(#{ g217}#) [9]> rød
+$6 = #<procedure rød ()>
+scheme@(#{ g217}#) [9]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [10]> 
+(define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (format #f (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))))
+ "\\revert NoteHead.color"))))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))   ))
+scheme@(#{ g217}#) [10]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (format #f (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations)))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [11]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "revert NoteHead.color"))))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+			    ))
+scheme@(#{ g217}#) [11]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [12]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("bar"
+   (format #f (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))))
+ "foo"))))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))))
+scheme@(#{ g217}#) [12]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (format #f (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations)))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [13]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))))
+scheme@(#{ g217}#) [13]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): music
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [14]> (string-concatenate '("bar" "bar" "foo"))
+$7 = "barbarfoo"
+scheme@(#{ g217}#) [14]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (format #f (string-concatenate '("insert-music.sh" music output-file)))))
+scheme@(#{ g217}#) [14]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): music
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [15]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (format #f (string-concatenate '("insert-music.sh" music output-file)))))
+scheme@(#{ g217}#) [15]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): music
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [16]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (format #f (string-concatenate '("insert-music.sh" my-music output-file)))))
+scheme@(#{ g217}#) [16]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): my-music
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [17]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-concatenate '("insert-music.sh" my-music output-file))))
+scheme@(#{ g217}#) [17]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): my-music
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [18]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-concatenate '("insert-music.sh" my-music output-file))))
+scheme@(#{ g217}#) [18]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): my-music
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [19]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-concatenate '("insert-music.sh" output-file))))
+scheme@(#{ g217}#) [19]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): output-file
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [20]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-append '("insert-music.sh" output-file))))
+scheme@(#{ g217}#) [20]> (rød)
+ERROR: In procedure string-append:
+In procedure string-append: Wrong type (expecting string): ("insert-music.sh" output-file)
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [21]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string? my-music)))
+scheme@(#{ g217}#) [21]> (rød)
+$8 = #t
+scheme@(#{ g217}#) [21]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-append '("insert-music.sh" my-music))))
+scheme@(#{ g217}#) [21]> (rød)
+ERROR: In procedure string-append:
+In procedure string-append: Wrong type (expecting string): ("insert-music.sh" my-music)
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [22]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-append '(my-music))))
+scheme@(#{ g217}#) [22]> (rød)
+ERROR: In procedure string-append:
+In procedure string-append: Wrong type (expecting string): (my-music)
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [23]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-concatenate '(my-music))))
+scheme@(#{ g217}#) [23]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): my-music
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [24]> (define (rød)
+  "Rød note"
+  (let
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-concatenate '(my-music))))
+scheme@(#{ g217}#) [24]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): my-music
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [25]> (define (rød)
+  "Rød note"
+  (let
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-concatenate '("foo" "bar"))))
+scheme@(#{ g217}#) [25]> (rød)
+$9 = "foobar"
+scheme@(#{ g217}#) [25]> (define (rød)
+  "Rød note"
+  (let
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-concatenate '(my-music my-music))))
+scheme@(#{ g217}#) [25]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): my-music
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [26]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (format #t my-music)))
+scheme@(#{ g217}#) [26]> (rød)
+barbarfoo$10 = #t
+scheme@(#{ g217}#) [26]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-concatenate '((format #t my-music)))))
+scheme@(#{ g217}#) [26]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (format #t my-music)
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [27]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-concatenate '((format #t (my-music))))))
+scheme@(#{ g217}#) [27]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (format #t (my-music))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [28]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-concatenate '(,(format #t (my-music))))))
+scheme@(#{ g217}#) [28]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (unquote (format #t (my-music)))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [29]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(my-music
+ (string-concatenate
+  '("bar"
+   "bar"
+ "foo"))))
+   (string-concatenate '(`(format #t (my-music))))))
+scheme@(#{ g217}#) [29]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (quasiquote (format #t (my-music)))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [30]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))
+   (format #t (string-concatenate '("insert-music.sh" music output-file)))
+			    ))))
+While compiling expression:
+Syntax error:
+unknown file:553:2: source expression failed to match any pattern in form (let* ((possible-durations (quote (0.25 0.5 0.125))) (possible-pitches (quote (0 2 4 6 7 9 10 12))) (output-file "main.ly") (music (string-concatenate (quote ("\\override NoteHead.color = #red" (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations)))))) "\\revert NoteHead.color"))) (format #t (string-concatenate (quote ("insert-music.sh" music output-file)))))))
+scheme@(#{ g217}#) [30]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (quasiquote (format #t (my-music)))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [31]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))
+   (string-concatenate '("insert-music.sh" music output-file)))    )))
+While compiling expression:
+Syntax error:
+unknown file:570:2: source expression failed to match any pattern in form (let* ((possible-durations (quote (0.25 0.5 0.125))) (possible-pitches (quote (0 2 4 6 7 9 10 12))) (output-file "main.ly") (music (string-concatenate (quote ("\\override NoteHead.color = #red" (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations)))))) "\\revert NoteHead.color"))) (string-concatenate (quote ("insert-music.sh" music output-file))))))
+scheme@(#{ g217}#) [31]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (quasiquote (format #t (my-music)))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [32]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))))
+   (string-concatenate '("insert-music.sh" music output-file))) )
+scheme@(#{ g217}#) [32]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [33]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   `(display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))))
+   (string-concatenate '("insert-music.sh" music output-file))))
+scheme@(#{ g217}#) [33]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (quasiquote (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations)))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [34]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))))
+   (string-concatenate '("insert-music.sh"  output-file))))
+scheme@(#{ g217}#) [34]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [35]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))))
+   (string-concatenate '("insert-music.sh"  output-file))))
+scheme@(#{ g217}#) [35]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [36]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+)
+   (string-concatenate '("insert-music.sh"  output-file))))
+scheme@(#{ g217}#) [36]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): output-file
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [37]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-concatenate
+  '("\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color"))))
+   (string-concatenate '("insert-music.sh" "foo"))))
+scheme@(#{ g217}#) [37]> (rød)
+ERROR: In procedure string-concatenate:
+In procedure string-append: Wrong type (expecting string): (display-lily-music (pitchlist->lily (list (list-ref possible-pitches (random (length possible-pitches)))) (list (list-ref possible-durations (random (length possible-durations))))))
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [38]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [38]> (rød)
+{ e'4 }
+ERROR: In procedure string-append:
+In procedure string-append: Wrong type (expecting string): #<unspecified>
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [39]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (format #t (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [39]> (rød)
+{ e'8 }
+ERROR: In procedure scm-error:
+format: expected a string for format string #<unspecified>
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [40]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (format #f (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [40]> (rød)
+{ e'8 }
+ERROR: In procedure scm-error:
+format: expected a string for format string #<unspecified>
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [41]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [41]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (music->lily-string
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [41]> (rød)
+<unnamed port>:769:2: In procedure rød:
+In procedure module-lookup: Unbound variable: music->lily-string
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [42]> (define-public (music->lily-string expr)
+  "Print @var{expr}, a music expression, in LilyPond syntax."
+  (if (ly:music? expr)
+      (let* ((music-type (ly:music-property expr 'name))
+             (procs (assoc-ref (hashq-ref music-name-to-property-table
+                                          music-type '())
+                               'display-methods))
+             (result-string (and procs (any (lambda (proc)
+                                              (proc expr))
+                                            procs))))
+        (if result-string
+            (format #f "~a~a~a"
+                    (tag->lily-string expr (post-event? expr))
+                    (tweaks->lily-string expr (post-event? expr))
+                    result-string)
+            (format #f "%{ Print method not implemented for music type ~a %}"
+                    music-type)))
+      (format #f "%{ expecting a music expression: ~a %}" expr)))
+scheme@(#{ g217}#) [42]> (rød)
+<unnamed port>:791:23: In procedure music->lily-string:
+In procedure module-lookup: Unbound variable: tag->lily-string
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [43]> (use-modules (display-lily))
+While compiling expression:
+no code for module (display-lily)
+scheme@(#{ g217}#) [43]> (use-modules (lily display-lily))
+scheme@(#{ g217}#) [43]> (rød)
+<unnamed port>:791:23: In procedure music->lily-string:
+In procedure module-lookup: Unbound variable: tag->lily-string
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [44]> (rød)
+<unnamed port>:791:23: In procedure music->lily-string:
+In procedure module-lookup: Unbound variable: tag->lily-string
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [45]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [45]> (rød)
+{ bes'8 }
+ERROR: In procedure string-append:
+In procedure string-append: Wrong type (expecting string): #<unspecified>
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [46]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (format #t ~a (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [46]> (rød)
+<unnamed port>:839:2: In procedure rød:
+In procedure module-lookup: Unbound variable: ~a
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [47]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (format #t "~a" (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [47]> (rød)
+{ a'8 }
+#<unspecified>ERROR: In procedure string-append:
+In procedure string-append: Wrong type (expecting string): #t
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [48]> ,use (lily display-lily)
+scheme@(#{ g217}#) [48]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (format #t "~a" (music->lily-string
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [48]> (rød)
+<unnamed port>:791:23: In procedure music->lily-string:
+In procedure module-lookup: Unbound variable: tag->lily-string
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [49]> ,use (lily)
+scheme@(#{ g217}#) [49]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (format #t "~a" (music->lily-string
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [49]> (rød)
+<unnamed port>:791:23: In procedure music->lily-string:
+In procedure module-lookup: Unbound variable: tag->lily-string
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [50]> ,use (lily display-lily)
+scheme@(#{ g217}#) [50]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (format #t "~a" (music->lily-string
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [50]> (rød)
+<unnamed port>:791:23: In procedure music->lily-string:
+In procedure module-lookup: Unbound variable: tag->lily-string
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [51]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (format #t "~a" (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))
+scheme@(#{ g217}#) [51]> (rød)
+{ e'4 }
+#<unspecified>ERROR: In procedure string-append:
+In procedure string-append: Wrong type (expecting string): #t
+
+Entering a new prompt.  Type `,bt' for a backtrace or `,q' to continue.
+scheme@(#{ g217}#) [52]> (define (rød)
+  "Rød note"
+  (let*
+((possible-durations '(0.25 0.5 0.125))
+(possible-pitches '(0 2 4 6 7 9 10 12))
+(output-file "main.ly")
+(music
+ (string-append
+  "\\override NoteHead.color = #red"
+   (format #t "~a" (display-lily-music
+    (pitchlist->lily
+     (list (list-ref possible-pitches (random (length possible-pitches))))
+     (list (list-ref possible-durations (random (length possible-durations)))))))
+ "\\revert NoteHead.color")))
+   (string-append "insert-music.sh" "foo")))

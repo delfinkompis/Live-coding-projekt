@@ -1,0 +1,28 @@
+GNU LilyPond 2.24.4 (running Guile 2.2)
+Behandlar ”./lily-run-scheme.ly”
+Tolkar…(Hei og hundre kanger velkommen til Rød, fin, vakker, grøn, reimbue, greia.)Fant ingen passende synonymer.  Legger inn en 6 lang pause.
+
+Prøver igjen for 1. gang.  Bruker nå synonymet velkommen.
+Prøver igjen for 2. gang.  Bruker nå synonymet velkommen.
+Prøver igjen for 3. gang.  Bruker nå synonymet velkommen.
+Prøver igjen for 4. gang.  Bruker nå synonymet velkommen.
+Prøver igjen for 5. gang.  Bruker nå synonymet velkommen.
+Prøver igjen for 6. gang.  Bruker nå synonymet velkommen.
+Lager lilyscript input av synonymet til. Opprinelig ord hadde 3 bokstaver.
+Bruker lilypond-insert "tett".  Raske, tette kromatiske bevegelser i mellomregistret.
+
+Fant ingen passende synonymer.  Legger inn en 4 lang pause.
+
+Fant ingen passende synonymer.  Legger inn en 4 lang pause.
+
+Fant ingen passende synonymer.  Legger inn en 7 lang pause.
+
+Fant ingen passende synonymer.  Legger inn en 5 lang pause.
+
+Fant ingen passende synonymer.  Legger inn en 8 lang pause.
+
+Fant ingen passende synonymer.  Legger inn en 6 lang pause.
+
+checked words
+compiled ly
+Lyckades: kompilering färdig

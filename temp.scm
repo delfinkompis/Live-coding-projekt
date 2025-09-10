@@ -1,0 +1,10 @@
+(define (run sched)
+  (match sched
+    (($ $sched inbox i/o)
+     (define (dequeue-tasks)
+       (append (dequeue-all! inbox)
+               (poll-for-tasks i/o)))
+     (let lp ()
+       (for-each (lambda (task) (task))
+                 (dequeue-tasks))
+       (lp)))))

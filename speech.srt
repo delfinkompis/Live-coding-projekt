@@ -1,0 +1,4 @@
+1
+00:00:05,100 --> 00:00:15,000
+Hei og hundre kanger velkommen til Rød, fin, vakker, grøn, reimbue, greia.
+
