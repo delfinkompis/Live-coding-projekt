@@ -3,6 +3,12 @@
 #Optional microphone variable.  If not specified, listen on default input
 ARG1=${1:-default}
 
+cp ./lower-template.ily ./lower.ily
+cp ./upper-template.ily ./upper.ily
+cp ./input-template.txt ./input.txt
+cp ./input-template.txt ./log.txt 
+
+
 # setup emacs
 # rm speech.mp3 before running command because flush old content
 emacsclient -a "" -n "./input.txt"

@@ -1,27 +1,36 @@
 \version "2.24.4"
 \include "./upper.ily"
 \include "./lower.ily"
+#(set! paper-alist (cons '("my size" . (cons (* 50 cm) (* 4 cm))) paper-alist))
+#(set-default-paper-size "my size")
+#(set-global-staff-size 12)
 
-#(set-global-staff-size 14)
+
+\paper { systems-per-page = #1
+  top-margin = 0\mm
+  bottom-margin = 0\mm
+  left-margin = 0\mm
+  right-margin = 0\mm
+
+}
+
+%% ser finere ut uten tupletnumbers
+global = { \override TupletNumber.text = "" \time 32/2 }
 
 \score {
    \new PianoStaff \with { instrumentName = "" }
    <<
-     \new Staff = "upper" { \time 8/2 \upper }
-     \new Staff = "lower" { \clef bass \lower }
+     \new Staff = "upper" { \global \upper }
+     \new Staff = "lower" { \clef bass \global \lower }
    >>
-  \layout {
+  \layout { 
       ragged-right = ##t
     \context {
       \Staff
       \omit TimeSignature
-       % or:
-      %\remove "Time_signature_engraver"
       \omit BarLine
-      % or:
-      %\remove "Bar_engraver"
     }
-\context { \Score     forbidBreakBetweenBarLines = ##f }
-\context { \Voice   \remove Forbid_line_break_engraver } }
-   \midi { }
+    \context { \Score     forbidBreakBetweenBarLines = ##f }
+    \context { \Voice   \remove Forbid_line_break_engraver } }
+  \midi { }
 }

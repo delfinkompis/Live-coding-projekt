@@ -15,6 +15,16 @@
 ;;TODO, ersätt total-dur-multiplier med konstant
 
 ;;hjelpefunksjon for å ta vekk den første og de siste to karakterene i streng (ta bort formateringa rundt display-lily uttrykkene)
+
+
+
+
+
+
+
+
+
+
 (define (trim-lily s)
   (string-top-tail (string-top s)))
 
@@ -50,17 +60,39 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 
 (use-modules (fibers) (fibers scheduler))
 
-(define new-wordlist '())
+(define new-wordlist '("a" "b" "c"))
+(define old-wordlist '("a" "b" "c"))
 
-(define (my-monitor input-file)
-  "async monitoring of file input."
-  (check-new-words input-file)
-  (format #t "checked words~%")
-  (my-ly-play-and-display "./main.ly" "a" 0)
-  (format #t "compiled ly")
-  )
+(define file-cache (make-hash-table))
+
+(define (my-read-file-cached file-name)
+  (let ((last-modified (stat:mtime (stat file-name))))
+    (let ((cached (hash-ref file-cache file-name)))
+      (if (and cached (= (car cached) last-modified))
+          (cdr cached)  ; Return cached result
+          (let ((result (my-read-file file-name)))
+            (hash-set! file-cache file-name (cons last-modified result))
+            result)))))
 
 
+
+(define (my-monitor file-name)
+  (let
+      ((new-wordlist (filter (lambda (x) (not (equal? x ""))) (my-read-file "./input.txt"))))
+    (if (> (length new-wordlist) (length old-wordlist))
+	  (let* ((words-to-process (take-right new-wordlist (- (length new-wordlist) (length old-wordlist))))
+		 (operations (map (lambda (word) 
+                                    (word->lily (string-downcase word))) 
+				  words-to-process)))
+	    (format #t "Kompilerer lilypond~%")
+	    (my-ly-play-and-display "./main.ly" "a" 0)
+	    (format #t "Ferdig med å kompilere lilypond~%~%")
+	    )
+	  (format #t "ingen nye ord")))
+  
+  (set! old-wordlist new-wordlist)
+   
+    )
 
 
 					;(define scheduler-thread
@@ -125,11 +157,18 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		(if (<= counter 5)
 		    (let ((synonym (list-ref synonym-list (random (length synonym-list)))))
 		      (format #t "Prøver igjen for ~d. gang.  Bruker nå synonymet ~a.~%" (+ 1 counter) synonym)
-		      (word->lily synonym (+ counter 1) original-word-length original-word))))))))
+		      (word->lily synonym (+ counter 1) original-word-length original-word))
+		    (begin
+		      (format #t "Fant ingen passende synonymer.  Legger inn en ~d lang pause.~%~%" original-word-length)
+		  (my-pause original-word-length original-word)		      
+		      )
+		    
+		    )
+
+		)))))
 
 ;; tilslut, om inget annat går, RETURN ingenting
-(define new-wordlist '("a" "b" "c"))
-(define old-wordlist '("a" "b" "c"))
+
 
 (define (check-new-words file-name)
   (begin  
@@ -215,6 +254,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	 (note-dur (* length-arg 0.0625))
 	 (possible-pitches '(0 2 4 6 7 9 10 12))
 	 (output-file "upper.ily")
+(other-file "lower.ily")
 	 (music
 	  (string-append
 	   "\\magnifyMusic #1/2\n"
@@ -236,7 +276,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	  ))
     (begin
       (format #t "Bruker lilypond-insert \"liten\".  Kort, lys, note med pause etterpå.~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+      (system (string-append "./insert-music.sh " output-file " \"" music "\""))
+      (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
       )))
 
 
@@ -252,6 +299,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	 (total-dur (* length-arg 0.25))
 	 (possible-pitches (map (lambda (x) (+ 19 x)) '(0 2 4 6 7 9 10 12)))
 	 (output-file "upper.ily")
+(other-file "lower.ily")
 	 (music
 	  (string-append
 	   "\\magnifyMusic #2/1 "
@@ -265,7 +313,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	    	   )))
     (begin
       (format #t "Bruker lilypond-insert \"stor\".  Lang, lys note harmonisert med kvinter.~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
       )))
 
 
@@ -284,6 +339,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		       ))))
 	 (possible-pitches '(12 13 15 16 11 10))
 	 (output-file "upper.ily")
+(other-file "lower.ily")
 	 (music
 	  (string-append
 	   "\\magnifyMusic #7/5"
@@ -304,7 +360,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"rask\".  Kjapt, kromatisk löp.~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
       )))
 
 (define* (my-treig length-arg #:optional word-to-print)
@@ -320,6 +383,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		       ))))
 	 (possible-pitches (map (lambda (x) (- x 24)) '(0 7 9 16 13)))
 	 (output-file "lower.ily")
+(other-file "upper.ily")
 	 (music
 	  (string-append
 	   "\\magnifyMusic #7/5\n"
@@ -336,7 +400,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"treig\".  Liten gamut, store avstander, harmonisert med oktaver.~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
       )))
 
 ;; full, hel, riktig
@@ -355,9 +426,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		       ))))
 	 (possible-pitches '(12 13 14 15 16 17 18 19 20))
 	 (output-file "upper.ily")
+(other-file "lower.ily")
 	 (music
 	  (string-append
-	   "\\magnifyMusic #7/5\n"
+	   	   "<>^\\markup { "
+	   word-to-print
+	   " }"
+	   
+	   "\\magnifyMusic #11/10\n"
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
@@ -365,13 +441,18 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		  (pitchlist->lily
 		   (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
 		   durs) "tenuto"))))
-	   "<>^\\markup { "
-	   word-to-print
-	   " }"
+
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"tett\".  Raske, tette kromatiske bevegelser i mellomregistret.~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
       )))
 ;; tom, lett, 
 
@@ -382,6 +463,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	 (total-dur (* length-arg 0.25))
 	 (possible-pitches (map (lambda (x) (- x 12)) '(0 1 2 3 4 5 6 7)))
 	 (output-file "upper.ily")
+(other-file "lower.ily")
 ;	 (pause-file "lower.ily")
 	 (music
 	  
@@ -416,8 +498,15 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	   )))
     (begin
             (format #t "Bruker lilypond-insert \"tom\" - kort oktavintervall omringa av pauser~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
-;      (system (string-append "./awk-insert-music.sh " pause-file " \"" (with-output-to-string (durlist->rests length-arg)) "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
+;      (system (string-append "./insert-music.sh " pause-file " \"" (with-output-to-string (durlist->rests length-arg)) "\""))
       )))
 
 
@@ -427,7 +516,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
   (let* (
 	 (possible-durations '(0.25 0.5 0.125))
 	 (total-dur (* length-arg 0.25))
-	 (possible-pitches '(24 25 26 27 28 29 24 24 28))
+	 (possible-pitches '(0 1 2 3 4 5 0 0 4))
 	 (durs (let loop ((dur-list '()) (dur-sum 0))
 		 (if (> dur-sum total-dur)
 		     dur-list
@@ -436,6 +525,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 			     (+ dur-sum new-dur))
 		       ))))
 	 (output-file "upper.ily")
+(other-file "lower.ily")
 	 (music
 	  (string-append
 	   "\\harmonicsOn\n"
@@ -456,7 +546,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"vit\".  Flageolettnoter. ~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
       )))
 
 (define* (my-svart length-arg #:optional word-to-print)
@@ -467,6 +564,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	 (possible-pitches '(0 2 4 6 7 9 10 12))
 	 	 
 	 (output-file "upper.ily")
+(other-file "lower.ily")
 	 (music
 	  (string-append
 	   (trim-lily 
@@ -489,7 +587,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"svart\".  Svarte noter (clusterformasjoner).~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
       )))
 
 
@@ -509,6 +614,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		       ))))
 	 
 	 (output-file "lower.ily")
+(other-file "upper.ily")
 	 (music
 	  (string-append
 	   "\\override NoteHead.color = #red\n"
@@ -530,7 +636,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"rød\".  Røde noter med stakkatoprikker.~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
       )))
 
 (define* (my-blå length-arg #:optional word-to-print)
@@ -548,6 +661,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		       ))))
 	 
 	 (output-file "upper.ily")
+(other-file "lower.ily")
 	 (music
 	  (string-append
 	   "\\override NoteHead.color = #blue\n"
@@ -566,7 +680,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	   )))
     (begin
             (format #t "Bruker lilypond-insert \"blå\".  Blåe skråe noter.~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
 
       )))
 
@@ -585,6 +706,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		       ))))
 	 
 	 (output-file "lower.ily")
+(other-file "upper.ily")
 	 (music
 	  (string-append
 	   "\\override NoteHead.color = #yellow\n"
@@ -593,11 +715,10 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
-		 (make-harmony
-		  (add-slur
+		 (make-harmony  
 		   (pitchlist->lily
 		    (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
-		    durs)) 16))))
+		    durs) 16))))
 	      )
 	    "<>_\\markup {"
 	    word-to-print
@@ -606,7 +727,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	    )))
     (begin
       (format #t "Bruker lilypond-insert \"gul\".  Gul note harmonisert med terser.~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
       )))
 
 (define* (my-grønn length-arg #:optional word-to-print)
@@ -623,6 +751,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		       ))))
 	 
 	 (output-file "lower.ily")
+(other-file "upper.ily")
 	 (music
 	  (string-append
 	   "\\override NoteHead.color = #green\n"
@@ -645,7 +774,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"grønn\".  Grønne kryssnoter.~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
       )))
 
 (define* (my-lavt length-arg #:optional word-to-print)
@@ -662,6 +798,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 			     (+ dur-sum new-dur))
 		       ))))
 	 (output-file "lower.ily")
+(other-file "upper.ily")
 	 (music
 	  (string-append
 	   (trim-lily
@@ -680,7 +817,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"lav\".  Dyp note med oktavdobling.~%~%")p
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+(system (string-append "./insert-music.sh " output-file " \"" music "\""))
+ (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
       )))
 
 (define* (my-høyt length-arg #:optional word-to-print)
@@ -699,6 +843,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 
 
 	 (output-file "upper.ily")
+(other-file "lower.ily")
 	 (music
 	  (string-append
 	   (trim-lily 
@@ -717,7 +862,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"høyt\" med en høy velklingende note~%~%")
-      (system (string-append "./awk-insert-music.sh " output-file " \"" music "\""))
+      (system (string-append "./insert-music.sh " output-file " \"" music "\""))
+      (system (string-append "./insert-music.sh " other-file " \"" (trim-lily 
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		 (durlist->rests
+		  (* length-arg 0.25)))))
+	    ) "\""))
 					;TODO flytt kompilering til post-read-file
       )))
 
@@ -726,10 +878,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
   (let* (
 	 (music
 	  (string-append
-	   "\\magnifyMusic #5/7\n"
-	   "<>-\\markup {"
-	   word-to-print
-	   "}\n"
+	   
 	   (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
@@ -740,9 +889,12 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	   )))
     (begin
       (format #t "legger inn pause~%~%")
-      (system (string-append "./awk-insert-music.sh " "./upper.ily" " \"" music "\""))
-      (system (string-append "./awk-insert-music.sh " "./lower.ily" " \"" music "\""))
-      )))
+            (system (string-append "./insert-music.sh " "./upper.ily" " \"" music "\""))
+      (system (string-append "./insert-music.sh "   "./lower.ily" " \"" "\\magnifyMusic #5/7\n"
+	   "<>-\\markup {"
+	   word-to-print
+	   "}\n" music "\"")))
+      ))
 
 (define lilywords
   `(("best" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
@@ -811,7 +963,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
     ("treig" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
     ("langsom" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
     ("tom" . ,(lambda (arg1 arg2) (my-tom arg1 arg2)))
-    ("vit" . ,(lambda (arg1 arg2) (my-vit arg1 arg2)))
+    ("hvit" . ,(lambda (arg1 arg2) (my-vit arg1 arg2)))
     ("svart" . ,(lambda (arg1 arg2) (my-svart arg1 arg2)))
     ("rød" . ,(lambda (arg1 arg2) (my-rød arg1 arg2)))
     ("blå" . ,(lambda (arg1 arg2) (my-blå arg1 arg2)))
@@ -821,5 +973,5 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 
 (define (insert-word word)
   "legg in markup i nota"
-  (system (string-append "./awk-insert-music.sh " output-file " \"" "<>^\\markup" word "\""))
+  (system (string-append "./insert-music.sh " output-file " \"" "<>^\\markup" word "\""))
   )

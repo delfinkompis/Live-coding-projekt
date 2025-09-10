@@ -1,28 +1,462 @@
 GNU LilyPond 2.24.4 (running Guile 2.2)
 Behandlar ”./lily-run-scheme.ly”
-Tolkar…(Hei og hundre kanger velkommen til Rød, fin, vakker, grøn, reimbue, greia.)Fant ingen passende synonymer.  Legger inn en 6 lang pause.
+Tolkar…Prøver igjen for 1. gang.  Bruker nå synonymet et.
+Prøver igjen for 2. gang.  Bruker nå synonymet et.
+Prøver igjen for 3. gang.  Bruker nå synonymet et.
+Prøver igjen for 4. gang.  Bruker nå synonymet et.
+Prøver igjen for 5. gang.  Bruker nå synonymet et.
+Prøver igjen for 6. gang.  Bruker nå synonymet et.
+Fant ingen passende synonymer.  Legger inn en 2 lang pause.
 
-Prøver igjen for 1. gang.  Bruker nå synonymet velkommen.
-Prøver igjen for 2. gang.  Bruker nå synonymet velkommen.
-Prøver igjen for 3. gang.  Bruker nå synonymet velkommen.
-Prøver igjen for 4. gang.  Bruker nå synonymet velkommen.
-Prøver igjen for 5. gang.  Bruker nå synonymet velkommen.
-Prøver igjen for 6. gang.  Bruker nå synonymet velkommen.
-Lager lilyscript input av synonymet til. Opprinelig ord hadde 3 bokstaver.
+legger inn pause
+
+Lager lilypond input av synonymet nok. Opprinelig ord hadde 3 bokstaver.'
 Bruker lilypond-insert "tett".  Raske, tette kromatiske bevegelser i mellomregistret.
 
-Fant ingen passende synonymer.  Legger inn en 4 lang pause.
+Prøver igjen for 1. gang.  Bruker nå synonymet et.
+Prøver igjen for 2. gang.  Bruker nå synonymet et.
+Prøver igjen for 3. gang.  Bruker nå synonymet et.
+Prøver igjen for 4. gang.  Bruker nå synonymet et.
+Prøver igjen for 5. gang.  Bruker nå synonymet et.
+Prøver igjen for 6. gang.  Bruker nå synonymet et.
+Fant ingen passende synonymer.  Legger inn en 2 lang pause.
 
-Fant ingen passende synonymer.  Legger inn en 4 lang pause.
+legger inn pause
 
+Lager lilyscript input av synonymet år. Opprinelig ord hadde 2 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Lager lilypond input av synonymet bak. Opprinelig ord hadde 3 bokstaver.'
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Prøver igjen for 1. gang.  Bruker nå synonymet oss.
+Prøver igjen for 2. gang.  Bruker nå synonymet vi.
+Prøver igjen for 3. gang.  Bruker nå synonymet vår.
+Prøver igjen for 4. gang.  Bruker nå synonymet vårhvete.
+Prøver igjen for 5. gang.  Bruker nå synonymet vårhvete.
+Prøver igjen for 6. gang.  Bruker nå synonymet vårhvete.
+Fant ingen passende synonymer.  Legger inn en 3 lang pause.
+
+legger inn pause
+
+Fant ingen passende synonymer.  Legger inn en 1 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet isprengt.
+Prøver igjen for 2. gang.  Bruker nå synonymet i.
+Prøver igjen for 3. gang.  Bruker nå synonymet ifylling.
+Prøver igjen for 4. gang.  Bruker nå synonymet fylle.
+Prøver igjen for 5. gang.  Bruker nå synonymet fyllepenn.
+Prøver igjen for 6. gang.  Bruker nå synonymet fyllepenn.
+Fant ingen passende synonymer.  Legger inn en 1 lang pause.
+
+legger inn pause
+
+Fant ingen passende synonymer.  Legger inn en 10 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet om.
+Prøver igjen for 2. gang.  Bruker nå synonymet om.
+Prøver igjen for 3. gang.  Bruker nå synonymet om.
+Prøver igjen for 4. gang.  Bruker nå synonymet om.
+Prøver igjen for 5. gang.  Bruker nå synonymet om.
+Prøver igjen for 6. gang.  Bruker nå synonymet om.
+Fant ingen passende synonymer.  Legger inn en 2 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet hva.
+Prøver igjen for 2. gang.  Bruker nå synonymet hva.
+Prøver igjen for 3. gang.  Bruker nå synonymet hæ.
+Prøver igjen for 4. gang.  Bruker nå synonymet hva.
+Prøver igjen for 5. gang.  Bruker nå synonymet hæ.
+Prøver igjen for 6. gang.  Bruker nå synonymet hæ.
+Fant ingen passende synonymer.  Legger inn en 3 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet det. Opprinelig ord hadde 3 bokstaver.
+Bruker lilypond-insert "gul".  Gul note harmonisert med terser.
+
+Prøver igjen for 1. gang.  Bruker nå synonymet nye.
+Prøver igjen for 2. gang.  Bruker nå synonymet nye.
+Prøver igjen for 3. gang.  Bruker nå synonymet nye.
+Prøver igjen for 4. gang.  Bruker nå synonymet nye.
+Prøver igjen for 5. gang.  Bruker nå synonymet nye.
+Prøver igjen for 6. gang.  Bruker nå synonymet nye.
+Fant ingen passende synonymer.  Legger inn en 3 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet vil. Opprinelig ord hadde 3 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Fant ingen passende synonymer.  Legger inn en 10 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet mange. Opprinelig ord hadde 5 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Prøver igjen for 1. gang.  Bruker nå synonymet vite.
+Lager lilyscript input av synonymet vite. Opprinelig ord hadde 3 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Prøver igjen for 1. gang.  Bruker nå synonymet trygg.
+Prøver igjen for 2. gang.  Bruker nå synonymet trygg.
+Prøver igjen for 3. gang.  Bruker nå synonymet forsvarlig.
+Prøver igjen for 4. gang.  Bruker nå synonymet betryggende.
+Prøver igjen for 5. gang.  Bruker nå synonymet beroligende.
+Prøver igjen for 6. gang.  Bruker nå synonymet beroligende.
 Fant ingen passende synonymer.  Legger inn en 7 lang pause.
 
-Fant ingen passende synonymer.  Legger inn en 5 lang pause.
+legger inn pause
 
-Fant ingen passende synonymer.  Legger inn en 8 lang pause.
+Fant ingen passende synonymer.  Legger inn en 4 lang pause.
 
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet ha.
+Prøver igjen for 2. gang.  Bruker nå synonymet hektar.
+Prøver igjen for 3. gang.  Bruker nå synonymet ar.
+Prøver igjen for 4. gang.  Bruker nå synonymet a.
+Prøver igjen for 5. gang.  Bruker nå synonymet a.
+Prøver igjen for 6. gang.  Bruker nå synonymet a.
+Fant ingen passende synonymer.  Legger inn en 4 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet et.
+Prøver igjen for 2. gang.  Bruker nå synonymet et.
+Prøver igjen for 3. gang.  Bruker nå synonymet et.
+Prøver igjen for 4. gang.  Bruker nå synonymet et.
+Prøver igjen for 5. gang.  Bruker nå synonymet et.
+Prøver igjen for 6. gang.  Bruker nå synonymet et.
+Fant ingen passende synonymer.  Legger inn en 2 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet år. Opprinelig ord hadde 2 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Lager lilyscript input av synonymet på. Opprinelig ord hadde 2 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Lager lilyscript input av synonymet det. Opprinelig ord hadde 3 bokstaver.
+Bruker lilypond-insert "gul".  Gul note harmonisert med terser.
+
+Prøver igjen for 1. gang.  Bruker nå synonymet jamn.
+Prøver igjen for 2. gang.  Bruker nå synonymet partall.
+Prøver igjen for 3. gang.  Bruker nå synonymet partall.
+Prøver igjen for 4. gang.  Bruker nå synonymet jevne.
+Prøver igjen for 5. gang.  Bruker nå synonymet jevnbyrdig.
+Prøver igjen for 6. gang.  Bruker nå synonymet jamn.
 Fant ingen passende synonymer.  Legger inn en 6 lang pause.
 
-checked words
-compiled ly
+legger inn pause
+
+Lager lilyscript input av synonymet for. Opprinelig ord hadde 3 bokstaver.
+Bruker lilypond-insert "rask".  Kjapt, kromatisk löp.
+
+Prøver igjen for 1. gang.  Bruker nå synonymet litt.
+Prøver igjen for 2. gang.  Bruker nå synonymet litt.
+Prøver igjen for 3. gang.  Bruker nå synonymet litt.
+Prøver igjen for 4. gang.  Bruker nå synonymet om.
+Prøver igjen for 5. gang.  Bruker nå synonymet om.
+Prøver igjen for 6. gang.  Bruker nå synonymet om.
+Fant ingen passende synonymer.  Legger inn en 4 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet et.
+Prøver igjen for 2. gang.  Bruker nå synonymet et.
+Prøver igjen for 3. gang.  Bruker nå synonymet et.
+Prøver igjen for 4. gang.  Bruker nå synonymet et.
+Prøver igjen for 5. gang.  Bruker nå synonymet et.
+Prøver igjen for 6. gang.  Bruker nå synonymet et.
+Fant ingen passende synonymer.  Legger inn en 2 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet år. Opprinelig ord hadde 2 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Lager lilypond input av synonymet da. Opprinelig ord hadde 2 bokstaver.'
+Bruker lilypond-insert "treig".  Liten gamut, store avstander, harmonisert med oktaver.
+
+Lager lilyscript input av synonymet livet. Opprinelig ord hadde 5 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Prøver igjen for 1. gang.  Bruker nå synonymet fåfengt.
+Prøver igjen for 2. gang.  Bruker nå synonymet død.
+Lager lilyscript input av synonymet død. Opprinelig ord hadde 4 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Lager lilypond input av synonymet en. Opprinelig ord hadde 2 bokstaver.'
+Bruker lilypond-insert "tom" - kort oktavintervall omringa av pauser
+
+Prøver igjen for 1. gang.  Bruker nå synonymet superlativ.
+Prøver igjen for 2. gang.  Bruker nå synonymet helst.
+Lager lilyscript input av synonymet helst. Opprinelig ord hadde 7 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Lager lilyscript input av synonymet vending.. Opprinelig ord hadde 8 bokstaver.
+Bruker lilypond-insert "tom" - kort oktavintervall omringa av pauser
+
+Lager lilyscript input av synonymet for. Opprinelig ord hadde 3 bokstaver.
+Bruker lilypond-insert "rask".  Kjapt, kromatisk löp.
+
+Lager lilyscript input av synonymet andre. Opprinelig ord hadde 5 bokstaver.
+Bruker lilypond-insert "tett".  Raske, tette kromatiske bevegelser i mellomregistret.
+
+Prøver igjen for 1. gang.  Bruker nå synonymet igjen.
+Prøver igjen for 2. gang.  Bruker nå synonymet gjen-.
+Prøver igjen for 3. gang.  Bruker nå synonymet gjenskinn.
+Prøver igjen for 4. gang.  Bruker nå synonymet gjenglans.
+Prøver igjen for 5. gang.  Bruker nå synonymet gjenskinn.
+Prøver igjen for 6. gang.  Bruker nå synonymet gjenskinn.
+Fant ingen passende synonymer.  Legger inn en 5 lang pause.
+
+legger inn pause
+
+Fant ingen passende synonymer.  Legger inn en 1 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet året. Opprinelig ord hadde 4 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Lager lilypond input av synonymet da. Opprinelig ord hadde 2 bokstaver.'
+Bruker lilypond-insert "treig".  Liten gamut, store avstander, harmonisert med oktaver.
+
+Lager lilypond input av synonymet alt. Opprinelig ord hadde 3 bokstaver.'
+Bruker lilypond-insert "tett".  Raske, tette kromatiske bevegelser i mellomregistret.
+
+Fant ingen passende synonymer.  Legger inn en 9 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet vi.
+Prøver igjen for 2. gang.  Bruker nå synonymet vår.
+Prøver igjen for 3. gang.  Bruker nå synonymet i.
+Prøver igjen for 4. gang.  Bruker nå synonymet i.
+Prøver igjen for 5. gang.  Bruker nå synonymet ifelling.
+Prøver igjen for 6. gang.  Bruker nå synonymet felle.
+Fant ingen passende synonymer.  Legger inn en 3 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet i.
+Prøver igjen for 2. gang.  Bruker nå synonymet islag.
+Prøver igjen for 3. gang.  Bruker nå synonymet islag.
+Prøver igjen for 4. gang.  Bruker nå synonymet islag.
+Prøver igjen for 5. gang.  Bruker nå synonymet islag.
+Prøver igjen for 6. gang.  Bruker nå synonymet islag.
+Fant ingen passende synonymer.  Legger inn en 1 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet albatrossfamilie.
+Fant ingen passende synonymer.  Legger inn en 8 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet havn.
+Prøver igjen for 2. gang.  Bruker nå synonymet ferjehavn.
+Prøver igjen for 3. gang.  Bruker nå synonymet ferje.
+Prøver igjen for 4. gang.  Bruker nå synonymet ferjehavn.
+Prøver igjen for 5. gang.  Bruker nå synonymet ferjehavn.
+Prøver igjen for 6. gang.  Bruker nå synonymet fergehavn.
+Fant ingen passende synonymer.  Legger inn en 3 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet dette. Opprinelig ord hadde 5 bokstaver.
+Bruker lilypond-insert "tett".  Raske, tette kromatiske bevegelser i mellomregistret.
+
+Prøver igjen for 1. gang.  Bruker nå synonymet værested.
+Prøver igjen for 2. gang.  Bruker nå synonymet værested.
+Prøver igjen for 3. gang.  Bruker nå synonymet værested.
+Prøver igjen for 4. gang.  Bruker nå synonymet værested.
+Prøver igjen for 5. gang.  Bruker nå synonymet værested.
+Prøver igjen for 6. gang.  Bruker nå synonymet tilholdssted.
+Fant ingen passende synonymer.  Legger inn en 4 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet et.
+Prøver igjen for 2. gang.  Bruker nå synonymet et.
+Prøver igjen for 3. gang.  Bruker nå synonymet et.
+Prøver igjen for 4. gang.  Bruker nå synonymet et.
+Prøver igjen for 5. gang.  Bruker nå synonymet et.
+Prøver igjen for 6. gang.  Bruker nå synonymet et.
+Fant ingen passende synonymer.  Legger inn en 2 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet år. Opprinelig ord hadde 2 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Lager lilypond input av synonymet da. Opprinelig ord hadde 2 bokstaver.'
+Bruker lilypond-insert "treig".  Liten gamut, store avstander, harmonisert med oktaver.
+
+Prøver igjen for 1. gang.  Bruker nå synonymet vi.
+Prøver igjen for 2. gang.  Bruker nå synonymet oss.
+Prøver igjen for 3. gang.  Bruker nå synonymet vår.
+Prøver igjen for 4. gang.  Bruker nå synonymet forår.
+Prøver igjen for 5. gang.  Bruker nå synonymet forår.
+Prøver igjen for 6. gang.  Bruker nå synonymet for-.
+Fant ingen passende synonymer.  Legger inn en 2 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet virkelig. Opprinelig ord hadde 8 bokstaver.
+Bruker lilypond-insert "treig".  Liten gamut, store avstander, harmonisert med oktaver.
+
+Prøver igjen for 1. gang.  Bruker nå synonymet blive.
+Prøver igjen for 2. gang.  Bruker nå synonymet drukne.
+Prøver igjen for 3. gang.  Bruker nå synonymet bli.
+Prøver igjen for 4. gang.  Bruker nå synonymet bli.
+Prøver igjen for 5. gang.  Bruker nå synonymet bli.
+Prøver igjen for 6. gang.  Bruker nå synonymet blive.
+Fant ingen passende synonymer.  Legger inn en 3 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet sette.
+Prøver igjen for 2. gang.  Bruker nå synonymet sette.
+Prøver igjen for 3. gang.  Bruker nå synonymet sette.
+Prøver igjen for 4. gang.  Bruker nå synonymet setting.
+Prøver igjen for 5. gang.  Bruker nå synonymet setting.
+Prøver igjen for 6. gang.  Bruker nå synonymet setting.
+Fant ingen passende synonymer.  Legger inn en 4 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet på. Opprinelig ord hadde 2 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Prøver igjen for 1. gang.  Bruker nå synonymet prøvet.
+Prøver igjen for 2. gang.  Bruker nå synonymet prøve.
+Lager lilyscript input av synonymet prøve. Opprinelig ord hadde 6 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Prøver igjen for 1. gang.  Bruker nå synonymet et.
+Prøver igjen for 2. gang.  Bruker nå synonymet et.
+Prøver igjen for 3. gang.  Bruker nå synonymet et.
+Prøver igjen for 4. gang.  Bruker nå synonymet et.
+Prøver igjen for 5. gang.  Bruker nå synonymet et.
+Prøver igjen for 6. gang.  Bruker nå synonymet et.
+Fant ingen passende synonymer.  Legger inn en 2 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet år. Opprinelig ord hadde 2 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Lager lilypond input av synonymet da. Opprinelig ord hadde 2 bokstaver.'
+Bruker lilypond-insert "treig".  Liten gamut, store avstander, harmonisert med oktaver.
+
+Prøver igjen for 1. gang.  Bruker nå synonymet vi.
+Prøver igjen for 2. gang.  Bruker nå synonymet vi.
+Prøver igjen for 3. gang.  Bruker nå synonymet vi.
+Prøver igjen for 4. gang.  Bruker nå synonymet vår.
+Prøver igjen for 5. gang.  Bruker nå synonymet vårhvete.
+Prøver igjen for 6. gang.  Bruker nå synonymet vår.
+Fant ingen passende synonymer.  Legger inn en 2 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet ha.
+Prøver igjen for 2. gang.  Bruker nå synonymet hektar.
+Prøver igjen for 3. gang.  Bruker nå synonymet hektar.
+Prøver igjen for 4. gang.  Bruker nå synonymet ha.
+Prøver igjen for 5. gang.  Bruker nå synonymet hektar.
+Prøver igjen for 6. gang.  Bruker nå synonymet hektar.
+Fant ingen passende synonymer.  Legger inn en 3 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet bli.
+Prøver igjen for 2. gang.  Bruker nå synonymet bli.
+Prøver igjen for 3. gang.  Bruker nå synonymet komme.
+Prøver igjen for 4. gang.  Bruker nå synonymet komme.
+Prøver igjen for 5. gang.  Bruker nå synonymet ankomst.
+Prøver igjen for 6. gang.  Bruker nå synonymet komme.
+Fant ingen passende synonymer.  Legger inn en 5 lang pause.
+
+legger inn pause
+
+Lager lilypond input av synonymet enda. Opprinelig ord hadde 4 bokstaver.'
+Bruker lilypond-insert "rask".  Kjapt, kromatisk löp.
+
+Lager lilypond input av synonymet mer. Opprinelig ord hadde 3 bokstaver.'
+Bruker lilypond-insert "tett".  Raske, tette kromatiske bevegelser i mellomregistret.
+
+Prøver igjen for 1. gang.  Bruker nå synonymet bevisst.
+Prøver igjen for 2. gang.  Bruker nå synonymet klassebevisst.
+Prøver igjen for 3. gang.  Bruker nå synonymet klasse.
+Prøver igjen for 4. gang.  Bruker nå synonymet herreklasse.
+Prøver igjen for 5. gang.  Bruker nå synonymet herreklasse.
+Prøver igjen for 6. gang.  Bruker nå synonymet dameklasse.
+Fant ingen passende synonymer.  Legger inn en 7 lang pause.
+
+legger inn pause
+
+Lager lilyscript input av synonymet på. Opprinelig ord hadde 2 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Prøver igjen for 1. gang.  Bruker nå synonymet hva.
+Prøver igjen for 2. gang.  Bruker nå synonymet hæ.
+Prøver igjen for 3. gang.  Bruker nå synonymet hva.
+Prøver igjen for 4. gang.  Bruker nå synonymet hæ.
+Prøver igjen for 5. gang.  Bruker nå synonymet hva.
+Prøver igjen for 6. gang.  Bruker nå synonymet hva.
+Fant ingen passende synonymer.  Legger inn en 3 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet likesom.
+Prøver igjen for 2. gang.  Bruker nå synonymet likesom.
+Prøver igjen for 3. gang.  Bruker nå synonymet lissom.
+Prøver igjen for 4. gang.  Bruker nå synonymet lissom.
+Prøver igjen for 5. gang.  Bruker nå synonymet på.
+Lager lilyscript input av synonymet på. Opprinelig ord hadde 3 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Prøver igjen for 1. gang.  Bruker nå synonymet være.
+Prøver igjen for 2. gang.  Bruker nå synonymet være.
+Prøver igjen for 3. gang.  Bruker nå synonymet velvære.
+Lager lilyscript input av synonymet velvære. Opprinelig ord hadde 5 bokstaver.
+Bruker lilypond-insert "stor".  Lang, lys note harmonisert med kvinter.
+
+Lager lilyscript input av synonymet noe. Opprinelig ord hadde 3 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Lager lilyscript input av synonymet her. Opprinelig ord hadde 3 bokstaver.
+Bruker lilypond-insert "gul".  Gul note harmonisert med terser.
+
+Prøver igjen for 1. gang.  Bruker nå synonymet i.
+Prøver igjen for 2. gang.  Bruker nå synonymet i.
+Prøver igjen for 3. gang.  Bruker nå synonymet ispedd.
+Prøver igjen for 4. gang.  Bruker nå synonymet spe.
+Prøver igjen for 5. gang.  Bruker nå synonymet hån.
+Prøver igjen for 6. gang.  Bruker nå synonymet spe.
+Fant ingen passende synonymer.  Legger inn en 1 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet live.
+Prøver igjen for 2. gang.  Bruker nå synonymet live.
+Prøver igjen for 3. gang.  Bruker nå synonymet live.
+Prøver igjen for 4. gang.  Bruker nå synonymet liv.
+Lager lilyscript input av synonymet liv. Opprinelig ord hadde 6 bokstaver.
+Bruker lilypond-insert "høyt" med en høy velklingende note
+
+Kompilerer lilypond
+Ferdig med å kompilere lilypond
+
+
 Lyckades: kompilering färdig
