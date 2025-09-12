@@ -1,9 +1,13 @@
 \version "2.24.4"
+
 \include "./upper.ily"
 \include "./lower.ily"
+
+
+
 #(set! paper-alist (cons '("my size" . (cons (* 50 cm) (* 4 cm))) paper-alist))
 #(set-default-paper-size "my size")
-#(set-global-staff-size 12)
+#(set-global-staff-size 16)
 
 
 \paper { systems-per-page = #1
@@ -16,6 +20,9 @@
 
 %% ser finere ut uten tupletnumbers
 global = { \override TupletNumber.text = "" \time 32/2 }
+  \header {
+    tagline = ##f
+  }
 
 \score {
    \new PianoStaff \with { instrumentName = "" }

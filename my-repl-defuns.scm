@@ -354,7 +354,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		   durs)) "tenuto"))))
 	   )
 
-	   "<>_\\markup {"
+	   "<>_\\markup \\smallCaps \\fontsize #4 {"
 	   word-to-print
 	   "}"
 	   )))
@@ -386,6 +386,12 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 (other-file "upper.ily")
 	 (music
 	  (string-append
+	   "<>_\\markup \\fontsize #3 {
+	      \\override #'(font-name .
+               \\\"Courier\\\")"
+	   word-to-print
+	   "}"
+	   
 	   "\\magnifyMusic #7/5\n"
 	    (with-output-to-string
 	      (lambda ()
@@ -394,9 +400,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		  (pitchlist->lily
 		   (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
 		   durs) 12))))
-	   "<>_\\markup {"
-	   word-to-print
-	   "}"
+
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"treig\".  Liten gamut, store avstander, harmonisert med oktaver.~%~%")
@@ -429,7 +433,10 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 (other-file "lower.ily")
 	 (music
 	  (string-append
-	   	   "<>^\\markup { "
+
+	   "<>^\\markup \\fontsize #1 { 
+	   	     \\override #'(font-name .
+               \\\"Latin modern sans demi cond\\\")"
 	   word-to-print
 	   " }"
 	   
@@ -475,7 +482,10 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		 (durlist->rests
 		  (* total-dur 1/3)))))
 	    )
-
+	   "<>^\\markup \\bold \\fontsize #-2 {"
+	   word-to-print
+	   "}"
+	   
 	   "\\magnifyMusic #5/7\n"
 	   (with-output-to-string
 	      (lambda ()
@@ -485,9 +495,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		  (pitchlist->lily
 		   (list-ref possible-pitches (random (length possible-pitches)))
 		   (list (* total-dur 1/6))) 12) "staccato"))))
-	   "<>^\\markup {"
-	   word-to-print
-	   "}"
+	 
 	   (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
@@ -539,7 +547,9 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		   (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
 		   durs) "portato")))))
 	    )
-	   "<>^\\markup {"
+	   "<>_\\markup {
+	   	     \\override #'(font-name .
+               \\\"Comic Neue, Bold\\\")"
 	   word-to-print
 	   "}"
 	   "\\harmonicsOff\n"
@@ -580,10 +590,12 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		   (list-ref '(1 2) (random 2)))
 		  )))
 	    )
-	 
-	   "<>_\\markup { \""
-	   word-to-print
-	   "\" }"
+	   "<>_\\markup \\fontsize #1 { 
+	   	     \\override #'(font-name .
+               \\\"Cabin, Oblique Bold\\\")
+	    \\with-color #white \\on-color #black \\pad-markup #0.2
+	   \\\"" word-to-print "\\\"
+	    }"
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"svart\".  Svarte noter (clusterformasjoner).~%~%")
@@ -617,7 +629,13 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 (other-file "upper.ily")
 	 (music
 	  (string-append
-	   "\\override NoteHead.color = #red\n"
+	   "<>_\\markup {
+	   \\with-color #yellow \\on-color #red \\pad-markup #0.2
+\\\"" word-to-print "\\\"
+	   }"
+	     "\\override NoteHead.color = #red
+  \\override Stem.color = #red
+  \\override Beam.color = #red"
 	   
 	   (trim-lily 
 	    (with-output-to-string
@@ -629,10 +647,9 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		   (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
 		   durs) "staccato")))))
 	    )
-	   "\n<>_\\markup { "
-	   word-to-print
-	   "}"
-	   "\n\\revert NoteHead.color\n"
+	   "\n\\revert NoteHead.color
+  \\revert Stem.color
+  \\revert Beam.color"
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"rød\".  Røde noter med stakkatoprikker.~%~%")
@@ -664,7 +681,14 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 (other-file "lower.ily")
 	 (music
 	  (string-append
-	   "\\override NoteHead.color = #blue\n"
+	   "<>_\\markup \\box \\fontsize #3 {
+	   \\with-color #cyan \\pad-markup #0.2
+\\\"" word-to-print "\\\"
+	   }"
+
+"\\override NoteHead.color = #darkcyan\n"
+"\\override Stem.color = #darkcyan\n"
+	   "\\override Beam.color = #darkcyan\n"
 	   "\\override NoteHead.style = #'slash\n"
 	   (trim-lily 
 	    (with-output-to-string
@@ -674,7 +698,9 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		   (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
 		   durs))))
 	    )
-	   "\n\\revert NoteHead.color"
+	   "\n\\revert NoteHead.color
+  \\revert Stem.color
+  \\revert Beam.color"
 	   "\n\\revert NoteHead.style"	   
 					;	 word-to-display
 	   )))
@@ -709,8 +735,16 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 (other-file "upper.ily")
 	 (music
 	  (string-append
-	   "\\override NoteHead.color = #yellow\n"
-	   
+	   "\\override NoteHead.color = #darkyellow
+	   \\override Stem.color = #darkyellow
+	   \\override Beam.color = #darkyellow\n"
+
+	   "<>_\\markup \\fontsize #-2 \\with-color #darkyellow {"
+	   "\\override #'(font-name .
+               \\\"Linux Biolinum Keyboard O\\\")"
+	    word-to-print
+	    "}"
+	    
 	   (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
@@ -720,10 +754,11 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		    (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
 		    durs) 16))))
 	      )
-	    "<>_\\markup {"
-	    word-to-print
-	    "}"
-	    	   "\n\\revert NoteHead.color"
+
+	    "\\revert NoteHead.color
+	   \\revert Stem.color
+	   \\revert Beam.color"
+
 	    )))
     (begin
       (format #t "Bruker lilypond-insert \"gul\".  Gul note harmonisert med terser.~%~%")
@@ -754,7 +789,20 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 (other-file "upper.ily")
 	 (music
 	  (string-append
-	   "\\override NoteHead.color = #green\n"
+	   "<>-\\markup \\fontsize #-4 \\with-color #darkgreen \\box \\column {
+  \\override #'(font-name .
+               \\\"D050000L\\\")
+   \\line {" word-to-print "}
+  \\override #'(font-name .
+               \\\"Comic Sans\\\")
+   \\line {" word-to-print "}
+  \\override #'(font-name .
+               \\\"D050000L\\\")
+   \\line { " word-to-print " }
+}"
+   "\\override NoteHead.color = #darkgreen\n"
+   "\\override Stem.color = #darkgreen\n"
+   "\\override Beam.color = #darkgreen\n"
 	   "\\xNotesOn"
 	   (trim-lily 
 	    (with-output-to-string
@@ -767,10 +815,9 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		    durs)) "marcato"))))
 	    )
 	   "\\xNotesOff"
-	   "<>^\\markup {"
-	   word-to-print
-	   "}"
-	      "\\revert NoteHead.color"
+   "\\revert NoteHead.color
+   \\revert Stem.color
+   \\revert Beam.color"
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"grønn\".  Grønne kryssnoter.~%~%")
@@ -811,7 +858,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		   (list-ref possible-pitches (random (length possible-pitches)))
 		   (list total-dur)) "tenuto") 12))))
 	   )
-	   "<>_\\markup { \""
+	   "<>_\\markup \\italic \\box \\lower #4 \\fontsize #-2  { \""
 	   word-to-print
 	   "\" }"
 	   )))
@@ -846,6 +893,12 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 (other-file "lower.ily")
 	 (music
 	  (string-append
+	   "<>^\\markup {"
+	   "\\override #'(font-name .
+               \\\"freemono\\\") "
+	   "\\\""
+	   word-to-print
+	   "\\\" } "
 	   (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
@@ -855,10 +908,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 		  (pitchlist->lily
 		   (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
 	       	   durs) "flageolet"))))))
-	 	   "\\magnifyMusic #5/7\n"
-	   "<>-\\markup { \""
-	   word-to-print
-	   "\" } "
+
 	   )))
     (begin
       (format #t "Bruker lilypond-insert \"høyt\" med en høy velklingende note~%~%")
@@ -890,14 +940,57 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
     (begin
       (format #t "legger inn pause~%~%")
             (system (string-append "./insert-music.sh " "./upper.ily" " \"" music "\""))
-      (system (string-append "./insert-music.sh "   "./lower.ily" " \"" "\\magnifyMusic #5/7\n"
-	   "<>-\\markup {"
+      (system (string-append "./insert-music.sh "   "./lower.ily" " \"" 
+			     "<>-\\markup \\fontsize #5 {"
+			     "\\override #'(font-name .
+               \\\"Andika\\\") "
+	   
 	   word-to-print
 	   "}\n" music "\"")))
-      ))
+    ))
+
+
+(define* (my-god length-arg #:optional word-to-print)
+  "Velklingende note"
+  (let* (
+	 (total-dur (* length-arg 0.25))
+	 (music
+	  (string-append
+	   			     "<>-\\markup {"
+			     "\\override #'(font-name .
+               \\\"Comic sans\\\")"
+	   "\\\""
+	   word-to-print
+	   "\\\" }\n"
+	   
+	   "\\once \\override NoteHead.stencil = #ly:text-interface::print
+	    \\once \\override NoteHead.text =
+	    \\markup {
+		     \\general-align #Y #CENTER {
+						\\epsfile #X #5 \\\"./cupcake.eps\\\"
+     }
+   }"
+           (trim-lily
+	    (with-output-to-string
+	      (lambda ()
+		(display-lily-music
+		  (pitchlist->lily
+		   (list 11)
+		   (list total-dur)))))
+	    ))))
+    (begin
+      (format #t "Kjører lily-input \"god\", legger inn bilde av iskrem.~%~%")
+      (system (string-append "./insert-music.sh "   "./lower.ily" " \""
+			     music
+			     "<>-\\markup {"
+			     word-to-print
+			     "}\n" "\"")))
+    ))  
+
+
 
 (define lilywords
-  `(("best" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
+  `(("best" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
     ("liten" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))
     ("stor" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
     ("stort" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
@@ -906,31 +999,29 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
     ("alt" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
     ("vis" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
     ("disse" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("god" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
+    ("god" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
+    ("godt" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
+    ("bra" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
     ("nettopp" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("vel" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
+    ("vel" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
     ("heller" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
     ("opp" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
     ("possessiv" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("enda" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("bedre" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
+    ("bedre" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
     ("mann" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
-    ("jeg" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
     ("minst" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))
     ("mindre" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))
     ("ennå" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
     ("da" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
     ("stå" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
-    ("så" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
-    ("en" . ,(lambda (arg1 arg2) (my-tom arg1 arg2)))
     ("hun" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
     ("han" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
     ("nok" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
     ("herre" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
     ("foran" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("bak" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
+    ("bak" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
     ("framfor" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("meget" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
+    ("meget" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
     ("man" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
     ("tydelig" . ,(lambda (arg1 arg2) (my-rød arg1 arg2)))
     ("måtte" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
@@ -940,7 +1031,7 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
     ("rett" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
     ("viss" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
     ("vesle" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))
-    ("glad" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
+    ("glad" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
     ("ad" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
     ("nå" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
     ("ren" . ,(lambda (arg1 arg2) (my-tom arg1 arg2)))

@@ -7,7 +7,7 @@ cp ./lower-template.ily ./lower.ily
 cp ./upper-template.ily ./upper.ily
 cp ./input-template.txt ./input.txt
 cp ./input-template.txt ./log.txt 
-
+cp ./ly-display-template.pdf ./ly-display.pdf
 
 # setup emacs
 # rm speech.mp3 before running command because flush old content

@@ -156,7 +156,31 @@
              (iota (if (list? durations) (length durations) 1))
 	     )))
 
-
+(define (durlist->rests durations) 
+   "Return a seq-mus object according to the duration(s) or pitch(es) One of the objects must be a list. single-octave"
+   (make-sequential-music
+      (map (lambda (i)
+             (let* (
+		    (dur
+		     (if (list? durations)
+			 (float->duration (list-ref durations i))
+			 (float->duration durations))
+)
+		    
+		    (scale (ly:duration-scale dur))
+		    (tuplet? (not (= 1 scale)))
+		    (base-dur (ly:make-duration
+			      (ly:duration-log dur)
+			      (ly:duration-dot-count dur)
+			      )))
+	        (if tuplet?
+		 (let* ((scale-num (numerator scale))
+			(scale-denom (denominator scale)))
+		   #{ \tuplet #(cons scale-num scale-denom)
+		     { s $base-dur } #})
+		   #{ s $base-dur #})))
+             (iota (if (list? durations) (length durations) 1))
+	     )))
 
 (define (remove x lst)
   (cond ((null? lst) '())
