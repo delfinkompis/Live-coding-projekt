@@ -1,24 +1,39 @@
 #!/bin/bash
-awk -v insert="$2" '
+awk -v insert_string="$2" '
 {
-    while (match($0, /\\fixed c[[:space:]]*\{/)) {
-        start = RSTART + RLENGTH - 1
-        depth = 1
-        pos = start + 1
-        
-        while (pos <= length($0) && depth > 0) {
-            char = substr($0, pos, 1)
-            if (char == "{") depth++
-            else if (char == "}") depth--
-            pos++
-        }
-        
-        if (depth == 0) {
-            end_pos = pos - 1
-            $0 = substr($0, 1, end_pos-1) insert "\n" substr($0, end_pos)
+    text = (text == "" ? "" : text "\n") $0
+}
+END {
+    result = ""
+    i = 1
+    
+    while (i <= length(text)) {
+        if (match(substr(text, i), /^\\fixed[ \t\n]*c[ \t\n]*\{/)) {
+            match_len = RLENGTH
+            result = result substr(text, i, match_len)
+            i += match_len
+            
+            depth = 1
+            block_start = i
+            
+            while (i <= length(text) && depth > 0) {
+                char = substr(text, i, 1)
+                if (char == "{") depth++
+                else if (char == "}") depth--
+                i++
+            }
+            
+            if (depth == 0) {
+                result = result substr(text, block_start, i - block_start - 1)
+                result = result insert_string "\n}"
+            } else {
+                result = result substr(text, block_start, i - block_start)
+            }
         } else {
-            break
+            result = result substr(text, i, 1)
+            i++
         }
     }
-}
-1' "$1" > tmp && mv tmp "$1"
+    
+    printf "%s", result
+}' "$1" > "$1.tmp" && mv "$1.tmp" "$1"

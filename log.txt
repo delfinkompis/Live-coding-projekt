@@ -1,82 +1,73 @@
 GNU LilyPond 2.24.4 (running Guile 2.2)
 Behandlar ”./lily-run-scheme.ly”
-Tolkar…Lager lilypond input av synonymet opp. Opprinelig ord hadde 3 bokstaver.'
-Bruker lilypond-insert "høyt" med en høy velklingende note
-
-Lager lilyscript input av synonymet til. Opprinelig ord hadde 3 bokstaver.
-Bruker lilypond-insert "tett".  Raske, tette kromatiske bevegelser i mellomregistret.
-
-Prøver igjen for 1. gang.  Bruker nå synonymet åmot.
-Lager lilyscript input av synonymet åmot. Opprinelig ord hadde 1 bokstaver.
-Bruker lilypond-insert "rød".  Røde noter med stakkatoprikker.
-
-Prøver igjen for 1. gang.  Bruker nå synonymet lytefull.
-Prøver igjen for 2. gang.  Bruker nå synonymet lyte.
-Prøver igjen for 3. gang.  Bruker nå synonymet feil.
-Prøver igjen for 4. gang.  Bruker nå synonymet mistak.
-Prøver igjen for 5. gang.  Bruker nå synonymet tabbe.
-Prøver igjen for 6. gang.  Bruker nå synonymet flause.
-Fant ingen passende synonymer.  Legger inn en 4 lang pause.
+Tolkar…Fant ingen passende synonymer.  Legger inn en 13 lang pause.
 
 legger inn pause
 
-Lager lilyscript input av synonymet på. Opprinelig ord hadde 2 bokstaver.
-Bruker lilypond-insert "høyt" med en høy velklingende note
+Lager lilypond input av synonymet da. Opprinelig ord hadde 2 bokstaver.'
+Bruker lilypond-insert "treig".  Liten gamut, store avstander, harmonisert med oktaver.
 
-Prøver igjen for 1. gang.  Bruker nå synonymet standard.
-Prøver igjen for 2. gang.  Bruker nå synonymet boligstandard.
-Prøver igjen for 3. gang.  Bruker nå synonymet standard.
-Prøver igjen for 4. gang.  Bruker nå synonymet nivå.
-Prøver igjen for 5. gang.  Bruker nå synonymet aspirasjonsnivå.
-Prøver igjen for 6. gang.  Bruker nå synonymet aspirasjon.
-Fant ingen passende synonymer.  Legger inn en 8 lang pause.
-
-legger inn pause
-
-Prøver igjen for 1. gang.  Bruker nå synonymet -fon.
-Prøver igjen for 2. gang.  Bruker nå synonymet mikrofon.
-Prøver igjen for 3. gang.  Bruker nå synonymet -fon.
-Prøver igjen for 4. gang.  Bruker nå synonymet telefon.
-Prøver igjen for 5. gang.  Bruker nå synonymet fasttelefon.
-Prøver igjen for 6. gang.  Bruker nå synonymet fasttelefon.
-Fant ingen passende synonymer.  Legger inn en 10 lang pause.
-
-legger inn pause
-
-Prøver igjen for 1. gang.  Bruker nå synonymet gi.
-Lager lilyscript input av synonymet gi. Opprinelig ord hadde 5 bokstaver.
-Bruker lilypond-insert "høyt" med en høy velklingende note
-
-Lager lilyscript input av synonymet ord. Opprinelig ord hadde 3 bokstaver.
-Bruker lilypond-insert "høyt" med en høy velklingende note
-
-Prøver igjen for 1. gang.  Bruker nå synonymet som.
-Prøver igjen for 2. gang.  Bruker nå synonymet som.
-Prøver igjen for 3. gang.  Bruker nå synonymet som.
-Prøver igjen for 4. gang.  Bruker nå synonymet som.
-Prøver igjen for 5. gang.  Bruker nå synonymet liksom.
-Prøver igjen for 6. gang.  Bruker nå synonymet lik.
-Fant ingen passende synonymer.  Legger inn en 3 lang pause.
-
-legger inn pause
-
-Lager lilyscript input av synonymet kan. Opprinelig ord hadde 3 bokstaver.
-Bruker lilypond-insert "høyt" med en høy velklingende note
-
-Prøver igjen for 1. gang.  Bruker nå synonymet koppel.
-Prøver igjen for 2. gang.  Bruker nå synonymet hundekobbel.
-Prøver igjen for 3. gang.  Bruker nå synonymet kobbel.
-Prøver igjen for 4. gang.  Bruker nå synonymet kobbel.
-Prøver igjen for 5. gang.  Bruker nå synonymet koppel.
-Prøver igjen for 6. gang.  Bruker nå synonymet kobbel.
+Prøver igjen for 1. gang.  Bruker nå synonymet aspirasjon.
+Prøver igjen for 2. gang.  Bruker nå synonymet aspirasjonsnivå.
+Prøver igjen for 3. gang.  Bruker nå synonymet aspirasjonsnivå.
+Prøver igjen for 4. gang.  Bruker nå synonymet aspirasjon.
+Prøver igjen for 5. gang.  Bruker nå synonymet ambisjon.
+Prøver igjen for 6. gang.  Bruker nå synonymet ambisjonsnivå.
 Fant ingen passende synonymer.  Legger inn en 6 lang pause.
 
 legger inn pause
 
-Lager lilyscript input av synonymet til. Opprinelig ord hadde 3 bokstaver.
+Prøver igjen for 1. gang.  Bruker nå synonymet vi.
+Prøver igjen for 2. gang.  Bruker nå synonymet oss.
+Prøver igjen for 3. gang.  Bruker nå synonymet vi.
+Prøver igjen for 4. gang.  Bruker nå synonymet vår.
+Prøver igjen for 5. gang.  Bruker nå synonymet vårtid.
+Prøver igjen for 6. gang.  Bruker nå synonymet vårtid.
+Fant ingen passende synonymer.  Legger inn en 2 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet òg.
+Prøver igjen for 2. gang.  Bruker nå synonymet òg.
+Prøver igjen for 3. gang.  Bruker nå synonymet også.
+Prøver igjen for 4. gang.  Bruker nå synonymet au.
+Prøver igjen for 5. gang.  Bruker nå synonymet au.
+Prøver igjen for 6. gang.  Bruker nå synonymet au.
+Fant ingen passende synonymer.  Legger inn en 4 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet litt.
+Prøver igjen for 2. gang.  Bruker nå synonymet om.
+Prøver igjen for 3. gang.  Bruker nå synonymet om.
+Prøver igjen for 4. gang.  Bruker nå synonymet om.
+Prøver igjen for 5. gang.  Bruker nå synonymet om.
+Prøver igjen for 6. gang.  Bruker nå synonymet om.
+Fant ingen passende synonymer.  Legger inn en 4 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet notasjon.
+Prøver igjen for 2. gang.  Bruker nå synonymet notasjon.
+Prøver igjen for 3. gang.  Bruker nå synonymet notere.
+Prøver igjen for 4. gang.  Bruker nå synonymet notere.
+Prøver igjen for 5. gang.  Bruker nå synonymet notere.
+Prøver igjen for 6. gang.  Bruker nå synonymet børsnotering.
+Fant ingen passende synonymer.  Legger inn en 8 lang pause.
+
+legger inn pause
+
+Prøver igjen for 1. gang.  Bruker nå synonymet som.
+Prøver igjen for 2. gang.  Bruker nå synonymet at.
+Lager lilyscript input av synonymet at. Opprinelig ord hadde 3 bokstaver.
 Bruker lilypond-insert "tett".  Raske, tette kromatiske bevegelser i mellomregistret.
 
-Fant ingen passende synonymer.  Legger inn en 7 lang pause.
+Prøver igjen for 1. gang.  Bruker nå synonymet være.
+Prøver igjen for 2. gang.  Bruker nå synonymet velvære.
+Lager lilyscript input av synonymet velvære. Opprinelig ord hadde 2 bokstaver.
+Kjører lily-input "god", legger inn bilde av iskrem.
+
+Fant ingen passende synonymer.  Legger inn en 21 lang pause.
 
 legger inn pause
 
