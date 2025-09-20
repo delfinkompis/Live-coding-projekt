@@ -1,13 +1,20 @@
 #! /bin/bash
 
-rg --no-filename -o -r '$1' "(?:\"suggest\": \[\"$1\"\]|\"word_form\": \"$1\").*?\"lemma\": \"([^\"]*?)\"" ./article/
 
-#rg -r '$1' --no-filename -m1 "(?:\"suggest\": \[\"$1\"\]|\"word_form\": \"$1\").*?\"lemma\": \"([^\"]*)" ./article/
- # if result=$(grep -hr "\"suggest\": \[\"$1\"\]" ./article/); then
- #     echo "$result" | head -1 | grep -oP "\"lemma\": \"\K[^\" ]*"
- #  else
- #      grep -hr "\"word_form\": \"$1\"" ./article/ | head -1 | grep -oP "\"lemma\": \"\K[^\" ]*"
- #  fi
+rg --files-with-matches '"lemma": "[^"]+"' ./article/ | while read -r file; do
+    rg -m1 '"word-form": "([^"]+)"' -or '$1' "$file"
+done
+
+rg --files-with-matches '"word_form": "[^"]+"' ./article/ | while read -r file; do
+    rg -m1 '"lemma": "([^"]+)"' -or '$1' "$file"
+done
 
 
+#rg -r '$1' --no-filename -m1 -o "(?:\"suggest\": \[\"$1\"\]|\"word_form\": \"$1\").*?\"lemma\": \"([^\"]*)" ./article/
+
+#rg -r '$1' --no-filename -m1 -o "(?:\"word_form\": \"$1\").*?\"lemma\": \"([^\"]*)" ./article/
+
+
+
+#rg -r --debug '$1' --no-filename -m1 -o "(?:\"suggest\": \[\"$1\"\]|\"word_form\": \"$1\").*?\"lemma\": \"([^\"]*)" ./article/
 

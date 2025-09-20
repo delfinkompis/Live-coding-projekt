@@ -3,14 +3,12 @@
 \include "./upper.ily"
 \include "./lower.ily"
 
+%#(set! paper-alist (cons '("my size" . (cons (* 50 cm) (* 200 cm))) paper-alist))
+%#(set-default-paper-size "my size")
+#(set-global-staff-size 10)
 
 
-#(set! paper-alist (cons '("my size" . (cons (* 50 cm) (* 4 cm))) paper-alist))
-#(set-default-paper-size "my size")
-#(set-global-staff-size 16)
-
-
-\paper { systems-per-page = #1
+\paper { %systems-per-page = #1
   top-margin = 0\mm
   bottom-margin = 0\mm
   left-margin = 0\mm
@@ -30,14 +28,17 @@ global = { \override TupletNumber.text = "" \time 32/2 }
      \new Staff = "upper" { \global \upper }
      \new Staff = "lower" { \clef bass \global \lower }
    >>
-  \layout { 
-      ragged-right = ##t
-    \context {
-      \Staff
-      \omit TimeSignature
-      \omit BarLine
-    }
-    \context { \Score     forbidBreakBetweenBarLines = ##f }
-    \context { \Voice   \remove Forbid_line_break_engraver } }
-  \midi { }
+   \layout { 
+       ragged-right = ##t
+     \context {
+       \Staff
+       \omit TimeSignature
+       \omit BarLine
+     }
+     \context { \Score     forbidBreakBetweenBarLines = ##f }
+     \context { \Voice   \remove Forbid_line_break_engraver } }
+
 }
+
+
+

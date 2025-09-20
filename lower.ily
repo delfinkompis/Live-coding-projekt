@@ -5,143 +5,416 @@
 
 lower = \fixed c {
 
-<>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") våren}
- \tuplet 5/1 { s4 }  s2 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") en}
- s2 \override NoteHead.color = #darkyellow
+ r2  r2.  r2 
+\set Staff.midiInstrument = "Harpsichord"
+<>_\markup \fontsize #3 {
+	      \override #'(font-name .
+               "Courier") år}\magnifyMusic #7/5
+{ < e e' >1 }
+
+\set Staff.midiInstrument = "Harpsichord"
+<>_\markup \fontsize #3 {
+	      \override #'(font-name .
+               "Courier") bak}\magnifyMusic #7/5
+{ < g, g >2 < e e' >2 }
+
+\set Staff.midiInstrument = "Xylophone"
+\override NoteHead.color = #darkyellow
 	   \override Stem.color = #darkyellow
 	   \override Beam.color = #darkyellow
 <>_\markup \fontsize #-2 \with-color #darkyellow {\override #'(font-name .
-               "Linux Biolinum Keyboard O") herlig}
-  \tuplet 2/3 { < a, cis' >4 } < bes, d' >4 \tuplet 2/3 { < bes, d' >4 } < b dis'' >4 \tuplet 2/3 { < f a' >8 } < b dis'' >4 \tuplet 2/3 { < f a' >4 } \tuplet 2/3 { < c e' >8 } \tuplet 2/3 { < bes, d' >4 }
+               "Linux Biolinum Keyboard O") oss} \tuplet 2/3 { < f a' >4 } \tuplet 2/3 { < a, cis' >4 } \tuplet 2/3 { < ees g' >4 } \tuplet 2/3 { < bes, d' >4 } \tuplet 2/3 { < bes, d' >4 } \revert NoteHead.color
+	   \revert Stem.color
+	   \revert Beam.color
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") –}
+ r4  r4 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") forventing}
+ \tuplet 5/1 { r2 }  r2  r2.  r2.  r2.  r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") bringe.}
+ r1..  r2.  \tuplet 5/1 { r4 }  r2.  r1.. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") 2024}
+ r1 
+\set Staff.midiInstrument = "Tubular Bells"
+<>-\markup \fontsize #-4 \with-color #darkgreen \box \column {
+  \override #'(font-name .
+               "D050000L")
+   \line {vært}
+  \override #'(font-name .
+               "Comic Sans")
+   \line {vært}
+  \override #'(font-name .
+               "D050000L")
+   \line { vært }
+}\override NoteHead.color = #darkgreen
+\override Stem.color = #darkgreen
+\override Beam.color = #darkgreen
+\xNotesOn g'4\marcato( g'2\marcato c'4\marcato g'4\marcato) \xNotesOff\revert NoteHead.color
+   \revert Stem.color
+   \revert Beam.color r2 
+\set Staff.midiInstrument = "Harpsichord"
+<>_\markup \fontsize #3 {
+	      \override #'(font-name .
+               "Courier") år}\magnifyMusic #7/5
+{ < cis cis' >2. }
+ r2  r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") jevne.}
+ r1.  r2. 
+\set Staff.midiInstrument = "Rock Organ"
+<>^\markup {\override #'(font-name .
+               "freemono") "noen" }  c4(\portato c4)\portato  r2 
+\set Staff.midiInstrument = "Harpsichord"
+<>_\markup \fontsize #3 {
+	      \override #'(font-name .
+               "Courier") år}\magnifyMusic #7/5
+{ < a, a >2 < g, g >2. }
+
+\set Staff.midiInstrument = "Harpsichord"
+<>_\markup \fontsize #3 {
+	      \override #'(font-name .
+               "Courier") da}\magnifyMusic #7/5
+{ < c, c >1 }
+ \tuplet 5/1 { r4 }  r1  r2 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") positiv}
+ r1.. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") vending.}
+ \tuplet 2/1 { r1 }  r2. 
+\set Staff.midiInstrument = "Rock Organ"
+<>^\markup {\override #'(font-name .
+               "freemono") "andre" }  \tuplet 5/1 { e16 } \tuplet 5/1 { e16 }  \tuplet 5/1 { r4 } 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") –}
+ r4 
+\set Staff.midiInstrument = "Harpsichord"
+<>_\markup \fontsize #3 {
+	      \override #'(font-name .
+               "Courier") året}\magnifyMusic #7/5
+{ < cis cis' >1 < a, a >2 }
+
+\set Staff.midiInstrument = "Harpsichord"
+<>_\markup \fontsize #3 {
+	      \override #'(font-name .
+               "Courier") da}\magnifyMusic #7/5
+{ < c, c >2. }
+ r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") raste.}
+ r1.  r2. 
+\set Staff.midiInstrument = "Xylophone"
+\override NoteHead.color = #darkyellow
+	   \override Stem.color = #darkyellow
+	   \override Beam.color = #darkyellow
+<>_\markup \fontsize #-2 \with-color #darkyellow {\override #'(font-name .
+               "Linux Biolinum Keyboard O") oss} < c e' >4 \tuplet 2/3 { < cis eis' >8 } \tuplet 2/3 { < a, cis' >4 } \tuplet 2/3 { < cis eis' >8 } < bes, d' >4 \revert NoteHead.color
+	   \revert Stem.color
+	   \revert Beam.color r4 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") familien}
+ \tuplet 2/1 { r1 }  r2.  \tuplet 5/1 { r4 } 
+\set Staff.midiInstrument = "Tubular Bells"
+<>-\markup \fontsize #-4 \with-color #darkgreen \box \column {
+  \override #'(font-name .
+               "D050000L")
+   \line {vært}
+  \override #'(font-name .
+               "Comic Sans")
+   \line {vært}
+  \override #'(font-name .
+               "D050000L")
+   \line { vært }
+}\override NoteHead.color = #darkgreen
+\override Stem.color = #darkgreen
+\override Beam.color = #darkgreen
+\xNotesOn bes'4\marcato( bes'4\marcato a'4\marcato c'2\marcato) \xNotesOff\revert NoteHead.color
+   \revert Stem.color
+   \revert Beam.color r2 
+\set Staff.midiInstrument = "Harpsichord"
+<>_\markup \fontsize #3 {
+	      \override #'(font-name .
+               "Courier") år}\magnifyMusic #7/5
+{ < c, c >1 }
+
+\set Staff.midiInstrument = "Harpsichord"
+<>_\markup \fontsize #3 {
+	      \override #'(font-name .
+               "Courier") da}\magnifyMusic #7/5
+{ < g, g >2. }
+
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") vi}
+ r2 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") virkelig}
+ \tuplet 2/1 { r1 }  r2.  r1  r2 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") prøve.}
+ r1.  r2 
+\set Staff.midiInstrument = "Harpsichord"
+<>_\markup \fontsize #3 {
+	      \override #'(font-name .
+               "Courier") år}\magnifyMusic #7/5
+{ < cis cis' >2 < g, g >2 }
+
+\set Staff.midiInstrument = "Harpsichord"
+<>_\markup \fontsize #3 {
+	      \override #'(font-name .
+               "Courier") da}\magnifyMusic #7/5
+{ < e e' >2 < g, g >1 }
+
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") vi}
+ r2  r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") blitt}
+ \tuplet 5/1 { r4 }  r1  r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") bevisst}
+ r1..  r2  r2.  r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") betyr}
+ \tuplet 5/1 { r4 }  r2.  r2.  r4 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") livet.}
+ r1.  r4 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") kjernen}
+ r1..  r2  r2.  r4 
+\set Staff.midiInstrument = "Tubular Bells"
+<>-\markup \fontsize #-4 \with-color #darkgreen \box \column {
+  \override #'(font-name .
+               "D050000L")
+   \line {være}
+  \override #'(font-name .
+               "Comic Sans")
+   \line {være}
+  \override #'(font-name .
+               "D050000L")
+   \line { være }
+}\override NoteHead.color = #darkgreen
+\override Stem.color = #darkgreen
+\override Beam.color = #darkgreen
+\xNotesOn bes'8\marcato( e'8\marcato c''2\marcato bes'2\marcato) \xNotesOff\revert NoteHead.color
+   \revert Stem.color
+   \revert Beam.color
+\set Staff.midiInstrument = "Xylophone"
+\override NoteHead.color = #darkyellow
+	   \override Stem.color = #darkyellow
+	   \override Beam.color = #darkyellow
+<>_\markup \fontsize #-2 \with-color #darkyellow {\override #'(font-name .
+               "Linux Biolinum Keyboard O") menneske}
+  < bes, d' >4 \tuplet 2/3 { < cis eis' >8 } \tuplet 2/3 { < b dis'' >4 } \tuplet 2/3 { < bes, d' >8 } < c' e'' >4 \tuplet 2/3 { < cis eis' >8 } \tuplet 2/3 { < cis eis' >8 } \tuplet 2/3 { < a, cis' >4 } < c' e'' >4 \tuplet 2/3 { < f a' >4 } \tuplet 2/3 { < c' e'' >8 } \tuplet 2/3 { < c e' >4 } \tuplet 2/3 { < f a' >8 } \tuplet 2/3 { < f a' >8 } \tuplet 2/3 { < a, cis' >4 }
 \revert NoteHead.color
 	   \revert Stem.color
-	   \revert Beam.color s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") med}
- s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") lange,}
- s1.  s1  \tuplet 5/1 { s4 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") og}
- s2  s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") aktivitet}
- \tuplet 9/1 { s4 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") ute.}
- s1 <>_\markup {
-	   \with-color #yellow \on-color #red \pad-markup #0.2
-"solen"
-	   }\override NoteHead.color = #red
-  \override Stem.color = #red
-  \override Beam.color = #red
-  b8(\staccato b8\staccato \tuplet 2/3 { b8 } g8\staccato \tuplet 2/3 { g8 } b4\staccato \tuplet 2/3 { c'8 } b4\staccato a4)\staccato
-
-\revert NoteHead.color
-  \revert Stem.color
-  \revert Beam.color<>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") begynner}
- \tuplet 2/1 { s1 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") å}
- s4 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") varme,}
- s1. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") og}
- s2 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") snøen}
- \tuplet 5/1 { s4 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") smelter}
- s1..  s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") fjellene.}
- \tuplet 9/1 { s4 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") sommeren}
- \tuplet 2/1 { s1 }  s2  s2.  \tuplet 2/1 { s1 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") tiden,}
- s1. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") med}
- s2.  \tuplet 5/1 { s4 }  \tuplet 5/1 { s4 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") helt}
- s1  s2. <>_\markup \fontsize #3 {
-	      \override #'(font-name .
-               "Courier")sent}\magnifyMusic #7/5
-{ < a, a >2. < a, a >1 }
+	   \revert Beam.color r1.  r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") på}
- s2 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") kvelden.}
- \tuplet 2/1 { s1 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") mange}
- \tuplet 5/1 { s4 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") nordmenn}
- \tuplet 2/1 { s1 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") reiser}
- s1.  s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") kysten}
- s1. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") eller}
- \tuplet 5/1 { s4 }  s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") hytta}
- \tuplet 5/1 { s4 }  s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") å}
- s4 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") nyte}
- s1 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") sommeren.}
- \tuplet 9/1 { s4 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") høsten}
- s1. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") kommer}
- s1.  s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") vakre}
- \tuplet 5/1 { s4 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") farger}
- s1.  s4 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") naturen,}
- \tuplet 2/1 { s1 } <>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") at}
+ r2  \tuplet 5/1 { r4 }  r2 
+\set Staff.midiInstrument = "Xylophone"
+\override NoteHead.color = #darkyellow
+	   \override Stem.color = #darkyellow
+	   \override Beam.color = #darkyellow
+<>_\markup \fontsize #-2 \with-color #darkyellow {\override #'(font-name .
+               "Linux Biolinum Keyboard O") oss} < cis eis' >4 < a, cis' >4 \tuplet 2/3 { < bes, d' >8 } \tuplet 2/3 { < c' e'' >8 } \tuplet 2/3 { < f a' >8 } \tuplet 2/3 { < b dis'' >4 } \revert NoteHead.color
+	   \revert Stem.color
+	   \revert Beam.color r2  \tuplet 5/1 { r4 }  r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") smerte}
+ r1.  r2 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") motgang.}
+ \tuplet 2/1 { r1 } 
+\set Staff.midiInstrument = "Rock Organ"
+<>^\markup {\override #'(font-name .
+               "freemono") "noen" }  d4(\portato d4)\portato 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") rammes}
+ r1.  r1..  r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") andre.}
+ r1. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
                "Andika") men}
- s2. <>-\markup \fontsize #5 {\override #'(font-name .
+ r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") dessverre}
+ \tuplet 9/1 { r4 }  r1.. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") ingen}
+ \tuplet 5/1 { r4 } 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") unna}
+ r1  r4 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") oppleve}
+ r1.. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") vonde}
+ \tuplet 5/1 { r4 }  r1  r4 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") livet.}
+ r1.  r1  r2  r2  r2 
+\set Staff.midiInstrument = "Xylophone"
+\override NoteHead.color = #darkyellow
+	   \override Stem.color = #darkyellow
+	   \override Beam.color = #darkyellow
+<>_\markup \fontsize #-2 \with-color #darkyellow {\override #'(font-name .
+               "Linux Biolinum Keyboard O") oss} \tuplet 2/3 { < a, cis' >4 } \tuplet 2/3 { < f a' >4 } \tuplet 2/3 { < a, cis' >4 } < f a' >4 \tuplet 2/3 { < ees g' >8 } \revert NoteHead.color
+	   \revert Stem.color
+	   \revert Beam.color r2 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") nødt}
+ r1  r2.  r4  \tuplet 5/1 { r4 } 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") måter}
+ \tuplet 5/1 { r4 }  r4  r2.  r4  r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") på,}
+ r2.  r2 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") prøve}
+ \tuplet 5/1 { r4 }  r4  \tuplet 5/1 { r4 } 
+\set Staff.midiInstrument = "Xylophone"
+\override NoteHead.color = #darkyellow
+	   \override Stem.color = #darkyellow
+	   \override Beam.color = #darkyellow
+<>_\markup \fontsize #-2 \with-color #darkyellow {\override #'(font-name .
+               "Linux Biolinum Keyboard O") oss} \tuplet 2/3 { < cis eis' >4 } \tuplet 2/3 { < b dis'' >4 } < cis eis' >4 < c e' >4 \revert NoteHead.color
+	   \revert Stem.color
+	   \revert Beam.color
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") gjennom.}
+ \tuplet 2/1 { r1 } 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") vi}
+ r2  r1.. 
+\set Staff.midiInstrument = "Rock Organ"
+<>^\markup {\override #'(font-name .
+               "freemono") "noen" }  c4(\portato c4)\portato 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") skuffer}
+ r1.. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") inni}
+ r1 
+\set Staff.midiInstrument = "Xylophone"
+\override NoteHead.color = #darkyellow
+	   \override Stem.color = #darkyellow
+	   \override Beam.color = #darkyellow
+<>_\markup \fontsize #-2 \with-color #darkyellow {\override #'(font-name .
+               "Linux Biolinum Keyboard O") oss} < ees g' >4 < bes, d' >4 \tuplet 2/3 { < bes, d' >8 } \tuplet 2/3 { < f a' >4 } \tuplet 2/3 { < bes, d' >4 } \revert NoteHead.color
+	   \revert Stem.color
+	   \revert Beam.color r2.  r4 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") sortere}
+ r1..  r4 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") følelser}
+ \tuplet 2/1 { r1 }  r2 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") plassere}
+ \tuplet 2/1 { r1 } 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") ansvar}
+ r1.  r2.  r2.  \tuplet 5/1 { r4 } 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") hjemme.}
+ r1.. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") vi}
+ r2 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") trenger}
+ r1.. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
                "Andika") også}
- s1 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") med}
- s2.  s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") regn}
- s1 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") og}
- s2 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") mørkere}
- s1.. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") kvelder.}
- \tuplet 2/1 { s1 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") vinteren}
- \tuplet 2/1 { s1 }  s2 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") kald}
- s1 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") og}
- s2 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") mørk,}
- \tuplet 5/1 { s4 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") med}
- s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") snø}
- s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") som}
- s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") dekker}
- s1. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") landskapet.}
- \tuplet 11/1 { s4 }  \tuplet 5/1 { s4 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") nordmenn}
- \tuplet 2/1 { s1 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") liker}
- \tuplet 5/1 { s4 }  s4 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") gå}
- s2 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") på}
- s2 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") ski}
- s2. <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") eller}
- \tuplet 5/1 { s4 } <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") dra}
- s2.  s2 <>-\markup \fontsize #5 {\override #'(font-name .
-               "Andika") afterski.}
- \tuplet 9/1 { s4 }  
+ r1 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") skuffer}
+ r1..  r2.  r2.  r2.  r2. 
+\set Staff.midiInstrument = "Xylophone"
+\override NoteHead.color = #darkyellow
+	   \override Stem.color = #darkyellow
+	   \override Beam.color = #darkyellow
+<>_\markup \fontsize #-2 \with-color #darkyellow {\override #'(font-name .
+               "Linux Biolinum Keyboard O") oss} < b dis'' >4 \tuplet 2/3 { < c e' >4 } < ees g' >4 < bes, d' >4 \revert NoteHead.color
+	   \revert Stem.color
+	   \revert Beam.color
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") styrke,}
+ r1.. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") mening}
+ r1.  r2 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") glede.}
+ r1. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") kanskje}
+ r1..  r1.. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") vi}
+ r2  r2  r2. 
+\set Staff.midiInstrument = "Bright Acoustic Piano"
+<>-\markup \fontsize #5 {\override #'(font-name .
+               "Andika") kommode.}
+ \tuplet 2/1 { r1 } 
 }
