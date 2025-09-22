@@ -118,10 +118,17 @@
  			    )))
  	    (if tuplet?
  		(let* ((scale-num (numerator scale))
- 		       (scale-denom (denominator scale)))
- 		  #{ \tuplet #(cons scale-num scale-denom)
- 		     { $pitch $base-dur } #})
- 		#{ $pitch $base-dur #})))
+ 		       (scale-denom (denominator scale))
+		       (note-event (make-music 'NoteEvent
+                                               'pitch pitch
+                                               'duration base-dur)))
+		  (make-music 'TimeScaledMusic
+                              'element (make-sequential-music (list note-event))
+                              'numerator scale-num
+                              'denominator scale-denom))
+		(make-music 'NoteEvent
+                            'pitch pitch
+                            'duration base-dur))))
          (iota (if (list? durations) (length durations) (length pitches)))
  	)))
 
@@ -142,12 +149,17 @@
  			    (ly:duration-log dur)
  			    (ly:duration-dot-count dur)
  			    )))
- 	    (if tuplet?
- 		(let* ((scale-num (numerator scale))
- 		       (scale-denom (denominator scale)))
- 		  #{ \tuplet #(cons scale-num scale-denom)
- 		     { r $base-dur } #})
- 		#{ r $base-dur #})))
+	     (if tuplet?
+    (let* ((scale-num (numerator scale))
+           (scale-denom (denominator scale))
+           (rest-event (make-music 'RestEvent
+                                  'duration base-dur)))
+      (make-music 'TimeScaledMusic
+                 'element (make-sequential-music (list rest-event))
+                 'numerator scale-num
+                 'denominator scale-denom))
+    (make-music 'RestEvent
+               'duration base-dur))))
          (iota (if (list? durations) (length durations) 1))
  	)))
 
@@ -168,12 +180,17 @@
  			    (ly:duration-log dur)
  			    (ly:duration-dot-count dur)
  			    )))
- 	    (if tuplet?
- 		(let* ((scale-num (numerator scale))
- 		       (scale-denom (denominator scale)))
- 		  #{ \tuplet #(cons scale-num scale-denom)
- 		     { s $base-dur } #})
- 		#{ s $base-dur #})))
+	    (if tuplet?
+    (let* ((scale-num (numerator scale))
+           (scale-denom (denominator scale))
+           (spacer-event (make-music 'SkipEvent
+                                    'duration base-dur)))
+      (make-music 'TimeScaledMusic
+                 'element (make-sequential-music (list spacer-event))
+                 'numerator scale-num
+                 'denominator scale-denom))
+    (make-music 'SkipEvent
+               'duration base-dur))))
          (iota (if (list? durations) (length durations) 1))
  	)))
 
@@ -324,35 +341,33 @@
 	  "Return a chord element according to the chord (simple list) and duration (float)"
   (let ((pitches chord))
     (make-music 'EventChord 'elements (map (lambda (x) (make-music 'NoteEvent 'duration  dur 'pitch (pitch-class->pitch x))) pitches))))
-
 (define (chordlist->lily pitches durations) 
    "Return a seq-mus object according to the duration(s) or chord(s) One of the objects must be list."
    (make-sequential-music
     (map (lambda (i)
-           (let* (
- 		 (dur
- 		  (if (list? durations)
- 		      (float->duration (list-ref durations i))
-		      (float->duration durations)))
-
-		 (base-dur (ly:make-duration
- 			    (ly:duration-log dur)
- 			    (ly:duration-dot-count dur)
- 			    ))
-				 
-		 (pitch
- 		  (if (list? (car pitches)) ;; check if chord is nested list / chordlist
-		      (pitchlist-event->chord (list-ref pitches i) base-dur)
-		      (pitchlist-event->chord pitches base-dur)))
-		 		 
- 		 (scale (ly:duration-scale dur))
- 		 (tuplet? (not (= 1 scale)))
-)
- 	    (if tuplet?
- 		(let* ((scale-num (numerator scale))
- 		       (scale-denom (denominator scale)))
- 		  #{ \tuplet #(cons scale-num scale-denom)
- 		     { $pitch } #})
- 		#{ $pitch #})))
-         (iota (if (list? durations) (length durations) (length pitches)))
- 	)))
+           (let* ((dur
+                   (if (list? durations)
+                       (float->duration (list-ref durations i))
+                       (float->duration durations)))
+                  
+                  (base-dur (ly:make-duration
+                            (ly:duration-log dur)
+                            (ly:duration-dot-count dur)))
+                  
+                  (pitch
+                   (if (list? (car pitches)) ;; check if chord is nested list / chordlist
+                       (pitchlist-event->chord (list-ref pitches i) base-dur)
+                       (pitchlist-event->chord pitches base-dur)))
+                  
+                  (scale (ly:duration-scale dur))
+                  (tuplet? (not (= 1 scale))))
+             
+             (if tuplet?
+                 (let* ((scale-num (numerator scale))
+                        (scale-denom (denominator scale)))
+                   (make-music 'TimeScaledMusic
+                              'element pitch
+                              'numerator scale-num
+                              'denominator scale-denom))
+                 pitch)))
+         (iota (if (list? durations) (length durations) (length pitches))))))

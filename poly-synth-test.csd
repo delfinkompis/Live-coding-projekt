@@ -5,10 +5,10 @@
 <CsInstruments>
 
 
-sr = 44100 // sample rate
-0dbfs = 1 // maximum amplitude (0 dB) is 1
-nchnls = 2 // number of channels is 2 (stereo)
-ksmps = 64 // number of samples in one control cycle (audio vector)
+sr = 44100 
+0dbfs = 1 // maximum amplitude 
+nchnls = 2 // number of channels
+ksmps = 64 // number of samples in one control cycle
 
 ; Program 1 (my-pause) uses Instrument #1 (synth-choir).
 pgmassign 1, 1
@@ -132,7 +132,7 @@ giSBW4 ftgen 0, 0, -5, -2, 130, 150, 120, 130, 180
 giSBW5 ftgen 0, 0, -5, -2, 140, 200, 120, 135, 200
 
   // Soundfile attribution  Myron C Baker, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons
-giSoundFile   ftgen   0, 0, 0, 1, "loop.wav", 0, 0, 0
+giSoundFile   ftgen   0, 0, 0, 1, "./australian-bird.wav", 0, 0, 0
 
 
 instr 1 // synth-choir
@@ -143,9 +143,9 @@ instr 1 // synth-choir
 
   kFund    expon     iStartFund,iGlideTime,iEndFund
 
-iStartVow = 0
-iVowTime = 1  
-  iEndVow = 0
+iStartVow = 0.5
+iVowTime = 0.8  
+  iEndVow = 0.8
 
   kVow     line      iStartVow,iVowTime,iEndVow               ; vowel select
 
@@ -211,7 +211,7 @@ iVowTime = 1
   aMix     sum     aForm1*ampdbfs(kDB1), aForm2*ampdbfs(kDB2),
   aForm3*ampdbfs(kDB3), aForm4*ampdbfs(kDB4), aForm5*ampdbfs(kDB5)
   iAmp ampmidi 1
-  kEnv linsegr 0,0.5,1,0.1,0     ; an amplitude envelope
+  kEnv linsegr 0,0.1,1,0.5,0     ; an amplitude envelope
   outs aMix*kEnv*iAmp, aMix*kEnv*iAmp ; send audio to outputs
 endin
 
@@ -252,8 +252,8 @@ instr 5 // horizontal sounding percussion noises (snare resonance) / filtered no
   iFreq cpsmidi
   aSig noise iAmp,0.5
   aSig reson aSig,iFreq,iFreq*0.1 ; filter audio signal
-  kEnv madsr 0.5,0.5,0.5,0.1 
-  outs ares*kEnv, ares*kEnv
+  kEnv madsr 0.5,0.5,0.5,0.1
+  outs aSig*kEnv, aSig*kEnv
 endin
 
 
@@ -264,7 +264,7 @@ instr 6
   aSig noise iAmp,0.5
   aSig reson aSig,iFreq,iFreq*0.1 ; filter audio signal
   kEnv madsr 0.05,0.05,0.25,0.1 
-  outs ares*kEnv, ares*kEnv
+  outs aSig*kEnv, aSig*kEnv
 endin
 
 instr 7 // horizontal sounding percussion noises (snare resonance) / filtered noise
@@ -274,12 +274,19 @@ instr 7 // horizontal sounding percussion noises (snare resonance) / filtered no
   aSig noise iAmp,0.5
   aSig reson aSig,iFreq,iFreq*0.1 ; filter audio signal
   kEnv madsr 0.5,0.5,0.5,0.1 
-  outs ares*kEnv, ares*kEnv
+  outs aSig*kEnv, aSig*kEnv
+endin
+
+instr 1000
+  Sfile = p4
+  p3 = filelen(Sfile)
+  a1, a2 diskin2 Sfile, 1;$TEMPO
+;  outs a1, a2
 endin
 
 </CsInstruments>
 <CsScore>
-// empty score as we expect midi to trigger the instrument
+i 1000 0 1 "./speech-scaled.mp3" 
 
 </CsScore>
 </CsoundSynthesizer>

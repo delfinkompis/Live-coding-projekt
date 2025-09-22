@@ -1,5 +1,5 @@
-#(load "/home/hjallis/Projektfiler/Live-coding-projekt/my-repl-defuns.scm")
+\version "2.24.4"
+#(load-compiled "./my-repl-defuns.go")
 #(my-monitor "./input.txt")
 
-% Your LilyPond music content here
-\version "2.24.4"
+

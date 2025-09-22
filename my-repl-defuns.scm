@@ -9,37 +9,14 @@
 (set! %load-path (cons "/opt/guile/share/guile/site/2.2/" %load-path))
 ;(use-modules (fibers))
 ;(import (fibers channels))
-(load "./repl-variabler.scm")
-(load "./music-synonyms.go")
+(load-compiled "./repl-variabler.go")
+(load-compiled "./music-synonyms.go")
 
 (define (trim-lily s)
   (string-top-tail (string-top s)))
 
-(define* (my-ly-play-and-display ly-file csd-instrument #:optional type-arg)
-  "Display a lilypond file (arg1) as a pdf arg play it using a specified csound instrument (arg2)
-if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, do both"
-  (cond ((= type-arg 0)
-	 (begin
-	   (system (string-append "GUILE_AUTO_COMPILE=0 lilypond " "-dno-point-and-click --loglevel=NONE --output=ly-display " ly-file))
-	   ))
-	((= type-arg 1)
-	 (begin
-	   (system (string-append "sed -i '$a\\\\bookOutputSuffix \" " ly-file " \"\n\\midi {}' temp.ly"))
-	   (system (string-append "GUILE_AUTO_COMPILE=0 lilypond " "-dpreview=no -dno-print-pages -dno-point-and-click --output=ly-display" ly-file))
-	   (system (string-append "csound -F " ly-file ".mid " csd-instrument ".csd"))
-	   ))
-
-	(else
-	 (begin
-	   (system (string-append "sed -i '$a\\\\bookOutputSuffix \"" ly-file "\"\n\\midi {}' temp.ly"))
-	   (system (string-append "GUILE_AUTO_COMPILE=0 lilypond " "-dno-point-and-click --output=ly-display" ly-file))
-	   (system (string-append "csound -F " ly-file ".mid " csd-instrument ".csd"))
-	   ))
-	))
-
-
 (define (flush-music-to-files)
-  "Write accumulated music to files in one batch operation"
+  "Legg inn all musikk i filer"
   (let ((upper-music (get-output-string music-inserts-upper-port))
         (lower-music (get-output-string music-inserts-lower-port)))
     (when (or (> (string-length upper-music) 0)
@@ -49,7 +26,12 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
            (set! commands (cons (string-append "./insert-music.sh ./upper.ily \"" upper-music "\"") commands)))
         (when (> (string-length lower-music) 0)
           (set! commands (cons (string-append "./insert-music.sh ./lower.ily \"" lower-music "\"") commands)))
-        (set! commands (cons "GUILE_AUTO_COMPILE=0 lilypond -dno-point-and-click --loglevel=NONE --output=ly-display ./main.ly & GUILE_AUTO_COMPILE=0 lilypond -dno-point-and-click --loglevel=NONE --output=ly-display ./main-midi.ly &" commands))
+;:        (set! commands (cons "GUILE_AUTO_COMPILE=0 lilypond -dno-point-and-click --loglevel=NONE --output=ly-display ./main.ly & GUILE_AUTO_COMPILE=0 lilypond -dno-point-and-click --loglevel=NONE --output=ly-display ./main-midi.ly & wait && echo \"Ferdig med å kompilere partitur og midi\"" commands))
+(set! commands (cons "echo \"ferdig med å skrive over filer, begynner å kompilere lilypond\"" commands))
+(set! commands (cons "GUILE_AUTO_COMPILE=0 lilypond -dbackend=cairo -dno-point-and-click --loglevel=NONE -djobcount=$(nproc) --output=ly-display ./main.ly & GUILE_AUTO_COMPILE=0 lilypond -dno-point-and-click -dbackend=null --loglevel=NONE --output=ly-display ./main-midi.ly & wait && echo \"Ferdig med å kompilere partitur og midi\"" commands))
+
+;	time GUILE_AUTO_COMPILE=0 ./lilypond-new/lilypond-2.25.28/bin/lilypond -dbackend=cairo -dgs-never-embed-fonts=#t -dno-point-and-click --loglevel=DEBUG -djobcount=$(nproc) --output=ly-display ./main.ly & GUILE_AUTO_COMPILE=0 ./lilypond-new/lilypond-2.25.28/bin/lilypond -dno-point-and-click -dbackend=null --loglevel=NONE --output=ly-display ./main-midi.ly & wait && echo "done"
+
         (system (string-join (reverse commands) " && "))))
     
     (set! music-inserts-upper-port (open-output-string))
@@ -85,8 +67,8 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 
 ;(use-modules (fibers) (fibers scheduler))
 
-(define new-wordlist '("a" "b" "c"))
-(define old-wordlist '("a" "b" "c"))
+(define new-wordlist '())
+(define old-wordlist '())
 
 
 ;; Use string ports instead of repeated concatenation
@@ -118,9 +100,9 @@ if &optional = 0, display only pdf.  If &optional = 1, play only sound., if 2, d
 	     (for-each (lambda (word) 
                                     (word->lily (string-downcase word))) 
 		       words-to-process)
-	     (format #t "Kompilerer lilypond~%")
+	     (format #t "Skriver over filer~%~%")
 	     (flush-music-to-files)
-	     (format #t "Ferdig med å kompilere lilypond~%~%")))
+	     (format #t "Ferdig med å kompilere~%~%")))
   (set! old-wordlist new-wordlist)))
 
 (define synonym-cache (make-hash-table))

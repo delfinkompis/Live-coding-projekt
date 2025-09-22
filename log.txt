@@ -1,78 +1,456 @@
-GNU LilyPond 2.24.4 (running Guile 2.2)
-Behandlar ”./lily-run-scheme.ly”
-Tolkar…Fant ingen passende synonymer.  Legger inn en 13 lang pause.
-
-legger inn pause
-
-Lager lilypond input av synonymet da. Opprinelig ord hadde 2 bokstaver.'
-Bruker lilypond-insert "treig".  Liten gamut, store avstander, harmonisert med oktaver.
-
-Prøver igjen for 1. gang.  Bruker nå synonymet aspirasjon.
-Prøver igjen for 2. gang.  Bruker nå synonymet aspirasjonsnivå.
-Prøver igjen for 3. gang.  Bruker nå synonymet aspirasjonsnivå.
-Prøver igjen for 4. gang.  Bruker nå synonymet aspirasjon.
-Prøver igjen for 5. gang.  Bruker nå synonymet ambisjon.
-Prøver igjen for 6. gang.  Bruker nå synonymet ambisjonsnivå.
-Fant ingen passende synonymer.  Legger inn en 6 lang pause.
-
-legger inn pause
-
-Prøver igjen for 1. gang.  Bruker nå synonymet vi.
-Prøver igjen for 2. gang.  Bruker nå synonymet oss.
-Prøver igjen for 3. gang.  Bruker nå synonymet vi.
-Prøver igjen for 4. gang.  Bruker nå synonymet vår.
-Prøver igjen for 5. gang.  Bruker nå synonymet vårtid.
-Prøver igjen for 6. gang.  Bruker nå synonymet vårtid.
-Fant ingen passende synonymer.  Legger inn en 2 lang pause.
-
-legger inn pause
-
-Prøver igjen for 1. gang.  Bruker nå synonymet òg.
-Prøver igjen for 2. gang.  Bruker nå synonymet òg.
-Prøver igjen for 3. gang.  Bruker nå synonymet også.
-Prøver igjen for 4. gang.  Bruker nå synonymet au.
-Prøver igjen for 5. gang.  Bruker nå synonymet au.
-Prøver igjen for 6. gang.  Bruker nå synonymet au.
-Fant ingen passende synonymer.  Legger inn en 4 lang pause.
-
-legger inn pause
-
-Prøver igjen for 1. gang.  Bruker nå synonymet litt.
-Prøver igjen for 2. gang.  Bruker nå synonymet om.
-Prøver igjen for 3. gang.  Bruker nå synonymet om.
-Prøver igjen for 4. gang.  Bruker nå synonymet om.
-Prøver igjen for 5. gang.  Bruker nå synonymet om.
-Prøver igjen for 6. gang.  Bruker nå synonymet om.
-Fant ingen passende synonymer.  Legger inn en 4 lang pause.
-
-legger inn pause
-
-Prøver igjen for 1. gang.  Bruker nå synonymet notasjon.
-Prøver igjen for 2. gang.  Bruker nå synonymet notasjon.
-Prøver igjen for 3. gang.  Bruker nå synonymet notere.
-Prøver igjen for 4. gang.  Bruker nå synonymet notere.
-Prøver igjen for 5. gang.  Bruker nå synonymet notere.
-Prøver igjen for 6. gang.  Bruker nå synonymet børsnotering.
-Fant ingen passende synonymer.  Legger inn en 8 lang pause.
-
-legger inn pause
-
-Prøver igjen for 1. gang.  Bruker nå synonymet som.
-Prøver igjen for 2. gang.  Bruker nå synonymet at.
-Lager lilyscript input av synonymet at. Opprinelig ord hadde 3 bokstaver.
-Bruker lilypond-insert "tett".  Raske, tette kromatiske bevegelser i mellomregistret.
-
-Prøver igjen for 1. gang.  Bruker nå synonymet være.
-Prøver igjen for 2. gang.  Bruker nå synonymet velvære.
-Lager lilyscript input av synonymet velvære. Opprinelig ord hadde 2 bokstaver.
-Kjører lily-input "god", legger inn bilde av iskrem.
-
-Fant ingen passende synonymer.  Legger inn en 21 lang pause.
-
-legger inn pause
-
-Kompilerer lilypond
-Ferdig med å kompilere lilypond
+WARNING: [mcould not open library '/usr/lib/x86_64-linux-gnu/csound/plugins64-6.0/liblinear_algebra.so' (/usr/lib/x86_64-linux-gnu/csound/plugins64-6.0/liblinear_algebra.so: undefined symbol: dorgqr_)[m
+[mUnifiedCSD:  ./poly-synth-test.csd
+Elapsed time at end of orchestra compile: real: 0.006s, CPU: 0.006s
+[msorting score ...
+	... done
+Elapsed time at end of score sort: real: 0.007s, CPU: 0.007s
+[m--Csound version 6.18 (double samples) 2025-09-07
+[commit: none]
+[mlibsndfile-1.2.2
+[mgraphics suppressed, ascii substituted
+sr = 44100.0,[m kr = 689.062,[m ksmps = 64
+[m0dBFS level = 1.0,[m A4 tuning = 440.0
+[mftable 101:
+ftable 101:	5 points, scalemax 600.000
+_
 
 
-Lyckades: kompilering färdig
+
+ - -
+    '
+  _
+ftable 102:
+ftable 102:	5 points, scalemax 1750.000
+  _
+ .
+
+
+
+'
+   .
+    .
+ftable 103:
+ftable 103:	5 points, scalemax 2600.000
+  _
+ _ __
+-
+ftable 104:
+ftable 104:	5 points, scalemax 3050.000
+  _
+ _
+_  -'
+ftable 105:
+ftable 105:	5 points, scalemax 3340.000
+  _
+ .
+_  -'
+ftable 106:
+ftable 106:	5 points, scalemax 0.000
+ftable 107:
+ftable 107:	5 points, scalemax 30.000
+-
+ _ .
+
+
+    .
+
+
+  _
+ftable 108:
+ftable 108:	5 points, scalemax 32.000
+__
+
+  _
+
+   .
+
+
+    _
+ftable 109:
+ftable 109:	5 points, scalemax 28.000
+'
+ -
+
+
+  _'
+
+    _
+ftable 110:
+ftable 110:	5 points, scalemax 40.000
+_-
+
+  _
+
+    _
+   _
+ftable 111:
+ftable 111:	5 points, scalemax 60.000
+_ _
+
+
+
+ - --
+ftable 112:
+ftable 112:	5 points, scalemax 90.000
+  _
+
+ ' ''
+'
+ftable 113:
+ftable 113:	5 points, scalemax 110.000
+_
+ ____
+ftable 114:
+ftable 114:	5 points, scalemax 120.000
+_____
+ftable 115:
+ftable 115:	5 points, scalemax 130.000
+_
+ ____
+ftable 116:
+ftable 116:	5 points, scalemax 650.000
+_
+
+
+
+ _ _
+    .
+  .
+ftable 117:
+ftable 117:	5 points, scalemax 1870.000
+  _
+ _
+
+
+
+'
+   .
+    _
+ftable 118:
+ftable 118:	5 points, scalemax 2800.000
+  _
+.. .-
+ftable 119:
+ftable 119:	5 points, scalemax 3250.000
+  _
+ '
+'  -'
+ftable 120:
+ftable 120:	5 points, scalemax 3580.000
+ _
+_ ' _
+   .
+ftable 121:
+ftable 121:	5 points, scalemax 0.000
+ftable 122:
+ftable 122:	5 points, scalemax 20.000
+_
+
+   _
+
+ _
+  -
+
+    _
+ftable 123:
+ftable 123:	5 points, scalemax 18.000
+_
+
+
+ . .
+
+
+  _ -
+ftable 124:
+ftable 124:	5 points, scalemax 20.000
+_
+
+   _
+ _  _
+
+
+  _
+ftable 125:
+ftable 125:	5 points, scalemax 30.000
+ .
+-
+   ..
+  _
+ftable 126:
+ftable 126:	5 points, scalemax 80.000
+_
+
+ '
+
+
+  ___
+ftable 127:
+ftable 127:	5 points, scalemax 90.000
+_ _
+
+ ' '
+
+    -
+ftable 128:
+ftable 128:	5 points, scalemax 120.000
+_
+
+ ....
+ftable 129:
+ftable 129:	5 points, scalemax 130.000
+_
+ ____
+ftable 130:
+ftable 130:	5 points, scalemax 140.000
+_
+
+ ----
+ftable 131:
+ftable 131:	5 points, scalemax 800.000
+_
+
+
+
+
+ _ -
+  . _
+ftable 132:
+ftable 132:	5 points, scalemax 1700.000
+  _
+ .
+
+
+'
+
+   -_
+ftable 133:
+ftable 133:	5 points, scalemax 2830.000
+   _
+'--
+    '
+ftable 134:
+ftable 134:	5 points, scalemax 3700.000
+  _
+.  .
+ '
+
+    '
+ftable 135:
+ftable 135:	5 points, scalemax 4950.000
+_____
+ftable 136:
+ftable 136:	5 points, scalemax 0.000
+ftable 137:
+ftable 137:	5 points, scalemax 24.000
+.
+
+   .
+    _
+
+
+
+  -
+ _
+ftable 138:
+ftable 138:	5 points, scalemax 30.000
+   -
+.
+
+
+ __ _
+ftable 139:
+ftable 139:	5 points, scalemax 40.000
+   _
+
+_._
+    _
+ftable 140:
+ftable 140:	5 points, scalemax 64.000
+   .
+--- _
+ftable 141:
+ftable 141:	5 points, scalemax 70.000
+   _
+
+ -
+_ _ _
+ftable 142:
+ftable 142:	5 points, scalemax 100.000
+  _
+
+ _ _
+
+_   _
+ftable 143:
+ftable 143:	5 points, scalemax 170.000
+_   _
+
+
+ __
+
+   '
+ftable 144:
+ftable 144:	5 points, scalemax 180.000
+_   _
+
+ ..
+   _
+ftable 145:
+ftable 145:	5 points, scalemax 200.000
+___ _
+
+
+
+   '
+ftable 146:
+ftable 146:	5 points, scalemax 800.000
+_
+
+
+
+
+   -
+ .  _
+  .
+ftable 147:
+ftable 147:	5 points, scalemax 2140.000
+  _
+ .
+
+
+
+.
+
+   -.
+ftable 148:
+ftable 148:	5 points, scalemax 2950.000
+  _
+'. -_
+ftable 149:
+ftable 149:	5 points, scalemax 3900.000
+_ _
+ _ --
+ftable 150:
+ftable 150:	5 points, scalemax 4950.000
+_____
+ftable 151:
+ftable 151:	5 points, scalemax 0.000
+ftable 152:
+ftable 152:	5 points, scalemax 20.000
+_
+
+
+  _-
+
+    _
+
+ _
+ftable 153:
+ftable 153:	5 points, scalemax 35.000
+ -
+
+   -
+  -
+
+'   _
+ftable 154:
+ftable 154:	5 points, scalemax 40.000
+_
+   -
+  -
+
+
+ _  _
+ftable 155:
+ftable 155:	5 points, scalemax 60.000
+  -
+-  -
+ -  _
+ftable 156:
+ftable 156:	5 points, scalemax 80.000
+_
+
+   '
+ --
+    .
+ftable 157:
+ftable 157:	5 points, scalemax 90.000
+___
+
+   '
+
+    -
+ftable 158:
+ftable 158:	5 points, scalemax 170.000
+    _
+
+
+_
+
+ '''
+ftable 159:
+ftable 159:	5 points, scalemax 180.000
+    _
+
+ .
+_  _
+  -
+ftable 160:
+ftable 160:	5 points, scalemax 200.000
+ _  _
+
+
+_
+  _'
+ftable 161:
+deferred alloc for ./australian-bird.wav
+audio sr = 44100, monaural
+opening WAV infile ./australian-bird.wav
+  defer length 441000
+ftable 161:	441000 points, scalemax 1.000
+                                                                      .
+                             _                                                '
+                                                                .
+             -                                  -    .
+_._____-________._____.___.________.__________.________________________'________
+   '''' ''  '  '  -''' .    '  ' _  .   '  _   .  ' . '  .  '    ''' '   ' .'  '
+                              .      -   '                     _          '
+                                                           _                 -
+                                          .               '
+                                  .
+ALSA midi: Using all devices.
+ALSA midi: No devices found.
+[mReading MIDI file 'ly-display.midi'...
+ Track  0
+  Message: creator: 
+  Message: LilyPond 2.24.4               
+ Track  1
+  Track name: upper:
+  Instrument name: Drawbar Organ
+  Instrument name: Percussive Organ
+  Instrument name: Electric Piano 2
+ Track  2
+  Track name: lower:
+done.
+orch now loaded
+[maudio buffered in 256 sample-frame blocks
+[mALSA output: total buffer size: 1024, period size: 256
+writing 512 sample blks of 64-bit floats to dac
+SECTION 1:
+[mnew alloc for instr 1000:
+[mdiskin2: opened './speech-scaled.mp3':
+         48000 Hz, 2 channel(s), 474 sample frames
+
+midi channel 1 now using instr 1
+midi channel 1 now using instr 1
+new MIDI alloc for instr 1:
+  midiKeyCps:      pfield:   4  value: 1108
+  midiVelocityAmp: pfield:   5  value: 0.499
+B  0.000 ..  1.000 T  0.010 TT  0.010 M:  0.01960  0.01960
+Score finished in csoundPerform().
+inactive allocs returned to freespace
+end of score.		   overall amps:[m  0.01960  0.01960
+	   overall samples out of range:[m        0[m        0[m
+0 errors in performance
+[mElapsed time at end of performance: real: 0.050s, CPU: 0.035s
+[m2 512 sample blks of 64-bit floats written to dac

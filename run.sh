@@ -1,28 +1,51 @@
 #! /bin/bash
 
+
+
+##TODO - sett miditempo til lydfilslengde/antall bokstaver i lydfila
+##TODO - spill av lydfil samtidig som csound-synth
+
 #Optional microphone variable.  If not specified, listen on default input
 ARG1=${1:-default}
 
-cp ./lower-template.ily ./lower.ily
-cp ./upper-template.ily ./upper.ily
-cp ./input-template.txt ./input.txt
-cp ./input-template.txt ./log.txt 
-cp ./ly-display-template.pdf ./ly-display.pdf
-
 # setup emacs
 # rm speech.mp3 before running command because flush old content
-emacsclient -a "" -n "./input.txt"
-emacsclient --eval "(define-minor-mode toggle-listening-mode
-  \"Start or stop listening to output for transcription with whisper.\"
-  :global f
-    (if toggle-listening-mode
-	    (progn
-	    (message \"started listening\")
-	    (async-shell-command \"rm -f ./speech.mp3 && ffmpeg -y -f alsa -i ${ARG1} ./speech.mp3 > ./log.txt 2>&1\"))
-	    (progn
-	    (message \"stopped listening\")
-     	    (async-shell-command \"./run-whisper-input.sh > ./log.txt 2>&1 && lilypond ./lily-run-scheme.ly > ./log.txt 2>&1\")
-	    )))"
-emacsclient --eval "(with-current-buffer \"input.txt\" (local-set-key (kbd \"SPC\") 'toggle-listening-mode))"
 
-echo "Emacs listening-mode initiert, bundet til SPC og satt opp til å lytte på ALSA-input: $ARG1"
+echo "begynner å lytte"
+rm -f ./input-speech.mp3
+ffmpeg -y -f alsa -i ${ARG1} ./input-speech.mp3 > ./log.txt 2>&1 &
+
+sleep 8
+
+echo "slutter å lytte, begynner whisper-analyse"
+
+./run-whisper-input.sh # stopper ffmpeg og kjører whisper på lydfila
+
+echo "Whisper klar"
+
+
+
+ffmpeg -y -i "concat:speech.mp3|input-speech.mp3" -acodec copy speech.mp3 > ./log.txt 2>&1
+
+echo "Lager lily-input fra teksta i lydfila"
+
+lilypond ./lily-run-scheme.ly > ./log.txt 2>&1
+
+soundlength=$(soxi -D ./speech.mp3)
+chars=$(tr -d '[:space:]' < ./input.txt | wc -c)
+midilength=$(($chars * 1000 * 60 / 600 / 1000)) && echo $midilength ## calculate length of midifile in seconds by distributing charcount on 184 bpm
+scale=$(echo "scale=2; $soundlength / $midilength" | bc -l)
+
+echo "her er scale:"
+echo "$scale"
+
+if [ $(echo "$scale < 0.5 || $scale > 2.0" | bc -l) -eq 1 ]; then
+    scale=1
+    echo "scale ute av range, endrer til 1"
+fi
+
+ffmpeg -y -i speech.mp3 -filter:a "atempo=$scale" speech-scaled.mp3 > ./log.txt 2>&1
+
+echo "kjører lilypond"
+echo "Åpner midifil, lydfil og pdf"
+xdg-open ./ly-display.pdf & csound -F ly-display.midi ./poly-synth-test.csd > ./log.txt 2>&1 & wait && echo "Alle filer spilt av"

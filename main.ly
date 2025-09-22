@@ -11,7 +11,7 @@
 \paper { %systems-per-page = #1
   top-margin = 0\mm
   bottom-margin = 0\mm
-  left-margin = 0\mm
+  left-margin = 5\mm
   right-margin = 0\mm
 
 }
@@ -37,8 +37,4 @@ global = { \override TupletNumber.text = "" \time 32/2 }
      }
      \context { \Score     forbidBreakBetweenBarLines = ##f }
      \context { \Voice   \remove Forbid_line_break_engraver } }
-
 }
-
-
-
