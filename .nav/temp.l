@@ -1,1 +1,0 @@
-((by-score (temp-0-377862810 "/home/hjallis/Projektfiler/Live-coding-projekt/temp.ly")) (by-input-file ("/home/hjallis/Projektfiler/Live-coding-projekt/temp.ly" ((2 0 0) temp-0-377862810 0 0.25 0 1))))
