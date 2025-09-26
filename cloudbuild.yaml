@@ -4,19 +4,19 @@ steps:
   args:
   - 'build'
   - '-t'
-  - 'europe-north2-docker.pkg.dev/logical-sled-473014-i0/my-docker-repo/my-app-image:latest' # Full Artifact Registry path + tag
+  - 'europe-north2-docker.pkg.dev/logical-sled-473014-i0/my-docker-repo/live-coding-projekt:latest' # Full Artifact Registry path + tag
   - '.' # Build context (current directory where Dockerfile is)
 
 # Step 2: Push the Docker image to Artifact Registry
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'push'
-  - 'europe-north2-docker.pkg.dev/logical-sled-473014-i0/my-docker-repo/my-app-image:latest' # Must match the tag from the build step
+  - 'europe-north2-docker.pkg.dev/logical-sled-473014-i0/my-docker-repo/live-coding-projekt:latest' # Must match the tag from the build step
 
 # You can optionally specify the image(s) to push using the 'images' field
 # This automatically pushes images tagged in previous steps
 images:
-- 'europe-north2-docker.pkg.dev/logical-sled-473014-i0/my-docker-repo/my-app-image:latest'
+- 'europe-north2-docker.pkg.dev/logical-sled-473014-i0/my-docker-repo/live-coding-projekt:latest'
 
 options:
   logging: CLOUD_LOGGING_ONLY # Or another logging option if using a custom service account
