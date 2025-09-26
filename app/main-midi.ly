@@ -37,7 +37,7 @@ global = { \override TupletNumber.text = "" \time 32/2 }
   %   }
   %   \context { \Score     forbidBreakBetweenBarLines = ##f }
   %   \context { \Voice   \remove Forbid_line_break_engraver } }
-\midi { \tempo 4 = 104 }
+\midi { \tempo 4 = 184 }
 }
 
 

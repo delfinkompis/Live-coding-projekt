@@ -1,2 +1,2 @@
-file 'speech.wav'
+file 'temp-speech.wav'
 file 'input-speech.wav'

@@ -9,7 +9,7 @@ import sys
 
 app = Flask(__name__)
 
-# At the top of your file, configure logging
+# Flask logging
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -19,11 +19,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Also ensure Flask logs are visible
+# Flask logging level
 app.logger.setLevel(logging.DEBUG)
 
-
-app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MB limit
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # forsikre meg om at flask håndterer større filer
 
 HELLO_PAGE = """
 <!DOCTYPE html>
@@ -35,6 +34,14 @@ HELLO_PAGE = """
     <h1>tale->tekst->lilypond</h1>
     <button id="recordButton">Hold inne knappen for å generere lyd og partitur</button>
     <p id="status"></p>
+<figure>
+  <figcaption>Lytt på output:</figcaption>
+{% if audio_exists %}
+<audio controls src="{{ url_for('get_sound') }}?cache={{ cache_buster }}"></audio>
+{% else %}
+<p>Ingen lyd generert ennå.</p>
+{% endif %}
+</figure>
     <div id="pdfDisplay">
     {% if pdf_exists %}
         <embed src="{{ url_for('get_pdf') }}?cache={{ cache_buster }}" type="application/pdf" width="600" height="800" />
@@ -104,18 +111,27 @@ function startRecording() {
                 fetch('/process', { method: 'POST', body: formData })
                     .then(res => {
                         if (!res.ok) {
-                            throw new Error(`HTTP error! status: ${res.status}`);
+                            throw new Error(`Prøv på nytt. Fant sannsynligvis ikke tekstinnehold i lydinnspillinga`);
                         }
                         return res.json();
                     })
                     .then(data => {
                         if (data.success) {
                             document.getElementById("status").innerText = "Done!";
+                            // Update both PDF and audio displays
                             document.getElementById("pdfDisplay").innerHTML = '';
+                            const audioContainer = document.querySelector('figure');
+                            audioContainer.innerHTML = '<figcaption>Lytt på output:</figcaption>';
+                            
                             setTimeout(() => {
+                                // Update PDF
                                 document.getElementById("pdfDisplay").innerHTML = 
                                     '<embed src="/ly-display.pdf?cache=' + Date.now() + 
                                     '" type="application/pdf" width="600" height="800" />';
+                                // Update audio
+                                audioContainer.innerHTML = 
+                                    '<figcaption>Lytt på output:</figcaption>' +
+                                    '<audio controls src="/output.wav?cache=' + Date.now() + '"></audio>';
                             }, 100);
                         } else {
                             document.getElementById("status").innerText = "Error: " + data.error;
@@ -176,6 +192,7 @@ subprocess.run(
 
 def convert_to_wav(input_file, output_file):
     """Convert audio file to WAV format using ffmpeg"""
+    
     try:
         subprocess.run([
             'ffmpeg', '-y', '-i', input_file, 
@@ -184,7 +201,7 @@ def convert_to_wav(input_file, output_file):
         ], check=True, capture_output=True)
         return True
     except subprocess.CalledProcessError as e:
-        print(f"FFmpeg conversion error: {e}")
+        print(f"FFmpeg klarte ikke konvertere: {e}")
         return False
     
 ### kopiert fra googleclouds eksempelbruk
@@ -210,8 +227,9 @@ def transcribe_audio(audio_file_path):
 @app.route("/", methods=["GET"])
 def hello():
     pdf_exists = os.path.exists("ly-display.pdf")
+    audio_exists = os.path.exists("output.wav")
     cache_buster = uuid.uuid4().hex
-    return render_template_string(HELLO_PAGE, pdf_exists=pdf_exists, cache_buster=cache_buster)
+    return render_template_string(HELLO_PAGE, pdf_exists=pdf_exists, audio_exists=audio_exists, cache_buster=cache_buster)
 
 @app.route("/process", methods=["POST"])
 def process_audio():
@@ -233,7 +251,7 @@ def process_audio():
     if os.path.exists(temp_audio):
         os.remove(temp_audio)
 
-    print(f"Lagde lydfil med størrelse på: {os.path.getsize(input_wav)} bytes")
+    print(f"Lagde wav-lydfil med størrelse på: {os.path.getsize(input_wav)} bytes")
 
     try:
         # Transcribe
@@ -248,14 +266,14 @@ def process_audio():
             f.write(transcript)
             f.flush()
             os.fsync(f.fileno())
-        
+            
         print(f"Lagde tekstfil med størrelse på: {os.path.getsize('input.txt')} bytes")
         
     except Exception as e:
         print(f"Transcription error: {e}")
         return jsonify({"success": False, "error": f"Transcription failed: {str(e)}"}), 500
     
-    # Get list of all PDF files before running script
+    # Get list of all PDF and audio files before running script
     import glob
     pdfs_before = {}
     for pdf in glob.glob("*.pdf"):
@@ -263,24 +281,29 @@ def process_audio():
             'mtime': os.path.getmtime(pdf),
             'size': os.path.getsize(pdf)
         }
-    print(f"PDFs before script: {list(pdfs_before.keys())}")
-    
-    # Delete the target PDF to force regeneration
+        print(f"PDFs before script: {list(pdfs_before.keys())}")
+
+    audios_before = {}
+    for audio_file in glob.glob("*.wav") + glob.glob("*.mp3") + glob.glob("*.ogg"):
+        if audio_file != "input-speech.wav":  # Don't include our input file
+            audios_before[audio_file] = {
+                'mtime': os.path.getmtime(audio_file),
+                'size': os.path.getsize(audio_file)
+            }
+    print(f"Audio files before script: {list(audios_before.keys())}")
+        
+    # Delete the target files to force regeneration
     if os.path.exists("ly-display.pdf"):
         print("Deleting old ly-display.pdf")
         os.remove("ly-display.pdf")
-    
-    # Run the script
+        
+    if os.path.exists("output.wav"):
+        print("Deleting old output.wav")
+        os.remove("output.wav")
+        
     try:
         print("Running run-web.sh...")
-        print("Script content preview:")
-        with open("run-web.sh", "r") as f:
-            lines = f.readlines()
-            # Look for lilypond commands
-            for i, line in enumerate(lines):
-                if 'lilypond' in line.lower() or 'pdf' in line.lower() or 'ly-display' in line:
-                    print(f"Line {i}: {line.strip()}")
-        
+                    
         result = subprocess.run(
             ["bash", "-x", "run-web.sh"],  # -x for debug output
             check=True,
@@ -289,9 +312,9 @@ def process_audio():
             text=True,
             timeout=60
         )
-        print("Script output (last 1000 chars):", result.stdout[-1000:] if len(result.stdout) > 1000 else result.stdout)
-        print("Script debug output (last 1000 chars):", result.stderr[-1000:] if len(result.stderr) > 1000 else result.stderr)
-            
+        print("Script output (last 10000 chars):", result.stdout[-10000:] if len(result.stdout) > 10000 else result.stdout)
+        print("Script debug output (last 10000 chars):", result.stderr[-10000:] if len(result.stderr) > 10000 else result.stderr)
+        
     except subprocess.CalledProcessError as e:
         print(f"run-web.sh failed with return code {e.returncode}")
         return jsonify({"success": False, "error": f"run-web.sh failed: {str(e)}"}), 500
@@ -310,80 +333,86 @@ def process_audio():
             'size': os.path.getsize(pdf)
         }
     print(f"PDFs after script: {list(pdfs_after.keys())}")
+
+    # Check what audio files exist now
+    audios_after = {}
+    for audio_file in glob.glob("*.wav") + glob.glob("*.mp3") + glob.glob("*.ogg"):
+        if audio_file != "input-speech.wav":  # Don't include our input file
+            audios_after[audio_file] = {
+                'mtime': os.path.getmtime(audio_file),
+                'size': os.path.getsize(audio_file)
+            }
+    print(f"Audio files after script: {list(audios_after.keys())}")
+        
     
-    # Check what changed
-    for pdf_name in pdfs_after:
-        if pdf_name not in pdfs_before:
-            print(f"NEW PDF created: {pdf_name}")
-        elif pdfs_after[pdf_name]['mtime'] > pdfs_before[pdf_name]['mtime']:
-            print(f"UPDATED PDF: {pdf_name}")
-        else:
-            print(f"UNCHANGED PDF: {pdf_name}")
-    
-    # Try different PDF names that might have been created
     possible_pdf_names = [
-        "ly-display.pdf",
-        "display.pdf", 
-        "main.pdf",
-        "main-midi.pdf",
-        "lily-run-scheme-web.pdf",
-        transcript.replace(" ", "-").lower() + ".pdf",  # Maybe it uses the transcript as name?
-        "output.pdf"
+        "ly-display.pdf"
     ]
-    
+
+    possible_audio_names = [
+        "output.wav"
+    ]
+
     pdf_found = None
+    audio_found = None
+    
+    # Handle PDF files
     for pdf_name in possible_pdf_names:
-        if os.path.exists(pdf_name):
-            print(f"Found PDF: {pdf_name} (size: {os.path.getsize(pdf_name)})")
-            if pdf_name != "ly-display.pdf":
-                # Copy it to ly-display.pdf
-                print(f"Copying {pdf_name} to ly-display.pdf")
+         if os.path.exists(pdf_name):
+             print(f"Found PDF: {pdf_name} (size: {os.path.getsize(pdf_name)})")
+             if pdf_name != "ly-display.pdf":
+                 # Copy it to ly-display.pdf
+                 print(f"Copying {pdf_name} to ly-display.pdf")
+                 import shutil
+                 shutil.copy2(pdf_name, "ly-display.pdf")
+                 pdf_found = "ly-display.pdf"
+                 break
+             else:
+                 pdf_found = pdf_name
+                 break
+
+    # Handle audio files
+    for audio_name in possible_audio_names:
+        if os.path.exists(audio_name):
+            print(f"Found audio: {audio_name} (size: {os.path.getsize(audio_name)})")
+            if audio_name != "output.wav":
+                # Copy it to output.wav
+                print(f"Copying {audio_name} to output.wav")
                 import shutil
-                shutil.copy2(pdf_name, "ly-display.pdf")
-                pdf_found = "ly-display.pdf"
+                shutil.copy2(audio_name, "output.wav")
+                audio_found = "output.wav"
                 break
             else:
-                pdf_found = pdf_name
+                audio_found = audio_name
                 break
-    
+
+    # If no specific files found, look for any new files
+    if not audio_found:
+        for audio_file in audios_after:
+            if audio_file not in audios_before:
+                print(f"Found new audio file: {audio_file} (size: {os.path.getsize(audio_file)})")
+                import shutil
+                shutil.copy2(audio_file, "output.wav")
+                audio_found = "output.wav"
+                break
+             
+    success = False
     if pdf_found and os.path.getsize(pdf_found) > 0:
+        print(f"PDF successfully generated: {pdf_found}")
+        success = True
+    else:
+        print("Warning: No valid PDF found")
+        
+    if audio_found and os.path.getsize(audio_found) > 0:
+        print(f"Audio successfully generated: {audio_found}")
+        success = True
+    else:
+        print("Warning: No valid audio file found")
+
+    if success:
         return jsonify({"success": True, "transcript": transcript})
-    
-    # If still no PDF, let's check what lilypond files were processed
-    print("\nChecking .ly files that might have been processed:")
-    for ly_file in glob.glob("*.ly"):
-        stat = os.stat(ly_file)
-        print(f"{ly_file}: size={stat.st_size}, modified={time.ctime(stat.st_mtime)}")
-    
-    # Last resort: run lilypond directly
-    print("\nAttempting to run lilypond directly...")
-    for ly_file in ["main.ly", "lily-run-scheme-web.ly", "main-midi.ly"]:
-        if os.path.exists(ly_file):
-            try:
-                print(f"Running lilypond on {ly_file}")
-                lily_result = subprocess.run(
-                    ["lilypond", "--pdf", "-o", "ly-display", ly_file],
-                    capture_output=True,
-                    text=True,
-                    timeout=30
-                )
-                print(f"Lilypond stdout: {lily_result.stdout[:500]}")
-                if lily_result.stderr:
-                    print(f"Lilypond stderr: {lily_result.stderr[:500]}")
-                
-                if os.path.exists("ly-display.pdf"):
-                    print("Successfully created ly-display.pdf with lilypond")
-                    return jsonify({"success": True, "transcript": transcript})
-                    
-            except Exception as e:
-                print(f"Failed to run lilypond on {ly_file}: {e}")
-    
-    return jsonify({
-        "success": False, 
-        "error": "PDF was not created", 
-        "lydtranskripsjon": transcript,
-        "pdfs_found": list(pdfs_after.keys())
-    }), 500
+    else:
+        return jsonify({"success": False, "error": "Neither PDF nor audio file was generated successfully"}), 500
 
 
 @app.route("/ly-display.pdf")
@@ -395,6 +424,17 @@ def get_pdf():
         response.headers['Expires'] = '0'
         return response
     return "Fant ikke pdf", 404
+
+@app.route("/output.wav")
+def get_sound():
+    if os.path.exists("output.wav"):
+        response = make_response(send_file("output.wav"))
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        return response
+    return "Fant ikke lyd", 404
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
