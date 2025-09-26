@@ -47,7 +47,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN ./fetch-all-synonyms-web.sh > synonyms.txt
 
-EXPOSE 5000
+EXPOSE 8080
 
 CMD ["python", "webserver.py"]
 
