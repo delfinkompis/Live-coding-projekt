@@ -3,7 +3,7 @@ FROM python:3.11-slim
 #ADD https://gitlab.com/lilypond/lilypond/-/releases/v2.25.28/downloads/lilypond-2.25.28-darwin-x86_64.tar.gz ./
 #RUN tar -xf lilypond-2.25.28-darwin-x86_64.tar.gz
 
-# Install system dependencies
+# apt-get innstaller det som trengs
 RUN apt-get update && apt-get install -y \
     procps \
     coreutils \
@@ -45,10 +45,15 @@ COPY /app .
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-RUN ./fetch-all-synonyms-web.sh > synonyms.txt
+RUN ./fetch-all-synonyms.sh > synonyms.txt
+RUN ./fetch-all-wordclasses.sh > wc.txt
 
 EXPOSE 8080
 
 CMD ["python", "webserver.py"]
 
 #CMD ["lilypond", "--loglevel=DEBUG", "-dlog-file=-", "lily-run-scheme-web.ly"]
+#TODO: sort notes into staves by wordclass.  Nouns in top staff, verbs in middle, and other classes in bottom.   Fetch-synonyms, my-repl-defuns & my-synonyms.scm need changing
+#TODO: Update lilypond command to output cairo svg
+#TODO: remove tests and checks to simplify webserver.py.
+

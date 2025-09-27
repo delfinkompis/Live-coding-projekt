@@ -29,26 +29,35 @@ HELLO_PAGE = """
 <html>
 <head>
     <title>Hello</title>
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
 </head>
 <body>
     <h1>tale->tekst->lilypond</h1>
     <button id="recordButton">Hold inne knappen for å generere lyd og partitur</button>
     <p id="status"></p>
 <figure>
-  <figcaption>Lytt på output:</figcaption>
+  <figcaption></figcaption>
 {% if audio_exists %}
 <audio controls src="{{ url_for('get_sound') }}?cache={{ cache_buster }}"></audio>
 {% else %}
 <p>Ingen lyd generert ennå.</p>
 {% endif %}
 </figure>
-    <div id="pdfDisplay">
-    {% if pdf_exists %}
-        <embed src="{{ url_for('get_pdf') }}?cache={{ cache_buster }}" type="application/pdf" width="600" height="800" />
+    <div id="svgDisplay">
+    {% if svg_exists %}
+        <embed src="{{ url_for('get_svg') }}?cache={{ cache_buster }}" type="image/svg+xml" width="596" height="842" />
     {% else %}
-        <p>Ingen pdf generert ennå.</p>
+        <p>Ingen svg generert ennå.</p>
     {% endif %}
     </div>
+<div id="eksempeltekst">
+<p>Eksempeltekst:</p>
+<p>Ål er en katadrom fisk i ålefamilien med slangelignende kropp og glatt, tykk hud. Den gyter i saltvann (Sargassohavet) og vokser opp i ferskvann. Arten forekommer i fersk- og brakkvann over hele Europa og Nord-Afrika</p>
+</div>
+<footer>
+<p>Sida er laga med stilmall fra simple-css og ordboksdata fra språkrådet</p>
+<a href="https://github.com/delfinkompis/Live-coding-projekt/">github-lenke til prosjektet</a>
+</footer>
 <script>
 let chunks = [];
 let mediaRecorder = null;
@@ -56,6 +65,7 @@ let isRecording = false;
 let stream = null;
 
 function getSupportedMimeType() {
+// støttefunksjon i tilfelle nettleseren ikke støtter webm.  anbefalt av ai
     const types = [
         'audio/webm;codecs=opus',
         'audio/webm',
@@ -68,7 +78,7 @@ function getSupportedMimeType() {
             return type;
         }
     }
-    return ''; // fallback to default
+    return ''; // fallback
 }
 
 function startRecording() {
@@ -78,10 +88,11 @@ function startRecording() {
     }
     if (isRecording) return;
     isRecording = true;
-    document.getElementById("status").innerText = "Recording...";
+    document.getElementById("status").innerText = "Spiller inn...";
     
     navigator.mediaDevices.getUserMedia({ audio: true })
         .then(s => {
+// boilerplate fra standardeksempel på js-innspilling fra nettet
             stream = s;
             const mimeType = getSupportedMimeType();
             
@@ -99,15 +110,16 @@ function startRecording() {
             };
             
             mediaRecorder.onstop = e => {
-                // Use the same mimeType as the MediaRecorder
+                // Bruk mediainnspilleren som støttes
                 const recordedMimeType = mediaRecorder.mimeType || 'audio/webm';
                 const blob = new Blob(chunks, { type: recordedMimeType });
                 
                 let formData = new FormData();
                 formData.append('audio', blob, 'input-speech.webm'); // Use .webm extension
                 
-                document.getElementById("status").innerText = "Processing...";
-                
+                document.getElementById("status").innerText = "Behandler...";
+
+// Latterlig mye errorhandling - skal tas bort når jeg får muligheita
                 fetch('/process', { method: 'POST', body: formData })
                     .then(res => {
                         if (!res.ok) {
@@ -117,18 +129,18 @@ function startRecording() {
                     })
                     .then(data => {
                         if (data.success) {
-                            document.getElementById("status").innerText = "Done!";
-                            // Update both PDF and audio displays
-                            document.getElementById("pdfDisplay").innerHTML = '';
+                            document.getElementById("status").innerText = "Ferdig!";
+                            // Oppdater både svg og lyd
+                            document.getElementById("svgDisplay").innerHTML = '';
                             const audioContainer = document.querySelector('figure');
                             audioContainer.innerHTML = '<figcaption>Lytt på output:</figcaption>';
                             
                             setTimeout(() => {
-                                // Update PDF
-                                document.getElementById("pdfDisplay").innerHTML = 
-                                    '<embed src="/ly-display.pdf?cache=' + Date.now() + 
-                                    '" type="application/pdf" width="600" height="800" />';
-                                // Update audio
+                                // Oppdater SVG hvis lyd ikke funker
+                                document.getElementById("svgDisplay").innerHTML = 
+                                    '<embed src="/ly-display.svg?cache=' + Date.now() + 
+                                    '" type="image/svg+xml" width="600" height="800" />';
+                                // Oppdater lyd hvis svg ikke funker
                                 audioContainer.innerHTML = 
                                     '<figcaption>Lytt på output:</figcaption>' +
                                     '<audio controls src="/output.wav?cache=' + Date.now() + '"></audio>';
@@ -139,7 +151,7 @@ function startRecording() {
                     })
                     .catch(err => {
                         console.error('Fetch error:', err);
-                        document.getElementById("status").innerText = "Upload failed: " + err.message;
+                        document.getElementById("status").innerText = "Opplasting misslykka: " + err.message;
                     });
                 
                 if (stream) {
@@ -150,7 +162,7 @@ function startRecording() {
             
             mediaRecorder.onerror = e => {
                 console.error('MediaRecorder error:', e);
-                document.getElementById("status").innerText = "Recording error: " + e.error;
+                document.getElementById("status").innerText = "Innspillingserror: " + e.error;
                 isRecording = false;
             };
             
@@ -158,7 +170,7 @@ function startRecording() {
         })
         .catch(err => {
             console.error('getUserMedia error:', err);
-            document.getElementById("status").innerText = "Microphone access denied or error: " + err.message;
+            document.getElementById("status").innerText = "Mikrofon utilgjengelig  eller anna error: " + err.message;
             isRecording = false;
         });
 }
@@ -171,11 +183,10 @@ function stopRecording() {
     }
 }
 
-// Robust event handling for mouse and touch
 const btn = document.getElementById("recordButton");
 
 btn.addEventListener('mousedown', (e) => { e.preventDefault(); startRecording(); });
-document.addEventListener('mouseup', (e) => { stopRecording(); }); // Listen on whole doc
+document.addEventListener('mouseup', (e) => { stopRecording(); }); 
 btn.addEventListener('mouseleave', (e) => { stopRecording(); });
 
 btn.addEventListener('touchstart', (e) => { e.preventDefault(); startRecording(); }, {passive: false});
@@ -226,10 +237,10 @@ def transcribe_audio(audio_file_path):
 
 @app.route("/", methods=["GET"])
 def hello():
-    pdf_exists = os.path.exists("ly-display.pdf")
+    svg_exists = os.path.exists("ly-display.svg")
     audio_exists = os.path.exists("output.wav")
     cache_buster = uuid.uuid4().hex
-    return render_template_string(HELLO_PAGE, pdf_exists=pdf_exists, audio_exists=audio_exists, cache_buster=cache_buster)
+    return render_template_string(HELLO_PAGE, svg_exists=svg_exists, audio_exists=audio_exists, cache_buster=cache_buster)
 
 @app.route("/process", methods=["POST"])
 def process_audio():
@@ -246,7 +257,7 @@ def process_audio():
     input_wav = "input-speech.wav"
     print("begynner å konvertere lydformat")
     if not convert_to_wav(temp_audio, input_wav):
-        return jsonify({"success": False, "error": "Audio conversion failed"}), 400
+        return jsonify({"success": False, "error": "Klarte ikke konvertere lyd"}), 400
     
     if os.path.exists(temp_audio):
         os.remove(temp_audio)
@@ -273,15 +284,15 @@ def process_audio():
         print(f"Transcription error: {e}")
         return jsonify({"success": False, "error": f"Transcription failed: {str(e)}"}), 500
     
-    # Get list of all PDF and audio files before running script
+    # Get list of all SVG and audio files before running script
     import glob
-    pdfs_before = {}
-    for pdf in glob.glob("*.pdf"):
-        pdfs_before[pdf] = {
-            'mtime': os.path.getmtime(pdf),
-            'size': os.path.getsize(pdf)
+    svgs_before = {}
+    for svg in glob.glob("*.svg"):
+        svgs_before[svg] = {
+            'mtime': os.path.getmtime(svg),
+            'size': os.path.getsize(svg)
         }
-        print(f"PDFs before script: {list(pdfs_before.keys())}")
+        print(f"SVGs before script: {list(svgs_before.keys())}")
 
     audios_before = {}
     for audio_file in glob.glob("*.wav") + glob.glob("*.mp3") + glob.glob("*.ogg"):
@@ -293,9 +304,9 @@ def process_audio():
     print(f"Audio files before script: {list(audios_before.keys())}")
         
     # Delete the target files to force regeneration
-    if os.path.exists("ly-display.pdf"):
-        print("Deleting old ly-display.pdf")
-        os.remove("ly-display.pdf")
+    if os.path.exists("ly-display.svg"):
+        print("Deleting old ly-display.svg")
+        os.remove("ly-display.svg")
         
     if os.path.exists("output.wav"):
         print("Deleting old output.wav")
@@ -325,14 +336,14 @@ def process_audio():
     import time
     time.sleep(1)  # Give more time for file operations
     
-    # Check what PDFs exist now
-    pdfs_after = {}
-    for pdf in glob.glob("*.pdf"):
-        pdfs_after[pdf] = {
-            'mtime': os.path.getmtime(pdf),
-            'size': os.path.getsize(pdf)
+    # Check what SVGs exist now
+    svgs_after = {}
+    for svg in glob.glob("*.svg"):
+        svgs_after[svg] = {
+            'mtime': os.path.getmtime(svg),
+            'size': os.path.getsize(svg)
         }
-    print(f"PDFs after script: {list(pdfs_after.keys())}")
+    print(f"SVGs after script: {list(svgs_after.keys())}")
 
     # Check what audio files exist now
     audios_after = {}
@@ -345,30 +356,30 @@ def process_audio():
     print(f"Audio files after script: {list(audios_after.keys())}")
         
     
-    possible_pdf_names = [
-        "ly-display.pdf"
+    possible_svg_names = [
+        "ly-display.svg"
     ]
 
     possible_audio_names = [
         "output.wav"
     ]
 
-    pdf_found = None
+    svg_found = None
     audio_found = None
     
-    # Handle PDF files
-    for pdf_name in possible_pdf_names:
-         if os.path.exists(pdf_name):
-             print(f"Found PDF: {pdf_name} (size: {os.path.getsize(pdf_name)})")
-             if pdf_name != "ly-display.pdf":
-                 # Copy it to ly-display.pdf
-                 print(f"Copying {pdf_name} to ly-display.pdf")
+    # Handle SVG files
+    for svg_name in possible_svg_names:
+         if os.path.exists(svg_name):
+             print(f"Found SVG: {svg_name} (size: {os.path.getsize(svg_name)})")
+             if svg_name != "ly-display.svg":
+                 # Copy it to ly-display.svg
+                 print(f"Copying {svg_name} to ly-display.svg")
                  import shutil
-                 shutil.copy2(pdf_name, "ly-display.pdf")
-                 pdf_found = "ly-display.pdf"
+                 shutil.copy2(svg_name, "ly-display.svg")
+                 svg_found = "ly-display.svg"
                  break
              else:
-                 pdf_found = pdf_name
+                 svg_found = svg_name
                  break
 
     # Handle audio files
@@ -395,13 +406,23 @@ def process_audio():
                 shutil.copy2(audio_file, "output.wav")
                 audio_found = "output.wav"
                 break
+
+    # If no specific SVG found, look for any new SVG files
+    if not svg_found:
+        for svg_file in svgs_after:
+            if svg_file not in svgs_before:
+                print(f"Found new SVG file: {svg_file} (size: {os.path.getsize(svg_file)})")
+                import shutil
+                shutil.copy2(svg_file, "ly-display.svg")
+                svg_found = "ly-display.svg"
+                break
              
     success = False
-    if pdf_found and os.path.getsize(pdf_found) > 0:
-        print(f"PDF successfully generated: {pdf_found}")
+    if svg_found and os.path.getsize(svg_found) > 0:
+        print(f"SVG funnet: {svg_found}")
         success = True
     else:
-        print("Warning: No valid PDF found")
+        print("Ingen gyldig svg funnet")
         
     if audio_found and os.path.getsize(audio_found) > 0:
         print(f"Audio successfully generated: {audio_found}")
@@ -412,18 +433,19 @@ def process_audio():
     if success:
         return jsonify({"success": True, "transcript": transcript})
     else:
-        return jsonify({"success": False, "error": "Neither PDF nor audio file was generated successfully"}), 500
+        return jsonify({"success": False, "error": "Neither SVG nor audio file was generated successfully"}), 500
 
 
-@app.route("/ly-display.pdf")
-def get_pdf():
-    if os.path.exists("ly-display.pdf"):
-        response = make_response(send_file("ly-display.pdf"))
+@app.route("/ly-display.svg")
+def get_svg():
+    if os.path.exists("ly-display.svg"):
+        response = make_response(send_file("ly-display.svg"))
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
+        response.headers['Content-Type'] = 'image/svg+xml'
         return response
-    return "Fant ikke pdf", 404
+    return "Fant ikke svg", 404
 
 @app.route("/output.wav")
 def get_sound():

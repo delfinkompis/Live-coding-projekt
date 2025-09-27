@@ -2,7 +2,7 @@
 
 \include "./upper.ily"
 \include "./lower.ily"
-
+\include "./middle.ily"
 %#(set! paper-alist (cons '("my size" . (cons (* 50 cm) (* 200 cm))) paper-alist))
 %#(set-default-paper-size "my size")
 #(set-global-staff-size 10)
@@ -26,6 +26,7 @@ global = { \override TupletNumber.text = "" \time 32/2 }
    \new PianoStaff \with { instrumentName = "" }
    <<
      \new Staff = "upper" { \global \upper }
+     \new Staff = "middle" { \global \middle }
      \new Staff = "lower" { \clef bass \global \lower }
    >>
   % \layout { 
