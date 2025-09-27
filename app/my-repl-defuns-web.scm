@@ -9,7 +9,7 @@
 (set! %load-path (cons "/opt/guile/share/guile/site/2.2/" %load-path))
 ;(use-modules (fibers))
 					;(import (fibers channels))
-(format #t "~%~%my-repl-defuns-web started loading")
+(format #t "~%~%my-repl-defuns-web started loading~%")
 (primitive-load "repl-variabler-web.scm")
 (primitive-load "music-synonyms.scm")
 
@@ -19,23 +19,28 @@
 (define (flush-music-to-files)
   "Legg inn all musikk i filer"
   (let ((upper-music (get-output-string music-inserts-upper-port))
+	(middle-music (get-output-string music-inserts-middle-port))
         (lower-music (get-output-string music-inserts-lower-port)))
     (when (or (> (string-length upper-music) 0)
+	      (> (string-length middle-music) 0)
               (> (string-length lower-music) 0))
       (let ((commands '()))
          (when (> (string-length upper-music) 0)
            (set! commands (cons (string-append "./insert-music.sh upper.ily \"" upper-music "\"") commands)))
+	 (when (> (string-length middle-music) 0)
+           (set! commands (cons (string-append "./insert-music.sh middle.ily \"" middle-music "\"") commands)))
         (when (> (string-length lower-music) 0)
           (set! commands (cons (string-append "./insert-music.sh lower.ily \"" lower-music "\"") commands)))
 ;:        (set! commands (cons "GUILE_AUTO_COMPILE=0 lilypond -dno-point-and-click --loglevel=NONE --output=ly-display ./main.ly & GUILE_AUTO_COMPILE=0 lilypond -dno-point-and-click --loglevel=NONE --output=ly-display ./main-midi.ly & wait && echo \"Ferdig med å kompilere partitur og midi\"" commands))
 (set! commands (cons "echo \"ferdig med å skrive over filer, begynner å kompilere lilypond\"" commands))
-(set! commands (cons "GUILE_AUTO_COMPILE=0 lilypond -dbackend=cairo --pdf -dno-point-and-click --loglevel=NONE -djobcount=$(nproc) --output=ly-display main.ly & GUILE_AUTO_COMPILE=0 lilypond -dno-point-and-click -dbackend=null --loglevel=NONE --output=ly-display main-midi.ly & wait && echo \"Ferdig med å kompilere partitur og midi\"" commands))
+(set! commands (cons "GUILE_AUTO_COMPILE=0 lilypond -dbackend=cairo --svg -dno-point-and-click --loglevel=NONE -djobcount=$(nproc) --output=ly-display main.ly & GUILE_AUTO_COMPILE=0 lilypond -dno-point-and-click -dbackend=null --loglevel=NONE --output=ly-display main-midi.ly & wait && echo \"Ferdig med å kompilere partitur og midi\"" commands))
 
 ;	time GUILE_AUTO_COMPILE=0 ./lilypond-new/lilypond-2.25.28/bin/lilypond -dbackend=cairo -dgs-never-embed-fonts=#t -dno-point-and-click --loglevel=DEBUG -djobcount=$(nproc) --output=ly-display ./main.ly & GUILE_AUTO_COMPILE=0 ./lilypond-new/lilypond-2.25.28/bin/lilypond -dno-point-and-click -dbackend=null --loglevel=NONE --output=ly-display ./main-midi.ly & wait && echo "done"
 
         (system (string-join (reverse commands) " && "))))
     
     (set! music-inserts-upper-port (open-output-string))
+        (set! music-inserts-middle-port (open-output-string))
     (set! music-inserts-lower-port (open-output-string))))
 
  (define synonym-db (make-hash-table))
@@ -49,20 +54,54 @@
            (set-port-encoding! port "UTF-8")
            (let loop ((line (read-line port)))
              (unless (eof-object? line)
-               (let ((parts (string-split line #\space)))
+               (let ((parts (string-split line #\;)))
                  (when (>= (length parts) 2)
                    (hash-set! synonym-db (car parts) 
                              (cons (cadr parts) 
                                    (hash-ref synonym-db (car parts) '())))))
                (loop (read-line port)))))))
      (lambda (key . args)
-       (display "Warning: Could not load synonym file\n")
+       (display "Klarte ikke å laste synonymfil\n")
        #f)))
 
- (define (my-fetch-synonyms ord)
+(define (my-fetch-synonyms ord)
    (hash-ref synonym-db ord '()))
 
  (load-synonym-database)
+
+
+
+
+
+(define wc-db (make-hash-table))
+
+(define (load-wc-database)
+   "Load wc from static file"
+   (catch #t
+     (lambda ()
+       (call-with-input-file "wc.txt"
+         (lambda (port)
+           (set-port-encoding! port "UTF-8")
+           (let loop ((line (read-line port)))
+             (unless (eof-object? line)
+               (let ((parts (string-split line #\;)))
+                 (when (>= (length parts) 2)
+                   (hash-set! wc-db (car parts) 
+                             (cons (cadr parts) 
+                                   (hash-ref wc-db (car parts) '())))))
+               (loop (read-line port)))))))
+     (lambda (key . args)
+       (display "Klarte ikke å laste fil med ordklasser\n")
+       #f)))
+
+
+(define (my-fetch-wc ord)
+    (hash-ref wc-db ord '()))
+
+(load-wc-database)
+
+
+
 
 
 ;(use-modules (fibers) (fibers scheduler))
@@ -73,16 +112,23 @@
 
 ;; Use string ports instead of repeated concatenation
 (define music-inserts-upper-port (open-output-string))
+(define music-inserts-middle-port (open-output-string))
 (define music-inserts-lower-port (open-output-string))
 
 (define (add-to-upper-inserts music)
   (display music music-inserts-upper-port))
+
+(define (add-to-middle-inserts music)
+  (display music music-inserts-middle-port))
 
 (define (add-to-lower-inserts music)
   (display music music-inserts-lower-port))
 
 (define (get-upper-inserts)
   (get-output-string music-inserts-upper-port))
+
+(define (get-middle-inserts)
+  (get-output-string music-inserts-middle-port))
 
 (define (get-lower-inserts)
   (get-output-string music-inserts-lower-port))
@@ -98,7 +144,7 @@
     (when (> (length new-wordlist) (length old-wordlist))
       (let* ((words-to-process (take-right new-wordlist (- (length new-wordlist) (length old-wordlist)))))
 	     (for-each (lambda (word) 
-                                    (word->lily (string-downcase word))) 
+                         (word->lily (string-trim-right (string-downcase word) (string->char-set ".,;-?!"))))
 		       words-to-process)
 	     (format #t "Skriver over filer og kompilerer lily~%~%")
 	     (flush-music-to-files)
@@ -106,7 +152,7 @@
   (set! old-wordlist new-wordlist)))
 
 (define synonym-cache (make-hash-table))
-
+(define wc-cache (make-hash-table))
 
 ;; SEARCH FOR STRING IN INPUT.TXT
 ;; take new elements
@@ -132,36 +178,31 @@
 
 ;; TODO give lily-commands lengde-argument som speiler antall bokstaver i ord
 
-(define* (word->lily ord #:optional (counter 0) (original-word-length (string-length ord)) (original-word ord))
+(define* (word->lily ord #:optional (counter 0) (original-word-length (string-length ord)) (original-word ord) (original-wordclass (if (not (null? (my-fetch-wc ord))) (last (my-fetch-wc ord)) "NOUN")))
   (format #t "Leter etter synonymer for ordet ~a.~%" original-word)
   (if (member ord (map car lilywords))
       (let ((func (assoc-ref lilywords ord)))
-	(begin (format #t "Lager lilypond input av synonymet ~a. Opprinelig ord hadde ~d bokstaver.'~%" ord original-word-length) (func original-word-length original-word)))
+	(begin (format #t "Lager lilypond input av synonymet ~a. Opprinelig ord hadde ~d bokstaver, og var av ordklassa ~a'~%" ord original-word-length original-wordclass) (func original-word-length original-word original-wordclass)))
       (let* ((synonym-list (filter (lambda (x) (not (equal? x ""))) (my-fetch-synonyms ord)))
 	     (available-lilywords (lset-intersection equal? synonym-list (map car lilywords))))
 	;; om det finns lily-kommando, kör kommandon
 	(if (not (null? available-lilywords))
 	    (let ((func (assoc-ref lilywords (car available-lilywords))))
-	      (begin (format #t "Lager lilyscript input av synonymet ~a. Opprinelig ord hadde ~d bokstaver.~%" ord original-word-length)
-		     (func original-word-length original-word)))
+	      (begin (format #t "Lager lilypond input av synonymet ~a. Opprinelig ord hadde ~d bokstaver, og var av ordklassa ~a'~%" ord original-word-length original-wordclass)
+		     (func original-word-length original-word original-wordclass)))
 	    ;; ELSE, om counter är låg, försök igen
 	    (if (null? synonym-list)
 		(begin
 		  (format #t "Fant ingen passende synonymer.  Legger inn en ~d lang pause.~%~%" original-word-length)
-		  (my-pause original-word-length original-word)
+		  (my-pause original-word-length original-word original-wordclass)
 		  )
 		(if (<= counter 5)
 		    (let ((synonym (list-ref synonym-list (random (length synonym-list)))))
 		      (format #t "Prøver igjen for ~d. gang.  Bruker nå synonymet ~a.~%" (+ 1 counter) synonym)
-		      (word->lily synonym (+ counter 1) original-word-length original-word))
+		      (word->lily synonym (+ counter 1) original-word-length original-word original-wordclass))
 		    (begin
 		      (format #t "Fant ingen passende synonymer.  Legger inn en ~d lang pause.~%~%" original-word-length)
-		  (my-pause original-word-length original-word)		      
-		      )
-		    
-		    )
-
-		)))))
+		      (my-pause original-word-length original-word original-wordclass))))))))
 
 ;; tilslut, om inget annat går, RETURN ingenting
 
@@ -174,8 +215,5 @@
       (let ((new-wordcount (- (length new-wordlist) (length old-wordlist))))
 	(if (<= new-wordcount 0) (format #t "ingen nye ord")
 	    (let ((wordlist (take-right new-wordlist new-wordcount)))
-	      (map (lambda (word) (word->lily (string-downcase word))) wordlist))
-	    )
-	))
-    (set! old-wordlist new-wordlist)
-    ))
+	      (map (lambda (word) (word->lily (string-trim-right (string-downcase word) (string->char-set ".,;-?!")))) wordlist)))))
+    (set! old-wordlist new-wordlist)))

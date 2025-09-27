@@ -1,21 +1,20 @@
-(format #t "music-synonyms started loading")
-(define* (my-pause length-arg #:optional word-to-print)
+(format #t "music-synonyms started loading~%")
+
+(define* (my-pause length-arg #:optional word-to-print wordclass)
   "Velklingende note"
   (let* (
 	 (music
-	  (string-append
-	   
+	  (string-append	   
 	   (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
-	    )
-	   ))
+		  (* length-arg 0.25))))))))
 	 (text
 	  (string-append
 	   "\n\\set Staff.midiInstrument = \\\"Bright Acoustic Piano\\\"\n" ;;midi program 1
+	   "\\clef percussion\n"
 	  "<>-\\markup \\fontsize #-1 {"
 	  "\\override #'(font-name .
                \\\"Andika\\\") "
@@ -24,12 +23,22 @@
 	  )))
     (begin
       (format #t "legger inn pause~%~%")
-      (add-to-upper-inserts music)
-      (add-to-lower-inserts text)
-)))
+      (cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts text)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts music))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts text)
+	     (add-to-lower-inserts music))
+	    (else
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts text))))
+))
 
 
-(define* (my-god length-arg #:optional word-to-print)
+(define* (my-god length-arg #:optional word-to-print wordclass)
   "Velklingende note"
   (let* (
 	 (total-dur (* length-arg 0.25))
@@ -37,6 +46,7 @@
 	  (string-append
 	   ;;; CHANGE MIDI INSTRUMENT TO WEIRD SOUND
 	   "\n\\set Staff.midiInstrument = \\\"Electric Grand Piano\\\"\n" ;; midi program 2
+	   "\n\\clef treble\n"
 	   "<>-\\markup {"
 	   "\\override #'(font-name .
                \\\"Comic sans\\\") "
@@ -59,30 +69,39 @@
 		(display-lily-music
 		  (pitchlist->lily
 		   (list 11)
-		   (list total-dur)))))
-	    ))))
-    (begin
-      (format #t "Kjører lily-input \"god\", legger inn bilde av iskrem.~%~%")
-      (add-to-lower-inserts
-       (string-append
+		   (list total-dur))))))))
+	 (text
+	  (string-append
 	music 
 	"<>-\\markup {"
 	word-to-print
 	"}\n"))
-      (add-to-upper-inserts
-	    (trim-lily 
+	 (rests
+	  (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
+		  (* length-arg 0.25))))))))
+    (begin
+      (format #t "Kjører lily-input \"god\", legger inn bilde av iskrem.~%~%")
+          (cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts text)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts text)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts text))))
 	    ))
-      )
-    ))
 
 ;; liten, mindre, små
 
-(define* (my-liten length-arg #:optional word-to-print)
+(define* (my-liten length-arg #:optional word-to-print wordclass)
   "Liten note"
   (let* ((possible-durations '(0.25 0.5 0.125))
 	 ;; Note-dur er 25% av det vanlige.  Variablen brukes bare for første note, 
@@ -93,7 +112,8 @@
 	 (music
 	  (string-append
 	   	   ;;; CHANGE MIDI INSTRUMENT TO WEIRD SOUND
-	   "\n\\set Staff.midiInstrument = \\\"Honky Tonk Piano\\\"\n" ;; midi program 3
+	   "\\set Staff.midiInstrument = \\\"Honky Tonk Piano\\\"\n" ;; midi program 3
+	   "\\clef treble\n"
 	   "<>-\\markup \\fontsize #-2 {"
 	   "\\override #'(font-name .
                \\\"Comic sans\\\") "
@@ -114,32 +134,32 @@
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* (expt 2 (inexact->exact (floor (/ (log length-arg) (log 2))))) 0.1875)))))
-	    )
-	   )
-	  ))
-    (begin
-      (format #t "Bruker lilypond-insert \"liten\".  Kort, lys, note med pause etterpå.~%~%")
-      (add-to-upper-inserts music)
- 
-      (add-to-lower-inserts
-	    (trim-lily 
+		  (* (expt 2 (inexact->exact (floor (/ (log length-arg) (log 2))))) 0.1875))))))))
+	 (rests
+	  (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
-	    ))
-      )))
-
-
-
-
-
+		  (* length-arg 0.25))))))))
+    (begin
+      (format #t "Bruker lilypond-insert \"liten\".  Kort, lys, note med pause etterpå.~%~%")
+          (cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
 ;; stor, gjev, vel
 
-(define* (my-stor length-arg #:optional word-to-print)
+(define* (my-stor length-arg #:optional word-to-print wordclass)
   "Stor note"
   (let* (
 	 (total-dur (* length-arg 0.25))
@@ -148,6 +168,7 @@
 	  (string-append
 	   	   ;;; CHANGE MIDI INSTRUMENT TO WEIRD SOUND
 	   "\n\\set Staff.midiInstrument = \\\"Electric Piano 1\\\"\n" ;; midi program 4
+	   "\\clef treble\n"
 	   "<>-\\markup \\fontsize #2 {"
 	   "\\override #'(font-name .
                \\\"Cabin, Bold\\\") "
@@ -162,24 +183,33 @@
 		  (pitchlist->lily
 		    (list-ref possible-pitches (random (length possible-pitches)))
 		    (list total-dur)) 7))))
-	    	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"stor\".  Lang, lys note harmonisert med kvinter.~%~%")
-      (add-to-upper-inserts music)
-      (add-to-lower-inserts
-	    (trim-lily 
+	    ))
+	 (rests
+	  (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
-	    ))
-      )))
+		  (* length-arg 0.25))))))))
+    (begin
+      (format #t "Bruker lilypond-insert \"stor\".  Lang, lys note harmonisert med kvinter.~%~%")
+      (cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
 
 
 ;; passe, bare, vanlig
-(define* (my-rask length-arg #:optional word-to-print)
+(define* (my-rask length-arg #:optional word-to-print wordclass)
   "Raske noter"
   (let* ((possible-durations '(1/24 1/12 1/8))
 	 (total-dur (* length-arg 0.25))
@@ -191,17 +221,15 @@
 			     (+ dur-sum new-dur))
 		       ))))
 	 (possible-pitches '(12 13 15 16 11 10))
-	 (output-file "upper.ily")
-(other-file "lower.ily")
 	 (music
 	  (string-append
 	   	   ;;; CHANGE MIDI INSTRUMENT TO WEIRD SOUND
 	   "\n\\set Staff.midiInstrument = \\\"Electric Piano 2\\\"\n" ;; midi program 5
+	   "\\clef treble\n"
 	   "<>_\\markup \\smallCaps \\fontsize #4 {"
 	   word-to-print
 	   "}"
 	   	   "\\magnifyMusic #6/7"
-	   (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
@@ -209,25 +237,31 @@
 		 (add-slur
 		  (pitchlist->lily
 		   (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
-		   durs)) "tenuto"))))
-	   )
-
-
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"rask\".  Kjapt, kromatisk löp.~%~%")
-      (add-to-upper-inserts music)
-      (add-to-lower-inserts
-       (trim-lily 
+		   durs)) "tenuto"))))))
+	 (rests
+	  (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
-	    ))
-      )))
+		  (* length-arg 0.25))))))))
+    (begin
+      (format #t "Bruker lilypond-insert \"rask\".  Kjapt, kromatisk löp.~%~%")
+(cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music)))
+       )))
 
-(define* (my-treig length-arg #:optional word-to-print)
+(define* (my-treig length-arg #:optional word-to-print wordclass)
   "Treig note"
   (let* ((possible-durations '(0.5 0.75 1))
 	 (total-dur (* length-arg 0.25))
@@ -242,6 +276,7 @@
 	 (music
 	  (string-append
 	   "\n\\set Staff.midiInstrument = \\\"Harpsichord\\\"\n" ;; midi program 6
+	   "\\clef bass\n"
 	   "<>_\\markup \\fontsize #3 {
 	      \\override #'(font-name .
                \\\"Courier\\\") "
@@ -255,42 +290,47 @@
 		 (make-harmony
 		  (pitchlist->lily
 		   (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
-		   durs) 12))))
-
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"treig\".  Liten gamut, store avstander, harmonisert med oktaver.~%~%")
-      (add-to-lower-inserts music)
-      (add-to-upper-inserts
-			   (trim-lily 
+		   durs) 12))))))
+	 (rests (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
-	    ))
-      )))
+		  (* length-arg 0.25))))))))
+    (begin
+      (format #t "Bruker lilypond-insert \"treig\".  Liten gamut, store avstander, harmonisert med oktaver.~%~%")
+      (cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
-;; full, hel, riktig
+;; hell, stappa, tett
 
-(define* (my-tett length-arg #:optional word-to-print)
+(define* (my-tett length-arg #:optional word-to-print wordclass)
   "Tette kromatiske noter"
   (let* (
 	 (possible-durations '(1/16 1/32 1/16))
 	 (total-dur (* length-arg 0.25))
 	 (durs (let loop ((dur-list '()) (dur-sum 0))
-		 (if (> dur-sum (* total-dur 0.25))
+		 (if (> dur-sum (* total-dur 0.5))
 		     dur-list
 		     (let ((new-dur (list-ref possible-durations (random (length possible-durations)))))
 		       (loop (append dur-list (list new-dur))
 			     (+ dur-sum new-dur))
 		       ))))
 	 (possible-pitches '(12 13 14 15 16 17 18 19 20))
-	 (output-file "upper.ily")
-(other-file "lower.ily")
 	 (music
 	  (string-append
 	   "\n\\set Staff.midiInstrument = \\\"Clav\\\"\n" ;; midi program 7
+	   "\\clef treble\n"
 	   "<>^\\markup \\fontsize #1 { 
 	   	     \\override #'(font-name .
                \\\"Latin modern sans demi cond\\\") "
@@ -318,25 +358,32 @@
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* total-dur 0.25)))))
-	    )
-
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"tett\".  Raske, tette kromatiske bevegelser i mellomregistret.~%~%")
-(add-to-upper-inserts music)
-            (add-to-lower-inserts
- (trim-lily 
+		  (* total-dur 0.25))))))))
+	 (rests
+	  (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
-	    ))
-      )))
-;; tom, lett, 
+		  (* length-arg 0.25))))))))
+    (begin
+      (format #t "Bruker lilypond-insert \"tett\".  Raske, tette kromatiske bevegelser i mellomregistret.~%~%")
+      (cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
-(define* (my-tom length-arg #:optional word-to-print)
+;; tom, lett, få
+
+(define* (my-tom length-arg #:optional word-to-print wordclass)
   "Velklingende note"
   (let* (
 	 (possible-durations '(0.25 0.5 0.125))
@@ -346,6 +393,7 @@
 	 (music 
 	  (string-append
 	   "\n\\set Staff.midiInstrument = \\\"Celesta\\\"\n" ;; midi program 8
+	   "\\clef bass\n"
 	   (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
@@ -374,20 +422,31 @@
 		 (durlist->rests
 		  (* total-dur 1/2)))))
 	    )
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"tom\" - kort oktavintervall omringa av pauser~%~%")
-      (add-to-lower-inserts music)
-      (add-to-upper-inserts (trim-lily 
+	   ))
+	 (rests
+(trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
-	    ))
-      )))
+		  (* length-arg 0.25))))))))
+    (begin
+      (format #t "Bruker lilypond-insert \"tom\" - kort oktavintervall omringa av pauser~%~%")
+      (cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
-(define* (my-vit length-arg #:optional word-to-print)
+
+(define* (my-vit length-arg #:optional word-to-print wordclass)
   "Hvite noter (flageolettnotasjon)"
   (let* (
 	 (possible-durations '(0.25 0.5 0.125))
@@ -405,6 +464,7 @@
 	 (music
 	  (string-append
 	   "\n\\set Staff.midiInstrument = \\\"Glockenspiel\\\"\n" ;; midi program 9
+	   "\\clef bass\n"
 	   "\\harmonicsOn\n"
 	   "<>_\\markup {
 	   	     \\override #'(font-name .
@@ -423,21 +483,32 @@
 		   durs) "portato")))))
 	    )
 	   "\\harmonicsOff\n"
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"vit\".  Flageolettnoter. ~%~%")
-(add-to-upper-inserts music)
-(add-to-lower-inserts
- (trim-lily 
+	   ))
+	 (rests
+	  (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
 		  (* length-arg 0.25)))))
-	    ))
-      )))
+	    )))
+    
+    (begin
+      (format #t "Bruker lilypond-insert \"vit\".  Flageolettnoter. ~%~%")
+(cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
-(define* (my-svart length-arg #:optional word-to-print)
+(define* (my-svart length-arg #:optional word-to-print wordclass)
   "Cluster"
   (let* (
 	 (possible-durations '(0.25 0.5 0.125))
@@ -454,6 +525,7 @@
 	    \\with-color #white \\on-color #black \\pad-markup #0.2
 	   \\\"" word-to-print "\\\"
 	    }"
+	   "\n\\clef treble"
 	   "\n\\set Staff.midiInstrument = \\\"Music Box\\\"\n" ;; midi program 10
 	   
 	   (trim-lily 
@@ -470,22 +542,29 @@
 		  )))
 	    )
 
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"svart\".  Svarte noter (clusterformasjoner).~%~%")
-      (add-to-upper-inserts music)
-(add-to-lower-inserts (trim-lily 
+	   ))
+	 (rests (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
-	    ))
-      )))
+		  (* length-arg 0.25))))))))
+    (begin
+      (format #t "Bruker lilypond-insert \"svart\".  Svarte noter (clusterformasjoner).~%~%")
+      (cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
-
-
-(define* (my-rød length-arg #:optional word-to-print)
+(define* (my-rød length-arg #:optional word-to-print wordclass)
   "Rød note"
   (let* (
 	 (possible-durations '(1/12 1/8 1/4 1/12))
@@ -498,15 +577,13 @@
 		       (loop (append dur-list (list new-dur))
 			     (+ dur-sum new-dur))
 		       ))))
-	 
-	 (output-file "lower.ily")
-(other-file "upper.ily")
 	 (music
 	  (string-append
 	   "<>_\\markup {
 	   \\with-color #yellow \\on-color #red \\pad-markup #0.2
 \\\"" word-to-print "\\\"
 	   }"
+"\n\\clef bass"
 	   "\n\\set Staff.midiInstrument = \\\"Vibraphone\\\"\n" ;; midi program 11
 	     "\\override NoteHead.color = #red
   \\override Stem.color = #red
@@ -525,21 +602,29 @@
 	   "\n\\revert NoteHead.color
   \\revert Stem.color
   \\revert Beam.color"
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"rød\".  Røde noter med stakkatoprikker.~%~%")
-(add-to-lower-inserts music)
-      (add-to-upper-inserts
-            (trim-lily 
+	   ))
+	 (rests (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
-	    ))
-      )))
+		  (* length-arg 0.25))))))))
+    (begin
+      (format #t "Bruker lilypond-insert \"rød\".  Røde noter med stakkatoprikker.~%~%")
+(cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
-(define* (my-blå length-arg #:optional word-to-print)
+(define* (my-blå length-arg #:optional word-to-print wordclass)
   "Blå noter"
   (let* (
 	 (possible-durations '(1 2 1.5))
@@ -557,6 +642,7 @@
 (other-file "lower.ily")
 	 (music
 	  (string-append
+	   "\n\\clef treble"
 	   	   "\n\\set Staff.midiInstrument = \\\"Marimba\\\"\n" ;; midi program 12
 	   "<>_\\markup \\box \\fontsize #3 {
 	   \\with-color #cyan \\pad-markup #0.2
@@ -573,29 +659,36 @@
 		(display-lily-music
 		  (pitchlist->lily
 		   (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
-		   durs))))
-	    )
+		   durs)))))
 	   "\n\\revert NoteHead.color
   \\revert Stem.color
   \\revert Beam.color"
 	   "\n\\revert NoteHead.style"	   
 					;	 word-to-display
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"blå\".  Blåe skråe noter.~%~%")
-(add-to-upper-inserts music)
-      (add-to-lower-inserts (trim-lily 
+	   ))
+	 (rests (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
-	    ))
+		  (* length-arg 0.25))))))))
+    (begin
+      (format #t "Bruker lilypond-insert \"blå\".  Blåe skråe noter.~%~%")
+      (cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
-      )))
-
-(define* (my-gul length-arg #:optional word-to-print)
-  "Velklingende note"
+(define* (my-gul length-arg #:optional word-to-print wordclass)
+  "gul note"
   (let* ((possible-durations '(1/12 1/6 1/4))
 	 (total-dur (* length-arg 0.25))
 	 ;; två oktaver ner
@@ -611,6 +704,7 @@
 
 	 (music
 	  (string-append
+	   "\n\\clef bass"
 	   	   "\n\\set Staff.midiInstrument = \\\"Xylophone\\\"\n" ;; midi program 13
 	   "\\override NoteHead.color = #darkyellow
 	   \\override Stem.color = #darkyellow
@@ -634,22 +728,29 @@
 
 	    "\\revert NoteHead.color
 	   \\revert Stem.color
-	   \\revert Beam.color"
-
-	    )))
-    (begin
-      (format #t "Bruker lilypond-insert \"gul\".  Gul note harmonisert med terser.~%~%")
-(add-to-lower-inserts music)
-(add-to-upper-inserts (trim-lily 
+	   \\revert Beam.color"))
+	    (rests (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
-		  (* length-arg 0.25)))))
-	    ))
-      )))
+		  (* length-arg 0.25))))))))
+    (begin
+      (format #t "Bruker lilypond-insert \"gul\".  Gul note harmonisert med terser.~%~%")
+      (cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
-(define* (my-grønn length-arg #:optional word-to-print)
+(define* (my-grønn length-arg #:optional word-to-print wordclass)
   "Velklingende note"
   (let* ((possible-durations '(0.25 0.5 0.125))
 	 (total-dur (* length-arg 0.25))
@@ -664,6 +765,7 @@
 	 
 	 (music
 	  (string-append
+	   "\n\\clef treble"
 	   	  "\n\\set Staff.midiInstrument = \\\"Tubular Bells\\\"\n" ;; midi program 14
 	   "<>-\\markup \\fontsize #-4 \\with-color #darkgreen \\box \\column {
   \\override #'(font-name .
@@ -694,20 +796,31 @@
    "\\revert NoteHead.color
    \\revert Stem.color
    \\revert Beam.color"
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"grønn\".  Grønne kryssnoter.~%~%")
-      (add-to-lower-inserts music)
-(add-to-upper-inserts (trim-lily 
+   ))
+	 (rests (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
 		  (* length-arg 0.25)))))
-	    ))
-      )))
+	    )))
+    (begin
+      (format #t "Bruker lilypond-insert \"grønn\".  Grønne kryssnoter.~%~%")
+(cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music)))
+	    )))
 
-(define* (my-lavt length-arg #:optional word-to-print)
+(define* (my-lavt length-arg #:optional word-to-print wordclass)
   "Velklingende note"
   (let* (
 	 (possible-durations '(0.25 0.5 0.125))
@@ -724,6 +837,7 @@
 (other-file "upper.ily")
 	 (music
 	  (string-append
+	   "\n\\clef bass\n"
 	   "\n\\set Staff.midiInstrument = \\\"Dulcimer\\\"\n" ;; midi program 15
 	   	   "<>_\\markup \\italic \\box \\lower #4 \\fontsize #-2  { \\\""
 	   word-to-print
@@ -739,20 +853,30 @@
 		   (list-ref possible-pitches (random (length possible-pitches)))
 		   (list total-dur)) "tenuto") 12))))
 	   )
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"lav\".  Dyp note med oktavdobling.~%~%")
-      (add-to-lower-inserts music)
-      (add-to-upper-inserts (trim-lily 
+	   ))
+	 (rests (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
 		  (* length-arg 0.25)))))
-	    ))
-      )))
+	    )))
+    (begin
+      (format #t "Bruker lilypond-insert \"lav\".  Dyp note med oktavdobling.~%~%")
+(cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
-(define* (my-høyt length-arg #:optional word-to-print)
+(define* (my-høyt length-arg #:optional word-to-print wordclass)
   "Velklingende note"
   (let* (
 	 (possible-durations '(0.25 0.5 0.125))
@@ -774,6 +898,7 @@
 	   "\\\""
 	   word-to-print
 	   "\\\" } "
+	   "\n\\clef treble"
 	   	  "\n\\set Staff.midiInstrument = \\\"Drawbar Organ\\\"\n" ;; midi program 16
 	   (trim-lily 
 	    (with-output-to-string
@@ -785,23 +910,32 @@
 		   (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
 	       	   durs) "flageolet"))))))
 
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"høyt\" med en høy velklingende note~%~%")
-      (add-to-upper-inserts music)
-
-     (add-to-lower-inserts (trim-lily 
+	   ))
+	 (rests (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
 		  (* length-arg 0.25)))))
-	    ))
-
+	    )))
+    (begin
+      (format #t "Bruker lilypond-insert \"høyt\" med en høy velklingende note~%~%")
+(cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music)))
       )))
 
 
-(define* (my-artikkel length-arg #:optional word-to-print)
+(define* (my-artikkel length-arg #:optional word-to-print wordclass)
   "Velklingende note"
   (let* (
 	 (possible-durations '(0.25 0.5 0.125))
@@ -813,11 +947,13 @@
 		       (loop (append dur-list (list new-dur))
 			     (+ dur-sum new-dur))
 		       ))))
-	 (possible-pitches '((5 9 12) (5 8 12) (4 7 12) (3 7 12) (3 8 12) (4 9 12) (4 8 12) (3 6 12)))
+	 (possible-pitches '((-2 2 5) (-2 1 5) (-3 0 5) (-4 0 5) (-4 1 5) (-3 2 5) (-3 1 5) (-4 -1 5) (-10 -6 -3) (-10 -7 -3) (-11 -8 -3) (-12 -8 -3) (-12 -7 -3) (-11 -6 -3) (-11 -7 -3) (-12 -9 -3)))
 
 	 (music
 	  (string-append
+	   
 	   "\n\\set Staff.midiInstrument = \\\"Percussive Organ\\\"\n" ;; midi program 17
+	   "\\clef alto\n"
 	   "<>^\\markup {"
 	   "\\override #'(font-name .
                \\\"freemono\\\") "
@@ -834,22 +970,30 @@
 		    (riemann (list-ref possible-pitches (random (length possible-pitches))) (length durs))
 	;	   (map (lambda (x) (list-ref possible-pitches (random (length possible-pitches)))) durs)
 	       	   durs) "staccato"))))))
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"artikkel\" for artikler og småord~%~%")
-      (add-to-upper-inserts music)
-
-     (add-to-lower-inserts (trim-lily 
+	   ))
+	 (rests (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
 		  (* length-arg 0.25)))))
-	    ))
+	    )))
+    (begin
+      (format #t "Bruker lilypond-insert \"artikkel\" for artikler og småord~%~%")
+(cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
-     )))
-
-(define* (my-to length-arg #:optional word-to-print)
+(define* (my-to length-arg #:optional word-to-print wordclass)
   "Velklingende note"
   (let* (
 	 (possible-durations '(0.25 0.5 0.125))
@@ -865,6 +1009,7 @@
 	 (music
 	  (string-append
 	   "\n\\set Staff.midiInstrument = \\\"Rock Organ\\\"\n" ;; midi program 18
+	   "\\clef bass\n"
 	   "<>^\\markup {"
 	   "\\override #'(font-name .
                \\\"freemono\\\") "
@@ -881,111 +1026,119 @@
 			 (pitchlist->lily
 			  (list-ref possible-pitches (random (length possible-pitches)))
 			  (list half-dur half-dur))) "portato"))))))
-	   )))
-    (begin
-      (format #t "Bruker lilypond-insert \"to\".  To små noter~%~%")
-      (add-to-lower-inserts music)
-
-     (add-to-upper-inserts (trim-lily 
+	   ))
+	 (rests (trim-lily 
 	    (with-output-to-string
 	      (lambda ()
 		(display-lily-music
 		 (durlist->rests
 		  (* length-arg 0.25)))))
-	    ))
-
-      )))
+	    )))
+    (begin
+      (format #t "Bruker lilypond-insert \"to\".  To små noter~%~%")
+(cond ((equal? wordclass "NOUN")
+	     (add-to-upper-inserts music)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts rests))
+	    ((equal? wordclass "VERB")
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts music)
+	     (add-to-lower-inserts rests))
+	    (else
+	     (add-to-upper-inserts rests)
+	     (add-to-middle-inserts rests)
+	     (add-to-lower-inserts music))))))
 
 (define lilywords
-  `(("best" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
-    ("liten" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))
-    ("stor" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
-    ("stort" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
-;    ("de" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("inne" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("holde" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("mot" . ,(lambda (arg1 arg2) (my-rød arg1 arg2)))
-    ("alt" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("vis" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
-    ("disse" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("god" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
-    ("godt" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
-    ("bra" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
-    ("nettopp" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("vel" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
-    ("heller" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
-    ("opp" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
-    ("possessiv" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("bedre" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
-    ("mann" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
-    ("minst" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))
-    ("mindre" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))
-    ("ennå" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("da" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
-    ("stå" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
-    ("hun" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
-    ("han" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
-    ("nok" . ,(lambda (arg1 arg2) (my-artikkel arg1 arg2)))
-    ("herre" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
-    ("foran" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("bak" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
-    ("framfor" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("meget" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
-    ("man" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
-    ("oss" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
-    ("vente" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
-    ("tydelig" . ,(lambda (arg1 arg2) (my-rød arg1 arg2)))
-    ("måtte" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("menneske" . ,(lambda (arg1 arg2) (my-gul arg1 arg2)))
-    ("mer" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("oppe" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
-    ("rett" . ,(lambda (arg1 arg2) (my-stor arg1 arg2)))
-    ("viss" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
-    ("vesle" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))
-    ("glad" . ,(lambda (arg1 arg2) (my-god arg1 arg2)))
-    ("ad" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("nå" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("ren" . ,(lambda (arg1 arg2) (my-tom arg1 arg2)))
-    ("borte" . ,(lambda (arg1 arg2) (my-tom arg1 arg2)))
-    ("ute" . ,(lambda (arg1 arg2) (my-grønn arg1 arg2)))
-    ("ned" . ,(lambda (arg1 arg2) (my-lavt arg1 arg2)))
-    ("bort" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))
-    ("lett" . ,(lambda (arg1 arg2) (my-tom arg1 arg2)))
-    ("mørke" . ,(lambda (arg1 arg2) (my-svart arg1 arg2)))
-    ("mørk" . ,(lambda (arg1 arg2) (my-svart arg1 arg2)))
-    ("lys" . ,(lambda (arg1 arg2) (my-vit arg1 arg2)))
-    ("ikke" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
-    ("fin" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))
-    ("herlig" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))
-    ("fine" . ,(lambda (arg1 arg2) (my-liten arg1 arg2)))   
-    ("se" . ,(lambda (arg1 arg2) (my-høyt arg1 arg2)))
-    ("full" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("helt" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("hel" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))    
-    ("tett" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("mange" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("jevn" . ,(lambda (arg1 arg2) (my-tett arg1 arg2)))
-    ("rask" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("fort" . ,(lambda (arg1 arg2) (my-rask arg1 arg2)))
-    ("treig" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
-    ("langsom" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
-    ("tom" . ,(lambda (arg1 arg2) (my-tom arg1 arg2)))
-    ("hvit" . ,(lambda (arg1 arg2) (my-vit arg1 arg2)))
-    ("snø" . ,(lambda (arg1 arg2) (my-vit arg1 arg2)))
-    ("ski" . ,(lambda (arg1 arg2) (my-vit arg1 arg2)))
-    ("svart" . ,(lambda (arg1 arg2) (my-svart arg1 arg2)))
-    ("rød" . ,(lambda (arg1 arg2) (my-rød arg1 arg2)))
-    ("blå" . ,(lambda (arg1 arg2) (my-blå arg1 arg2)))
-    ("lav" . ,(lambda (arg1 arg2) (my-lavt arg1 arg2)))
-    ("fisk" . ,(lambda (arg1 arg2) (my-blå arg1 arg2)))
-    ("er" . ,(lambda (arg1 arg2) (my-artikkel arg1 arg2)))
-    ("en" . ,(lambda (arg1 arg2) (my-artikkel arg1 arg2)))
-    ("og" . ,(lambda (arg1 arg2) (my-artikkel arg1 arg2)))
-    ("å" . ,(lambda (arg1 arg2) (my-artikkel arg1 arg2)))
-    ("i" . ,(lambda (arg1 arg2) (my-artikkel arg1 arg2)))
-    ("til" . ,(lambda (arg1 arg2) (my-artikkel arg1 arg2)))
-    ("år" . ,(lambda (arg1 arg2) (my-treig arg1 arg2)))
-    ("noen" . ,(lambda (arg1 arg2) (my-to arg1 arg2)))
-    ("to" . ,(lambda (arg1 arg2) (my-to arg1 arg2)))
-    ("annen" . ,(lambda (arg1 arg2) (my-to arg1 arg2)))
+  `(("best" . ,(lambda (arg1 arg2 arg3) (my-god arg1 arg2 arg3)))
+    ("liten" . ,(lambda (arg1 arg2 arg3) (my-liten arg1 arg2 arg3)))
+    ("stor" . ,(lambda (arg1 arg2 arg3) (my-stor arg1 arg2 arg3)))
+    ("stort" . ,(lambda (arg1 arg2 arg3) (my-stor arg1 arg2 arg3)))
+;    ("de" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("inne" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("holde" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("mot" . ,(lambda (arg1 arg2 arg3) (my-rød arg1 arg2 arg3)))
+    ("alt" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("vis" . ,(lambda (arg1 arg2 arg3) (my-stor arg1 arg2 arg3)))
+    ("disse" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("god" . ,(lambda (arg1 arg2 arg3) (my-god arg1 arg2 arg3)))
+    ("godt" . ,(lambda (arg1 arg2 arg3) (my-god arg1 arg2 arg3)))
+    ("bra" . ,(lambda (arg1 arg2 arg3) (my-god arg1 arg2 arg3)))
+    ("nettopp" . ,(lambda (arg1 arg2 arg3) (my-rask arg1 arg2 arg3)))
+    ("vel" . ,(lambda (arg1 arg2 arg3) (my-god arg1 arg2 arg3)))
+    ("heller" . ,(lambda (arg1 arg2 arg3) (my-høyt arg1 arg2 arg3)))
+    ("opp" . ,(lambda (arg1 arg2 arg3) (my-høyt arg1 arg2 arg3)))
+    ("possessiv" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("bedre" . ,(lambda (arg1 arg2 arg3) (my-god arg1 arg2 arg3)))
+    ("mann" . ,(lambda (arg1 arg2 arg3) (my-gul arg1 arg2 arg3)))
+    ("minst" . ,(lambda (arg1 arg2 arg3) (my-liten arg1 arg2 arg3)))
+    ("mindre" . ,(lambda (arg1 arg2 arg3) (my-liten arg1 arg2 arg3)))
+    ("ennå" . ,(lambda (arg1 arg2 arg3) (my-rask arg1 arg2 arg3)))
+    ("da" . ,(lambda (arg1 arg2 arg3) (my-treig arg1 arg2 arg3)))
+    ("stå" . ,(lambda (arg1 arg2 arg3) (my-høyt arg1 arg2 arg3)))
+    ("hun" . ,(lambda (arg1 arg2 arg3) (my-gul arg1 arg2 arg3)))
+    ("han" . ,(lambda (arg1 arg2 arg3) (my-gul arg1 arg2 arg3)))
+    ("nok" . ,(lambda (arg1 arg2 arg3) (my-artikkel arg1 arg2 arg3)))
+    ("herre" . ,(lambda (arg1 arg2 arg3) (my-gul arg1 arg2 arg3)))
+    ("foran" . ,(lambda (arg1 arg2 arg3) (my-rask arg1 arg2 arg3)))
+    ("bak" . ,(lambda (arg1 arg2 arg3) (my-treig arg1 arg2 arg3)))
+    ("framfor" . ,(lambda (arg1 arg2 arg3) (my-rask arg1 arg2 arg3)))
+    ("meget" . ,(lambda (arg1 arg2 arg3) (my-god arg1 arg2 arg3)))
+    ("man" . ,(lambda (arg1 arg2 arg3) (my-gul arg1 arg2 arg3)))
+    ("oss" . ,(lambda (arg1 arg2 arg3) (my-gul arg1 arg2 arg3)))
+    ("vente" . ,(lambda (arg1 arg2 arg3) (my-treig arg1 arg2 arg3)))
+    ("tydelig" . ,(lambda (arg1 arg2 arg3) (my-rød arg1 arg2 arg3)))
+    ("måtte" . ,(lambda (arg1 arg2 arg3) (my-rask arg1 arg2 arg3)))
+    ("menneske" . ,(lambda (arg1 arg2 arg3) (my-gul arg1 arg2 arg3)))
+    ("mer" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("oppe" . ,(lambda (arg1 arg2 arg3) (my-høyt arg1 arg2 arg3)))
+    ("rett" . ,(lambda (arg1 arg2 arg3) (my-stor arg1 arg2 arg3)))
+    ("viss" . ,(lambda (arg1 arg2 arg3) (my-treig arg1 arg2 arg3)))
+    ("vesle" . ,(lambda (arg1 arg2 arg3) (my-liten arg1 arg2 arg3)))
+    ("glad" . ,(lambda (arg1 arg2 arg3) (my-god arg1 arg2 arg3)))
+    ("ad" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("nå" . ,(lambda (arg1 arg2 arg3) (my-rask arg1 arg2 arg3)))
+    ("ren" . ,(lambda (arg1 arg2 arg3) (my-tom arg1 arg2 arg3)))
+    ("borte" . ,(lambda (arg1 arg2 arg3) (my-tom arg1 arg2 arg3)))
+    ("ute" . ,(lambda (arg1 arg2 arg3) (my-grønn arg1 arg2 arg3)))
+    ("ned" . ,(lambda (arg1 arg2 arg3) (my-lavt arg1 arg2 arg3)))
+    ("bort" . ,(lambda (arg1 arg2 arg3) (my-liten arg1 arg2 arg3)))
+    ("lett" . ,(lambda (arg1 arg2 arg3) (my-tom arg1 arg2 arg3)))
+    ("mørke" . ,(lambda (arg1 arg2 arg3) (my-svart arg1 arg2 arg3)))
+    ("mørk" . ,(lambda (arg1 arg2 arg3) (my-svart arg1 arg2 arg3)))
+    ("lys" . ,(lambda (arg1 arg2 arg3) (my-vit arg1 arg2 arg3)))
+    ("ikke" . ,(lambda (arg1 arg2 arg3) (my-høyt arg1 arg2 arg3)))
+    ("fin" . ,(lambda (arg1 arg2 arg3) (my-liten arg1 arg2 arg3)))
+    ("herlig" . ,(lambda (arg1 arg2 arg3) (my-liten arg1 arg2 arg3)))
+    ("fine" . ,(lambda (arg1 arg2 arg3) (my-liten arg1 arg2 arg3)))   
+    ("se" . ,(lambda (arg1 arg2 arg3) (my-høyt arg1 arg2 arg3)))
+    ("full" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("helt" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("hel" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))    
+    ("tett" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("mange" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("jevn" . ,(lambda (arg1 arg2 arg3) (my-tett arg1 arg2 arg3)))
+    ("rask" . ,(lambda (arg1 arg2 arg3) (my-rask arg1 arg2 arg3)))
+    ("fort" . ,(lambda (arg1 arg2 arg3) (my-rask arg1 arg2 arg3)))
+    ("treig" . ,(lambda (arg1 arg2 arg3) (my-treig arg1 arg2 arg3)))
+    ("langsom" . ,(lambda (arg1 arg2 arg3) (my-treig arg1 arg2 arg3)))
+    ("tom" . ,(lambda (arg1 arg2 arg3) (my-tom arg1 arg2 arg3)))
+    ("hvit" . ,(lambda (arg1 arg2 arg3) (my-vit arg1 arg2 arg3)))
+    ("snø" . ,(lambda (arg1 arg2 arg3) (my-vit arg1 arg2 arg3)))
+    ("ski" . ,(lambda (arg1 arg2 arg3) (my-vit arg1 arg2 arg3)))
+    ("svart" . ,(lambda (arg1 arg2 arg3) (my-svart arg1 arg2 arg3)))
+    ("rød" . ,(lambda (arg1 arg2 arg3) (my-rød arg1 arg2 arg3)))
+    ("blå" . ,(lambda (arg1 arg2 arg3) (my-blå arg1 arg2 arg3)))
+    ("lav" . ,(lambda (arg1 arg2 arg3) (my-lavt arg1 arg2 arg3)))
+    ("fisk" . ,(lambda (arg1 arg2 arg3) (my-blå arg1 arg2 arg3)))
+    ("er" . ,(lambda (arg1 arg2 arg3) (my-artikkel arg1 arg2 arg3)))
+    ("en" . ,(lambda (arg1 arg2 arg3) (my-artikkel arg1 arg2 arg3)))
+    ("og" . ,(lambda (arg1 arg2 arg3) (my-artikkel arg1 arg2 arg3)))
+    ("å" . ,(lambda (arg1 arg2 arg3) (my-artikkel arg1 arg2 arg3)))
+    ("i" . ,(lambda (arg1 arg2 arg3) (my-artikkel arg1 arg2 arg3)))
+    ("til" . ,(lambda (arg1 arg2 arg3) (my-artikkel arg1 arg2 arg3)))
+    ("år" . ,(lambda (arg1 arg2 arg3) (my-treig arg1 arg2 arg3)))
+    ("noen" . ,(lambda (arg1 arg2 arg3) (my-to arg1 arg2 arg3)))
+    ("to" . ,(lambda (arg1 arg2 arg3) (my-to arg1 arg2 arg3)))
+    ("annen" . ,(lambda (arg1 arg2 arg3) (my-to arg1 arg2 arg3)))
     ))
