@@ -19,7 +19,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Flaskeloggingsnivå
+# Flaskeloggingnivå
 app.logger.setLevel(logging.DEBUG)
 
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # forsikre meg om at flask håndterer større filer
@@ -51,6 +51,7 @@ HELLO_PAGE = """
     {% endif %}
     </div>
 <div id="eksempeltekst">
+<p>Eksempeltekst:</p>
 <p>Eksempeltekst (hentet fra wikipedia):</p>
 <p>Ål er en katadrom fisk i ålefamilien med slangelignende kropp og glatt, tykk hud. Den gyter i saltvann (Sargassohavet) og vokser opp i ferskvann. Arten forekommer i fersk- og brakkvann over hele Europa og Nord-Afrika</p>
 </div>
@@ -65,7 +66,7 @@ let isRecording = false;
 let stream = null;
 
 function getSupportedMimeType() {
-// støttefunksjon i tilfelle nettleseren ikke støtter webm
+// støttefunksjon i tilfelle nettleseren ikke støtter webm.
     const types = [
         'audio/webm;codecs=opus',
         'audio/webm',
@@ -115,7 +116,7 @@ function startRecording() {
                 const blob = new Blob(chunks, { type: recordedMimeType });
                 
                 let formData = new FormData();
-                formData.append('audio', blob, 'input-speech.webm'); // Use .webm extension
+                formData.append('audio', blob, 'input-speech.webm'); // bruk webm siden det er vanlig på webben
                 
                 document.getElementById("status").innerText = "Behandler...";
 
@@ -202,8 +203,8 @@ subprocess.run(
     ["bash", "flush-web.sh"])
 
 def convert_to_wav(input_file, output_file):
-    """Convert audio file to WAV format using ffmpeg"""
-    
+    """Konverter lyd til wav med ffmpeg"""
+
     try:
         subprocess.run([
             'ffmpeg', '-y', '-i', input_file, 
@@ -214,11 +215,11 @@ def convert_to_wav(input_file, output_file):
     except subprocess.CalledProcessError as e:
         print(f"FFmpeg klarte ikke konvertere: {e}")
         return False
-    
+
 ### kopiert fra googleclouds eksempelbruk
 def transcribe_audio(audio_file_path):
     client = speech.SpeechClient()
-    print("Received audio file size:", os.path.getsize("input-speech.wav"))
+    print("Størrelse på lydfil:", os.path.getsize("input-speech.wav"))
     with open(audio_file_path, "rb") as audio_file:
         content = audio_file.read()
 
@@ -227,7 +228,7 @@ def transcribe_audio(audio_file_path):
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
         sample_rate_hertz=48000,
         language_code="no-NO",
-        enable_word_time_offsets=True, #ordtimestamps er nødvendig for å stretche lydutdata
+        enable_word_time_offsets=True, 
     )
 
     transcript = []
@@ -241,7 +242,7 @@ def transcribe_audio(audio_file_path):
             word_timestamps.append(str(word_info.start_time))
     return " ".join(transcript), " ".join(word_timestamps)
 
-            
+
 @app.route("/", methods=["GET"])
 def hello():
     svg_exists = os.path.exists("ly-display.svg")
@@ -252,7 +253,7 @@ def hello():
 @app.route("/process", methods=["POST"])
 def process_audio():
     print("begynner prossessering")
-    
+
     audio = request.files.get("audio")
     if audio is None:
         return jsonify({"success": False, "error": "Ingen lyd tilgjengelig."}), 400
@@ -260,12 +261,12 @@ def process_audio():
     # Save and convert audio
     temp_audio = "temp_audio.webm"
     audio.save(temp_audio)
-    
+
     input_wav = "input-speech.wav"
     print("begynner å konvertere lydformat")
     if not convert_to_wav(temp_audio, input_wav):
         return jsonify({"success": False, "error": "Klarte ikke konvertere lyd"}), 400
-    
+
     if os.path.exists(temp_audio):
         os.remove(temp_audio)
 
@@ -285,7 +286,7 @@ def process_audio():
 
         if not timestamps:
             return jsonify({"success": False, "error": "Ingen tidskoder laga"}), 400
-        
+
         with open("input.txt", "w", encoding="utf-8") as f:
             f.write(transcript)
             f.flush()
@@ -295,16 +296,16 @@ def process_audio():
             f.write(timestamps)
             f.flush()
             os.fsync(f.fileno())            
-            
+
         print(f"Lagde tekstfil med størrelse på: {os.path.getsize('input.txt')} bytes")
 
         print(f"Lagde tidskodefil med størrelse på: {os.path.getsize('timestamps.txt')} bytes")
-        
+
     except Exception as e:
         print(f"Transcription error: {e}")
-        return jsonify({"success": False, "error": f"Transcription failed: {str(e)}"}), 500
-    
-    # Get list of all SVG and audio files before running script
+        return jsonify({"success": False, "error": f"Transkripsjonen mislykka: {str(e)}"}), 500
+
+    # liste opp filer før og etter funksjonen pga errorhåndtering
     import glob
     svgs_before = {}
     for svg in glob.glob("*.svg"):
@@ -312,7 +313,7 @@ def process_audio():
             'mtime': os.path.getmtime(svg),
             'size': os.path.getsize(svg)
         }
-        print(f"SVGs before script: {list(svgs_before.keys())}")
+        print(f"svgfiler før funksjonen: {list(svgs_before.keys())}")
 
     audios_before = {}
     for audio_file in glob.glob("*.wav") + glob.glob("*.mp3") + glob.glob("*.ogg"):
@@ -321,61 +322,61 @@ def process_audio():
                 'mtime': os.path.getmtime(audio_file),
                 'size': os.path.getsize(audio_file)
             }
-    print(f"Audio files before script: {list(audios_before.keys())}")
-        
+    print(f"Lydfiler før skript: {list(audios_before.keys())}")
+
     # Delete the target files to force regeneration
     if os.path.exists("ly-display.svg"):
-        print("Deleting old ly-display.svg")
+        print("Sletter gammel ly-display.svg")
         os.remove("ly-display.svg")
-        
+
     if os.path.exists("output.wav"):
-        print("Deleting old output.wav")
+        print("Sletter gammel output.wav")
         os.remove("output.wav")
-        
+
     try:
-        print("Running run-web.sh...")
-                    
+        print("Kjører run-web.sh...")
+
         result = subprocess.run(
-            ["bash", "-x", "run-web.sh"],  # -x for debug output
+            ["bash", "run-web.sh"],  #bruk -x-flagget for debug
             check=True,
             cwd=os.getcwd(),
             capture_output=True,
             text=True,
             timeout=60
         )
-        print("Script output (last 10000 chars):", result.stdout[-10000:] if len(result.stdout) > 10000 else result.stdout)
-        print("Script debug output (last 10000 chars):", result.stderr[-10000:] if len(result.stderr) > 10000 else result.stderr)
-        
+        print("Siste 10000 tegn fra sh skript:", result.stdout[-10000:] if len(result.stdout) > 10000 else result.stdout)
+        print("Siste 10000 tegn fra sh error:", result.stderr[-10000:] if len(result.stderr) > 10000 else result.stderr)
+
     except subprocess.CalledProcessError as e:
-        print(f"run-web.sh failed with return code {e.returncode}")
-        return jsonify({"success": False, "error": f"run-web.sh failed: {str(e)}"}), 500
+        print(f"run-web.sh mislykka med kode {e.returncode}")
+        return jsonify({"success": False, "error": f"run-web.sh mislykka: {str(e)}"}), 500
     except Exception as e:
-        print(f"Unexpected error running run-web.sh: {e}")
-        return jsonify({"success": False, "error": f"Script execution error: {str(e)}"}), 500
+        print(f"Uventa error i run-web.sh: {e}")
+        return jsonify({"success": False, "error": f"Skript avslutta med error: {str(e)}"}), 500
 
     import time
-    time.sleep(1)  # Give more time for file operations
-    
-    # Check what SVGs exist now
+    time.sleep(1)  # vent på filkopieringa
+
+    # list opp svgs etter funksjonene
     svgs_after = {}
     for svg in glob.glob("*.svg"):
         svgs_after[svg] = {
             'mtime': os.path.getmtime(svg),
             'size': os.path.getsize(svg)
         }
-    print(f"SVGs after script: {list(svgs_after.keys())}")
+    print(f"svg etter å ha kjørt sh: {list(svgs_after.keys())}")
 
-    # Check what audio files exist now
+    # list opp lydfiler etter funksjonene
     audios_after = {}
     for audio_file in glob.glob("*.wav") + glob.glob("*.mp3") + glob.glob("*.ogg"):
-        if audio_file != "input-speech.wav":  # Don't include our input file
+        if audio_file != "input-speech.wav":  
             audios_after[audio_file] = {
                 'mtime': os.path.getmtime(audio_file),
                 'size': os.path.getsize(audio_file)
             }
-    print(f"Audio files after script: {list(audios_after.keys())}")
-        
-    
+    print(f"Lydfiler etter å ha kjørt sh: {list(audios_after.keys())}")
+
+
     possible_svg_names = [
         "ly-display.svg"
     ]
@@ -386,13 +387,14 @@ def process_audio():
 
     svg_found = None
     audio_found = None
-    
-    # Gammmmel kode (skal slette)
+
+    # Massevis av errorhåndtering (slett dette)
     for svg_name in possible_svg_names:
          if os.path.exists(svg_name):
-             print(f"Found SVG: {svg_name} (size: {os.path.getsize(svg_name)})")
+             print(f"Fant svg: {svg_name} (size: {os.path.getsize(svg_name)})")
              if svg_name != "ly-display.svg":
-                 print(f"Copying {svg_name} to ly-display.svg")
+                 # Copy it to ly-display.svg
+                 print(f"Kopierer {svg_name} til ly-display.svg")
                  import shutil
                  shutil.copy2(svg_name, "ly-display.svg")
                  svg_found = "ly-display.svg"
@@ -401,12 +403,13 @@ def process_audio():
                  svg_found = svg_name
                  break
 
-    # FOrtsatt gammel kode for ikkefungerende filnavn
+    # Håndter lydfiler
     for audio_name in possible_audio_names:
         if os.path.exists(audio_name):
-            print(f"Found audio: {audio_name} (size: {os.path.getsize(audio_name)})")
+            print(f"Fant lydfil: {audio_name} (size: {os.path.getsize(audio_name)})")
             if audio_name != "output.wav":
-                print(f"Copying {audio_name} to output.wav")
+                # Copy it to output.wav
+                print(f"Kopierer {audio_name} til output.wav")
                 import shutil
                 shutil.copy2(audio_name, "output.wav")
                 audio_found = "output.wav"
@@ -415,41 +418,43 @@ def process_audio():
                 audio_found = audio_name
                 break
 
+    # Sjekk etter andre relevante filer
     if not audio_found:
         for audio_file in audios_after:
             if audio_file not in audios_before:
-                print(f"Found new audio file: {audio_file} (size: {os.path.getsize(audio_file)})")
+                print(f"Fant ny lydfil: {audio_file} (size: {os.path.getsize(audio_file)})")
                 import shutil
                 shutil.copy2(audio_file, "output.wav")
                 audio_found = "output.wav"
                 break
 
+    # If no specific SVG found, look for any new SVG files
     if not svg_found:
         for svg_file in svgs_after:
             if svg_file not in svgs_before:
-                print(f"Found new SVG file: {svg_file} (size: {os.path.getsize(svg_file)})")
+                print(f"Fant ny svgfil: {svg_file} (size: {os.path.getsize(svg_file)})")
                 import shutil
                 shutil.copy2(svg_file, "ly-display.svg")
                 svg_found = "ly-display.svg"
                 break
-             
+
     success = False
     if svg_found and os.path.getsize(svg_found) > 0:
         print(f"SVG funnet: {svg_found}")
         success = True
     else:
         print("Ingen gyldig svg funnet")
-        
+
     if audio_found and os.path.getsize(audio_found) > 0:
-        print(f"Genererte lyd vellykket: {audio_found}")
+        print(f"Lyd generert: {audio_found}")
         success = True
     else:
-        print("Ingen gyldig lyd blei funnet")
+        print("Warning: ingen lydfil funnet")
 
     if success:
-        return jsonify({"success": True, "transcript": transcript})
+        return jsonify({"success": True, "transkripsjon": transcript})
     else:
-        return jsonify({"success": False, "error": "Verken svg eller lyd blei generert vellykka"}), 500
+        return jsonify({"success": False, "error": "Verken svg eller lydfil blei vellykka generert"}), 500
 
 
 @app.route("/ly-display.svg")
