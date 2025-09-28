@@ -51,7 +51,7 @@ HELLO_PAGE = """
     {% endif %}
     </div>
 <div id="eksempeltekst">
-<p>Eksempeltekst:</p>
+<p>Eksempeltekst (hentet fra wikipedia):</p>
 <p>Ål er en katadrom fisk i ålefamilien med slangelignende kropp og glatt, tykk hud. Den gyter i saltvann (Sargassohavet) og vokser opp i ferskvann. Arten forekommer i fersk- og brakkvann over hele Europa og Nord-Afrika</p>
 </div>
 <footer>
