@@ -28,7 +28,7 @@ HELLO_PAGE = """
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello</title>
+    <title>lily-text-to-speech-demo</title>
 <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
 </head>
 <body>
@@ -227,14 +227,21 @@ def transcribe_audio(audio_file_path):
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
         sample_rate_hertz=48000,
         language_code="no-NO",
+        enable_word_time_offsets=True, # Crucial for word timestamps
     )
 
-    response = client.recognize(config=config, audio=audio)
-    transcript = ""
-    for result in response.results:
-        transcript += result.alternatives[0].transcript
-    return transcript
+    transcript = []
+    word_timestamps = []
 
+    response = client.recognize(config=config, audio=audio)
+
+    for result in response.results:
+        transcript.append(result.alternatives[0].transcript)
+        for word_info in result.alternatives[0].words:
+            word_timestamps.append(str(word_info.start_time))
+    return " ".join(transcript), " ".join(word_timestamps)
+
+            
 @app.route("/", methods=["GET"])
 def hello():
     svg_exists = os.path.exists("ly-display.svg")
@@ -266,19 +273,32 @@ def process_audio():
 
     try:
         # Transcribe
-        transcript = transcribe_audio(input_wav)
+        transcript, timestamps = transcribe_audio(input_wav)
         print("Transkriberte følgende teksta:")
         print(transcript)
-        
+
+        print("Fikk disse tidskodene:")
+        print(timestamps)
+
         if not transcript:
             return jsonify({"success": False, "error": "Ingen transkripsjon lagd"}), 400
+
+        if not timestamps:
+            return jsonify({"success": False, "error": "Ingen tidskoder laga"}), 400
         
         with open("input.txt", "w", encoding="utf-8") as f:
             f.write(transcript)
             f.flush()
             os.fsync(f.fileno())
+
+        with open("timestamps.txt", "w", encoding="utf-8") as f:
+            f.write(timestamps)
+            f.flush()
+            os.fsync(f.fileno())            
             
         print(f"Lagde tekstfil med størrelse på: {os.path.getsize('input.txt')} bytes")
+
+        print(f"Lagde tidskodefil med størrelse på: {os.path.getsize('timestamps.txt')} bytes")
         
     except Exception as e:
         print(f"Transcription error: {e}")
