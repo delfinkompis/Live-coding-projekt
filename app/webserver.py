@@ -9,7 +9,7 @@ import sys
 
 app = Flask(__name__)
 
-# Flask logging
+# Flaskelogging
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -19,7 +19,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Flask logging level
+# Flaskeloggingsnivå
 app.logger.setLevel(logging.DEBUG)
 
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # forsikre meg om at flask håndterer større filer
@@ -65,7 +65,7 @@ let isRecording = false;
 let stream = null;
 
 function getSupportedMimeType() {
-// støttefunksjon i tilfelle nettleseren ikke støtter webm.  anbefalt av ai
+// støttefunksjon i tilfelle nettleseren ikke støtter webm
     const types = [
         'audio/webm;codecs=opus',
         'audio/webm',
@@ -227,7 +227,7 @@ def transcribe_audio(audio_file_path):
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
         sample_rate_hertz=48000,
         language_code="no-NO",
-        enable_word_time_offsets=True, # Crucial for word timestamps
+        enable_word_time_offsets=True, #ordtimestamps er nødvendig for å stretche lydutdata
     )
 
     transcript = []
@@ -387,12 +387,11 @@ def process_audio():
     svg_found = None
     audio_found = None
     
-    # Handle SVG files
+    # Gammmmel kode (skal slette)
     for svg_name in possible_svg_names:
          if os.path.exists(svg_name):
              print(f"Found SVG: {svg_name} (size: {os.path.getsize(svg_name)})")
              if svg_name != "ly-display.svg":
-                 # Copy it to ly-display.svg
                  print(f"Copying {svg_name} to ly-display.svg")
                  import shutil
                  shutil.copy2(svg_name, "ly-display.svg")
@@ -402,12 +401,11 @@ def process_audio():
                  svg_found = svg_name
                  break
 
-    # Handle audio files
+    # FOrtsatt gammel kode for ikkefungerende filnavn
     for audio_name in possible_audio_names:
         if os.path.exists(audio_name):
             print(f"Found audio: {audio_name} (size: {os.path.getsize(audio_name)})")
             if audio_name != "output.wav":
-                # Copy it to output.wav
                 print(f"Copying {audio_name} to output.wav")
                 import shutil
                 shutil.copy2(audio_name, "output.wav")
@@ -417,7 +415,6 @@ def process_audio():
                 audio_found = audio_name
                 break
 
-    # If no specific files found, look for any new files
     if not audio_found:
         for audio_file in audios_after:
             if audio_file not in audios_before:
@@ -427,7 +424,6 @@ def process_audio():
                 audio_found = "output.wav"
                 break
 
-    # If no specific SVG found, look for any new SVG files
     if not svg_found:
         for svg_file in svgs_after:
             if svg_file not in svgs_before:
@@ -445,15 +441,15 @@ def process_audio():
         print("Ingen gyldig svg funnet")
         
     if audio_found and os.path.getsize(audio_found) > 0:
-        print(f"Audio successfully generated: {audio_found}")
+        print(f"Genererte lyd vellykket: {audio_found}")
         success = True
     else:
-        print("Warning: No valid audio file found")
+        print("Ingen gyldig lyd blei funnet")
 
     if success:
         return jsonify({"success": True, "transcript": transcript})
     else:
-        return jsonify({"success": False, "error": "Neither SVG nor audio file was generated successfully"}), 500
+        return jsonify({"success": False, "error": "Verken svg eller lyd blei generert vellykka"}), 500
 
 
 @app.route("/ly-display.svg")
