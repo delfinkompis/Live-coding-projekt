@@ -471,7 +471,7 @@ def get_svg():
 @app.route("/output.wav")
 def get_sound():
     if os.path.exists("output.wav"):
-        response = make_response(send_file("output.wav"))
+        response = make_response(send_file("output.wav", mimetype='audio/wav'))
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
