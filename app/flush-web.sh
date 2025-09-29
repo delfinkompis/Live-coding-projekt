@@ -7,7 +7,7 @@ cp middle-template.ily middle.ily
 cp input-template.txt input.txt
 cp input-template.txt timestamps.txt
 cp input-template.txt log.txt
-cp output-template.wav output.wav
+cp speech-template.wav output.wav
 cp ly-display-template.pdf ly-display.pdf
 cp ly-display-template.svg ly-display.svg
 
