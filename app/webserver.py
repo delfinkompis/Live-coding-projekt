@@ -245,6 +245,8 @@ def transcribe_audio(audio_file_path):
 
 @app.route("/", methods=["GET"])
 def hello():
+    subprocess.run(
+        ["bash", "flush-web.sh"])
     svg_exists = os.path.exists("ly-display.svg")
     audio_exists = os.path.exists("output.wav")
     cache_buster = uuid.uuid4().hex
