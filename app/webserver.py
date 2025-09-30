@@ -28,8 +28,20 @@ HELLO_PAGE = """
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>lily-text-to-speech-demo</title>
 <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+<style>
+.responsive {
+  width: 100%;
+  height: auto;
+}
+button.aktiv,
+button.aktiv:hover {
+background-color: #898EA4;
+}
+
+</style>
 </head>
 <body>
     <h1>tale->tekst->lilypond</h1>
@@ -45,7 +57,7 @@ HELLO_PAGE = """
 </figure>
     <div id="svgDisplay">
     {% if svg_exists %}
-        <embed src="{{ url_for('get_svg') }}?cache={{ cache_buster }}" type="image/svg+xml" width="596" height="842" />
+        <embed src="{{ url_for('get_svg') }}?cache={{ cache_buster }}" type="image/svg+xml" class="responsive" width="596" height="842" />
     {% else %}
         <p>Ingen svg generert ennå.</p>
     {% endif %}
@@ -185,14 +197,17 @@ function stopRecording() {
 }
 
 const btn = document.getElementById("recordButton");
+let activeElement = null;
 
-btn.addEventListener('mousedown', (e) => { e.preventDefault(); startRecording(); });
-document.addEventListener('mouseup', (e) => { stopRecording(); }); 
-btn.addEventListener('mouseleave', (e) => { stopRecording(); });
+btn.addEventListener('mousedown', (e) => { e.preventDefault(); startRecording(); activeElement = e.target;
+ activeElement.classList.add('aktiv'); });
 
-btn.addEventListener('touchstart', (e) => { e.preventDefault(); startRecording(); }, {passive: false});
-document.addEventListener('touchend', (e) => { stopRecording(); }, {passive: false});
-btn.addEventListener('touchcancel', (e) => { stopRecording(); });
+document.addEventListener('mouseup', (e) => { stopRecording(); activeElement.classList.remove('aktiv'); activeElement = null; }); 
+
+btn.addEventListener('touchstart', (e) => { e.preventDefault(); startRecording(); activeElement = e.target; activeElement.classList.add('aktiv'); }, {passive: false});
+
+document.addEventListener('touchend', (e) => { stopRecording(); activeElement.classList.remove('aktiv'); activeElement = null; }, {passive: false});
+
 
 </script>
 </body>
